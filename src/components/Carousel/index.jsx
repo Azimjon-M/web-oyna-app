@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/pagination";
 
-import './styles.css';
+import "./styles.css";
 
 // import required modules
-import { Autoplay, Pagination } from 'swiper/modules';
+import { Autoplay, Pagination } from "swiper/modules";
 
-const Carousel = () => {
+const Carousel = ({ data }) => {
   return (
     <>
       <Swiper
@@ -19,24 +19,21 @@ const Carousel = () => {
           dynamicBullets: true,
         }}
         autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        loop={true}
         modules={[Autoplay, Pagination]}
-        className="mySwiper"
+        className="mySwiper w-full h-[100vh]"
       >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
-        <SwiperSlide>Slide 6</SwiperSlide>
-        <SwiperSlide>Slide 7</SwiperSlide>
-        <SwiperSlide>Slide 8</SwiperSlide>
-        <SwiperSlide>Slide 9</SwiperSlide>
+        {data.map(item => (
+          <SwiperSlide key={item.id} className="w-full h-[calc(100vh-24px)!important]">
+            <img className="w-[100%!important] h-[100%!important]" src={item.src} alt="images" />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );
-}
+};
 
 export default Carousel;

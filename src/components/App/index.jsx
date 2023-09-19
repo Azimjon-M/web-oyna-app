@@ -8,7 +8,7 @@ import img3 from '../../assets/images/img-3.jpg';
 
 function App() {
 
-    const data = [
+    const images = [
         {
             src: img1,
             id: 0
@@ -26,7 +26,7 @@ function App() {
     return (
         <div>
             <Navbar />
-            <Carousel data={data} />
+            <Carousel data={images} />
         </div>
     )
 }
