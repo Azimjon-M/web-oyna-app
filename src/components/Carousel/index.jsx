@@ -9,7 +9,7 @@ import 'swiper/css/pagination';
 import './styles.css';
 
 // import required modules
-import { Pagination } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 
 export default function Carousel() {
   return (
@@ -18,7 +18,11 @@ export default function Carousel() {
         pagination={{
           dynamicBullets: true,
         }}
-        modules={[Pagination]}
+        autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+        modules={[Autoplay, Pagination]}
         className="mySwiper"
       >
         <SwiperSlide>Slide 1</SwiperSlide>
