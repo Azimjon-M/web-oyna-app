@@ -1,5 +1,4 @@
 import React from 'react'
-import Navbar from '../Navbar'
 import Carousel from '../Carousel/index'
 
 import img1 from '../../assets/images/img-1.jpg';
@@ -10,22 +9,25 @@ function App() {
 
     const images = [
         {
+            id: 0,
             src: img1,
-            id: 0
+            btnName: 'Dars jadval'
         },
         {
-            src: img2,
             id: 1,
+            src: img2,
+            btnName: 'Yangiliklar'
+
         },
         {
-            src: img3,
             id: 2,
+            src: img3,
+            btnName: 'Institut'
         },
     ]
 
     return (
         <div>
-            <Navbar />
             <Carousel data={images} />
         </div>
     )
