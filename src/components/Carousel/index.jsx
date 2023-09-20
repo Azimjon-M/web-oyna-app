@@ -27,10 +27,10 @@ const Carousel = ({ data }) => {
         className="mySwiper w-full h-[100vh]"
       >
         {data.map(item => (
-          <SwiperSlide key={item.id} className="w-full h-[100vh!important]">
+          <SwiperSlide key={item.id} className="w-full h-[100vh!important">
             <img className="w-[100%!important] h-[100%!important]" src={item.src} alt="images" />
-            <div className="absolute top-10 right-6 ">
-              <button className="bg-blue-500 rounded-xl px-6 py-2 text-white">{item.btnName}</button>
+            <div className="absolute bottom-[15%] left-[50%] translate-x-[-50%] ">
+              <button className="bg-blue-500 rounded-xl px-20 py-8 text-white text-[32px] font-bold">{item.btnName}</button>
             </div>
           </SwiperSlide>
         ))}
