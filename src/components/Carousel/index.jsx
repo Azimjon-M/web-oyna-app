@@ -11,9 +11,33 @@ import "./styles.css";
 // import required modules
 import { Autoplay, Pagination } from "swiper/modules";
 
-const Carousel = ({ data }) => {
+import img1 from '../../assets/images/img-1.jpg';
+import img2 from '../../assets/images/img-2.jpg';
+import img3 from '../../assets/images/img-3.jpg';
+
+const Carousel = () => {
+
+  const images = [
+    {
+      id: 1,
+      src: img2,
+      btnName: 'Yangiliklar'
+      
+    },
+    {
+        id: 0,
+        src: img1,
+        btnName: 'Dars jadval'
+    },
+    {
+      id: 2,
+      src: img3,
+      btnName: 'Institut haritasi'
+    },
+  ]
+
   return (
-    <div className="w-full h-[calc(100vh - )]">
+    <div className="w-[100vw] h-[100vh] relative top-[0] left-0 z-0 border border-red-600">
       <Swiper
         pagination={{
           dynamicBullets: true,
@@ -26,7 +50,7 @@ const Carousel = ({ data }) => {
         modules={[Autoplay, Pagination]}
         className="mySwiper w-full h-[100vh]"
       >
-        {data.map(item => (
+        {images.map(item => (
           <SwiperSlide key={item.id} className="w-full h-[100vh!important]">
             <img className="w-[100%!important] h-[100%!important]" src={item.src} alt="images" />
             <div className="absolute bottom-[15%] left-[50%] translate-x-[-50%] ">
