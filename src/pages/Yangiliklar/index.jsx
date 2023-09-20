@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios'
+import AnyNavbar from '../../components/anyNavbar';
 
 const Yangiliklar = () => {
 
@@ -10,9 +11,9 @@ const Yangiliklar = () => {
             })
     }, [])
     return (
-        <>
-            <h1>Hello</h1>
-        </>
+        <div>
+            <AnyNavbar />
+        </div>
     )
 }
 

@@ -1,8 +1,11 @@
 import React from "react";
+import AnyNavbar from "../../components/anyNavbar";
 
 const DarsJadvali = () => {
     return (
-        <div>DarsJadvali</div>
+        <div>
+            <AnyNavbar />
+        </div>
     )
 };
 

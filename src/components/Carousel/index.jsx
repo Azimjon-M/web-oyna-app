@@ -54,10 +54,7 @@ const Carousel = () => {
       >
         {images.map(item => (
           <SwiperSlide key={item.id} className="">
-            <img className="" src={item.src} alt="images" />
-            <div className="absolute bottom-[15%] left-[50%] translate-x-[-50%] ">
-              <button className="bg-blue-500 rounded-xl px-20 py-8 text-white text-[32px] font-bold">{item.btnName}</button>
-            </div>
+            <img src={item.src} alt="images" />
           </SwiperSlide>
         ))}
       </Swiper>
