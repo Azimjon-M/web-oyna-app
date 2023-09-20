@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from '../Navbar';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -37,7 +38,8 @@ const Carousel = () => {
   ]
 
   return (
-    <div className="w-[100vw] h-[100vh] relative top-[0] left-0 z-0">
+    <div className="w-[100vw] h-[100vh]">
+      <Navbar />
       <Swiper
         pagination={{
           dynamicBullets: true,
@@ -51,8 +53,8 @@ const Carousel = () => {
         className="mySwiper w-full h-[100vh]"
       >
         {images.map(item => (
-          <SwiperSlide key={item.id} className="w-full h-[100vh!important]">
-            <img className="w-[100%!important] h-[100%!important]" src={item.src} alt="images" />
+          <SwiperSlide key={item.id} className="">
+            <img className="" src={item.src} alt="images" />
             <div className="absolute bottom-[15%] left-[50%] translate-x-[-50%] ">
               <button className="bg-blue-500 rounded-xl px-20 py-8 text-white text-[32px] font-bold">{item.btnName}</button>
             </div>

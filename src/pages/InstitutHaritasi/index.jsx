@@ -1,8 +1,11 @@
 import React from 'react'
+import AnyNavbar from '../../components/anyNavbar'
 
 const InstitutHaritasi = () => {
     return (
-        <div>InstitutHaritasi</div>
+        <div>
+            <AnyNavbar />
+        </div>
     )
 }
 
