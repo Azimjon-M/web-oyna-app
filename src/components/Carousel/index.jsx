@@ -37,7 +37,7 @@ const Carousel = () => {
   ]
 
   return (
-    <div className="w-[100vw] h-[100vh] relative top-[0] left-0 z-0 border border-red-600">
+    <div className="w-[100vw] h-[100vh] relative top-[0] left-0 z-0">
       <Swiper
         pagination={{
           dynamicBullets: true,
