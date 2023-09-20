@@ -2,7 +2,9 @@ import React from 'react'
 
 function Navbar() {
     return (
-        <div>Navbar</div>
+        <div className='w-full h-[100px] py-20'>
+            Navbar
+        </div>
     )
 }
 

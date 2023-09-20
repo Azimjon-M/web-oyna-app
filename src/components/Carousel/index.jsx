@@ -13,7 +13,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 
 const Carousel = ({ data }) => {
   return (
-    <>
+    <div className="w-full h-[calc(100vh - )]">
       <Swiper
         pagination={{
           dynamicBullets: true,
@@ -35,7 +35,7 @@ const Carousel = ({ data }) => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </>
+    </div>
   );
 };
 
