@@ -7,7 +7,7 @@ const Yangiliklar = () => {
     const [news, setNews] = useState([])
 
     useEffect(() => {
-        axios.get("https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=f5d42754217c4adfb2af3219e7508901")
+        axios.get("https://newsapi.org/v2/everything?domains=wsj.com&apiKey=f5d42754217c4adfb2af3219e7508901")
             .then((res) => {
                 setNews(res.data.articles)
             })
@@ -20,7 +20,7 @@ const Yangiliklar = () => {
         <div>
             <AnyNavbar />
             <div className='my-5'>
-                <div className='grid grid-cols-2 gap-3 my-5 text-center'>
+                <div className='grid grid-cols-2 gap-3 text-center'>
                         {
                             news.map((item, idx) => {
                                 return (
