@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const AnyNavbar = () => {
     return (
-        <div className='w-full mt-16 px-20'>
+        <div className='w-full relative top-16 left-0 px-20'>
             <ul className='flex justify-start items-end'>
                 <li>
                     <Link className={`${isActive => isActive ? '' : ''} `} to='/'>

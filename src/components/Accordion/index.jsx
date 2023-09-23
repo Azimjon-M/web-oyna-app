@@ -29,39 +29,6 @@ export const AccordionCostom = () => {
     const [selectedValue, setSelectedValue] = useState(null);
     
     const data = {
-
-            // Kundizgi: {
-            // 'Fizka va Matematika': {
-            //     "Matematika va Informatika": {
-            //     },
-            //     "Matematika o'qitish meto'dikasi": {
-            //     },
-            //     "Fizika va Astranomiya": {
-            //     },
-            //     "Fizika va Astranomiya o'qitish meto'dikasi": {
-            //     },
-            // },
-            // "Boshlang'ich ta'lim": {
-            // },
-            // "O'zbek tili va adabiyoti": {
-            // },
-            // "Pedagogika va Psixalogiya": {
-            // },
-            // "Jismoniy madanyat": {
-            // },
-            // "Maktabgacha ta'lim": {
-            // },
-            // "Milliy hunarmandchilik va amaliy san'at": {
-            // },
-            // "Xorijiy tillar": {
-            // },
-            // "Tabiy fanlar": {
-            // },
-            // "Rus tili va adabiyoti": {
-            // },
-            // "Tarix": {
-            // },
-
             "Fizika Matematika": {
                 "Matematika va Informatika": {
                     "1 - kurs": ['123'],
@@ -312,11 +279,6 @@ export const AccordionCostom = () => {
         setSelectedValue(value);
     };
 
-
-        // const [open, setOpen] = React.useState(0);
-        
-        // const handleOpen = (value) => setOpen(open === value ? 0 : value);
-
     return (
         <div className="flex justify-center mt-[100px]">
             <div className="w-full">
@@ -376,50 +338,6 @@ export const AccordionCostom = () => {
                     )}
                     
                 </div>
-                {/*         
-                    <Accordion className="overflow-hidden" open={open === 1} icon={<Icon id={1} open={open} />}>
-                        <AccordionHeader onClick={() => handleOpen(1)}>Fakultet</AccordionHeader>
-                        <AccordionBody>
-                            <ul>
-                                <li>
-                                    1
-                                </li>
-                                <li>
-                                    2
-                                </li>
-                            </ul>
-                        </AccordionBody>
-                    </Accordion> 
-
-                    <Accordion className="overflow-hidden" open={open === 2} icon={<Icon id={2} open={open} />}>
-                        <AccordionHeader onClick={() => handleOpen(2)}>Yo'nalish</AccordionHeader>
-                        <AccordionBody>
-                            <ul>
-                                <li>
-                                    1
-                                </li>
-                                <li>
-                                    2
-                                </li>
-                            </ul>
-                        </AccordionBody>
-                    </Accordion> 
-
-                    <Accordion className="overflow-hidden" open={open === 3} icon={<Icon id={3} open={open} />}>
-                        <AccordionHeader onClick={() => handleOpen(3)}>Kurs</AccordionHeader>
-                        <AccordionBody>
-                            <ul>
-                                <li>
-                                    1
-                                </li>
-                                <li>
-                                    2
-                                </li>
-                            </ul>
-                        </AccordionBody>
-                    </Accordion>  
-                */}
-
             </div>
         </div>
     )

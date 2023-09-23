@@ -5,7 +5,7 @@ import { AccordionCostom } from "../../components/Accordion";
 const DarsJadvali = () => {
     
     return (
-        <div>
+        <div className="w-[100vw] h-[100vh]">
             <AnyNavbar />
             <AccordionCostom />
         </div>
