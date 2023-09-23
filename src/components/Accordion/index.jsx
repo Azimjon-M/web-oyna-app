@@ -319,7 +319,7 @@ export const AccordionCostom = () => {
 
     return (
         <div className="flex justify-center mt-[100px]">
-            <div className="w-[800px]">
+            <div className="w-full">
                 <div className="flex flex-wrap justify-center items-center">
                 
                     {Object.keys(data).map((objectKey) => (
