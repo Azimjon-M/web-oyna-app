@@ -39,7 +39,7 @@ const Carousel = () => {
 
   return (
     <div className="w-[100vw] h-[100vh]">
-      <Navbar />
+      <Navbar post="absolute" color="white" />
       <Swiper
         pagination={{
           dynamicBullets: true,

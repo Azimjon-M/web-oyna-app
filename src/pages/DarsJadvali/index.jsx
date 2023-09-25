@@ -1,12 +1,12 @@
 import React from "react";
-import AnyNavbar from "../../components/anyNavbar";
 import { DarsJadvallari } from "../../components/DarsJadvallari";
+import Navbar from "../../components/Navbar";
 
 const DarsJadvali = () => {
     
     return (
         <div className="w-[100vw] h-[100vh]">
-            <AnyNavbar />
+            <Navbar color='black' post='relative' />
             <DarsJadvallari />
         </div>
     );
