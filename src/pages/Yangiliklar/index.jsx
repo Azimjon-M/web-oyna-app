@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import AnyNavbar from '../../components/anyNavbar';
+import Navbar from '../../components/Navbar';
 
 const Yangiliklar = () => {
 
@@ -18,7 +19,7 @@ const Yangiliklar = () => {
 
     return (
         <div>
-            <AnyNavbar />
+            <Navbar position='relative' color='blach' />
             <div className='mt-16'>
                 <div className='mx-3 my-5 text-center'>
                         {

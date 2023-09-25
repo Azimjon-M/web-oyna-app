@@ -1,10 +1,10 @@
+import Navbar from '../../components/Navbar'
 import React from 'react'
-import AnyNavbar from '../../components/anyNavbar'
 
 const InstitutHaritasi = () => {
     return (
         <div>
-            <AnyNavbar />
+            <Navbar />
             <div className='w-full flex flex-col justify-center text-center'>
                 <h1>
                     Institut haritasi
