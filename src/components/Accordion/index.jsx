@@ -23,11 +23,11 @@ import React, { useState } from "react";
 
 export const AccordionCostom = () => {
     
-    const [selectedObject, setSelectedObject] = useState(null);
-    const [selectedNestedObject, setSelectedNestedObject] = useState(null);
-    const [selectedArray, setSelectedArray] = useState(null);
-    const [selectedValue, setSelectedValue] = useState(null);
-    
+    const [selectFakutet, setSelectFakutet] = useState(null);
+    const [selectedYonalish, setSelectedYonalish] = useState(null);
+    const [selectedKurs, setSelectedKurs] = useState(null);
+    const [selectedImgSRC, setSelectedImgSRC] = useState(null);
+
     const data = {
             "Fizika Matematika": {
                 "Matematika va Informatika": {
@@ -251,38 +251,38 @@ export const AccordionCostom = () => {
                 "Jismoniy madanyat": {
                     "1 - kurs": ['../../assets/images/darsJadvali/'],
                     "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['132'],
+                    "3 - kurs": ['../../assets/images/darsJadvali/'],
                     "4 - kurs": ['../../assets/images/darsJadvali/'],
                 },
             },
     };
 
-    const handleObjectClick = (objectKey) => {
-        setSelectedObject(objectKey);
-        setSelectedNestedObject(null);
-        setSelectedArray(null);
-        setSelectedValue(null);
+    const handleFakultetClick = (objectKey) => {
+        setSelectFakutet(objectKey);
+        setSelectedYonalish(null);
+        setSelectedKurs(null);
+        setSelectedImgSRC(null);
     };
 
-    const handleNestedObjectClick = (nestedObjectKey) => {
-        setSelectedNestedObject(nestedObjectKey);
-        setSelectedArray(null);
-        setSelectedValue(null);
+    const handleYonalishClick = (nestedObjectKey) => {
+        setSelectedYonalish(nestedObjectKey);
+        setSelectedKurs(null);
+        setSelectedImgSRC(null);
     };
 
-    const handleArrayClick = (arrayKey) => {
-        setSelectedArray(arrayKey);
-        setSelectedValue(null);
+    const handleKursClick = (KursKey) => {
+        setSelectedKurs(KursKey);
+        setSelectedImgSRC(null);
     };
 
-    const handleValueClick = (value) => {
-        setSelectedValue(value);
+    const handleImgSRCClick = (ImgSRC) => {
+        setSelectedImgSRC(ImgSRC);
     };
 
     return (
         <div className="flex justify-center mt-[100px]">
-            <div className="w-full">
-                <div>
+            <div className="w-[70vw]">
+                <div className="">
                     <div className="text-center">
                         <h1 className="text-[40px] font-bold">
                             Dars jadvali
@@ -290,23 +290,23 @@ export const AccordionCostom = () => {
                     </div>
                     <div className="flex flex-wrap justify-center items-center">
                         {Object.keys(data).map((objectKey) => (
-                            <button className="m-3 bg-yellow-400 py-3 px-8 text-[20px] font-bold text-white rounded-md" key={objectKey} onClick={() => handleObjectClick(objectKey)}>
+                            <button className="m-3 bg-yellow-400 py-3 px-8 text-[20px] font-bold text-white rounded-md" key={objectKey} onClick={() => handleFakultetClick(objectKey)}>
                                 {objectKey}
                             </button>
                         ))}
                     </div>
 
-                    {selectedObject && (
+                    {selectFakutet && (
                         <div>
                             <div className="text-center">
-                                <h2 className="text-[30px] font-bold">{selectedObject} fakulteti yo'nalishlari:</h2>
+                                <h2 className="text-[30px] font-bold">{selectFakutet} fakultet yo'nalishlari:</h2>
                             </div>
                         <div className="flex flex-wrap justify-center items-center">
-                            {Object.keys(data[selectedObject]).map((nestedObjectKey) => (
+                            {Object.keys(data[selectFakutet]).map((nestedObjectKey) => (
                                 <button
                                 className="m-3 bg-blue-500 py-3 px-8 text-[20px] font-bold text-white rounded-md"
                                 key={nestedObjectKey}
-                                onClick={() => handleNestedObjectClick(nestedObjectKey)}
+                                onClick={() => handleYonalishClick(nestedObjectKey)}
                                 >
                                     {nestedObjectKey}
                                 </button>
@@ -315,20 +315,20 @@ export const AccordionCostom = () => {
                         </div>
                     )}
 
-                    {selectedNestedObject && (
+                    {selectedYonalish && (
                         <div>
                             <div className="text-center">
-                                <h3 className="text-[30px] font-bold">{selectedNestedObject}:</h3>
+                                <h3 className="text-[30px] font-bold">{selectedYonalish}:</h3>
                             </div>
                             <div className="flex flex-wrap justify-center items-center">
-                                {Object.keys(data[selectedObject][selectedNestedObject]).map(
-                                    (arrayKey) => (
+                                {Object.keys(data[selectFakutet][selectedYonalish]).map(
+                                    (KursKey) => (
                                         <button 
                                             className="m-3 bg-green-600 py-3 px-8 text-[20px] font-bold text-white rounded-md"
-                                            key={arrayKey} 
-                                            onClick={() => handleArrayClick(arrayKey)}
+                                            key={KursKey} 
+                                            onClick={() => handleKursClick(KursKey)}
                                         >
-                                            {arrayKey}
+                                            {KursKey}
                                         </button>
                                     )
                                     )}
@@ -336,15 +336,15 @@ export const AccordionCostom = () => {
                         </div>
                     )}
                     <div className="flex flex-wrap justify-center items-center">
-                        {selectedArray && (
+                        {selectedKurs && (
                             <div>
-                                {/* <h4>Selected Array: {selectedArray}</h4> */}
-                                {data[selectedObject][selectedNestedObject][selectedArray].map(
-                                    (value, index) => (
+                                {/* <h4>Selected Kurs: {selectedKurs}</h4> */}
+                                {data[selectFakutet][selectedYonalish][selectedKurs].map(
+                                    (ImgSRC, index) => (
                                         <button 
                                             className="text-[30px]"
-                                            key={index} onClick={() => handleValueClick(value)}>
-                                            {value}
+                                            key={index} onClick={() => handleImgSRCClick(ImgSRC)}>
+                                            {ImgSRC}
                                         </button>
                                     )
                                     )}
@@ -352,10 +352,10 @@ export const AccordionCostom = () => {
                         )}
                     </div>
                     <br />
-                    {selectedValue && (
+                    {selectedImgSRC && (
                         <div>
-                            {/* <h5>Selected Value:</h5> */}
-                            <a href={selectedValue}>{selectedValue}</a>
+                            {/* <h5>Selected ImgSRC:</h5> */}
+                            <a href={selectedImgSRC}>{selectedImgSRC}</a>
                         </div>
                     )}
                     
