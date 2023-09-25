@@ -20,7 +20,7 @@ const Yangiliklar = () => {
     return (
         <div>
             <Navbar position='relative' color='blach' />
-            <div className='mt-16'>
+            <div className=''>
                 <div className='mx-3 my-5 text-center'>
                     {
                         news.map((item, idx) => {
