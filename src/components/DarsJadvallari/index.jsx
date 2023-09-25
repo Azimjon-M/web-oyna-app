@@ -264,12 +264,14 @@ export const DarsJadvallari = () => {
         <div className="flex justify-center mt-[100px]">
             <div>
                 <div className="flex flex-col items-center">
+
                     <div className="text-center">
                         <h1 className="text-[40px] font-bold">
                             Dars jadvali:
                         </h1>
                     </div>
-                    <div className="w-[20rem] border border-red-600 flex flex-wrap justify-center items-center">
+
+                    <div className="w-[800px] flex flex-wrap justify-center items-center">
                         {Object.keys(data).map((objectKey) => (
                             <button className="m-3 bg-yellow-400 py-3 px-8 text-[20px] font-bold text-white rounded-md" key={objectKey} onClick={() => handleFakultetClick(objectKey)}>
                                 {objectKey}
@@ -278,21 +280,21 @@ export const DarsJadvallari = () => {
                     </div>
 
                     {selectFakutet && (
-                        <div>
+                        <div className="w-[900px]">
                             <div className="text-center">
                                 <h2 className="text-[30px] font-bold">{selectFakutet} fakultet yo'nalishlari:</h2>
                             </div>
-                        <div className="flex flex-wrap justify-center items-center">
-                            {Object.keys(data[selectFakutet]).map((nestedObjectKey) => (
-                                <button
-                                className="m-3 bg-blue-500 py-3 px-8 text-[20px] font-bold text-white rounded-md"
-                                key={nestedObjectKey}
-                                onClick={() => handleYonalishClick(nestedObjectKey)}
-                                >
-                                    {nestedObjectKey}
-                                </button>
-                            ))}
-                        </div>
+                            <div className="flex flex-wrap justify-center items-center">
+                                {Object.keys(data[selectFakutet]).map((nestedObjectKey) => (
+                                    <button
+                                    className="m-3 bg-blue-500 py-3 px-8 text-[20px] font-bold text-white rounded-md"
+                                    key={nestedObjectKey}
+                                    onClick={() => handleYonalishClick(nestedObjectKey)}
+                                    >
+                                        {nestedObjectKey}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     )}
 
