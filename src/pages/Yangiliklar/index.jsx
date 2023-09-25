@@ -7,7 +7,7 @@ const Yangiliklar = () => {
     const [news, setNews] = useState([])
 
     useEffect(() => {
-        axios.get("https://newsapi.org/v2/everything?q=apple&from=2023-09-21&to=2023-09-21&sortBy=popularity&apiKey=f5d42754217c4adfb2af3219e7508901")
+        axios.get("https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=f5d42754217c4adfb2af3219e7508901")
             .then((res) => {
                 setNews(res.data.articles)
             })
