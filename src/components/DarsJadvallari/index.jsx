@@ -1,27 +1,7 @@
 import React, { useState } from "react";
-// import {
-// Accordion,
-// AccordionHeader,
-// AccordionBody,
-// } from "@material-tailwind/react";
-
-// function Icon({ id, open }) {
-//     return (
-//         <svg
-//             xmlns="http://www.w3.org/2000/svg"
-//             fill="none"
-//             viewBox="0 0 24 24"
-//             strokeWidth={2}
-//             stroke="currentColor"
-//             className={`${id === open ? "rotate-180" : ""} h-5 w-5 transition-transform`}
-//         >
-//             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-//         </svg>
-//     );
-// }
 
 
-export const AccordionCostom = () => {
+export const DarsJadvallari = () => {
     
     const [selectFakutet, setSelectFakutet] = useState(null);
     const [selectedYonalish, setSelectedYonalish] = useState(null);
@@ -280,15 +260,16 @@ export const AccordionCostom = () => {
     };
 
     return (
+
         <div className="flex justify-center mt-[100px]">
-            <div className="w-[70vw]">
-                <div className="">
+            <div>
+                <div className="flex flex-col items-center">
                     <div className="text-center">
                         <h1 className="text-[40px] font-bold">
-                            Dars jadvali
+                            Dars jadvali:
                         </h1>
                     </div>
-                    <div className="flex flex-wrap justify-center items-center">
+                    <div className="w-[20rem] border border-red-600 flex flex-wrap justify-center items-center">
                         {Object.keys(data).map((objectKey) => (
                             <button className="m-3 bg-yellow-400 py-3 px-8 text-[20px] font-bold text-white rounded-md" key={objectKey} onClick={() => handleFakultetClick(objectKey)}>
                                 {objectKey}
