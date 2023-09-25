@@ -261,7 +261,7 @@ export const DarsJadvallari = () => {
 
     return (
 
-        <div className="flex justify-center mt-[100px]">
+        <div className="flex justify-center mt-10">
             <div>
                 <div className="flex flex-col items-center">
 
