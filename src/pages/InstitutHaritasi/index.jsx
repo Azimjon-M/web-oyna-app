@@ -1,5 +1,6 @@
 import Navbar from '../../components/Navbar'
 import React from 'react'
+import Form from '../../components/Forma'
 
 const InstitutHaritasi = () => {
     return (
@@ -15,6 +16,7 @@ const InstitutHaritasi = () => {
                             <h1>
                                 Yangiliklar 1
                             </h1>
+                            <Form />
                         </div>
                     </div>
                 </div>

@@ -18,7 +18,7 @@ const Navbar = ({post, bg, color}) => {
                 </li>
                 <li>
                     <Link className={`${isActive => isActive ? '' : ''} `} to='/dars-jadvali'>
-                        Dasr jadvali
+                        Dars jadvali
                     </Link>
                 </li>
                 <li>
