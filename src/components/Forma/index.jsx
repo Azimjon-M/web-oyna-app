@@ -3,19 +3,31 @@ import { useFormik } from 'formik';
     
 const Form = () => {
 
-    const URL = 'https://talaba.kspi.uz/rest/v1/data/schedule-list'
-    const token = '_HCnxPew6Lken00smp3bJOPBuQc3-HbA'
+    const API_link = 'http://api.kspi.uz/v1/yangilik/yangilik/'
+    const API_token = '_HCnxPew6Lken00smp3bJOPBuQc3-HbA'
+    let a = []
 
-    const handleDownload = () => {
-        fetch(URL, {
-            method: "GET",
+    const handleDownload = async () => {
+        fetch(API_link, {
+            method: 'GET',
             mode: 'no-cors',
-            cache: 'default',
-            headers: {'WWW-Authorization': `${token}`, 'Authorization': `Bearer ${token}` },
-        }).then(res => res.json()).then(json => console.log(json)).catch((err) => {
-            console.log(err);
-        })
-    }
+        }).then(res => a.push(res, console.log(a))).catch(err => console.log('Xatolik:', err)) 
+        
+
+        // var myHeaders = new Headers();
+        // myHeaders.append("Authorization", "Bearer " + API_token, 'X-CSRFToken', '1s9fLegvrMFlprSKpwJ438ReCXFa0gQ4zAsx1wuLtIWxyMgERU3iQWkiN5rwzk9g');
+
+        // var requestOptions = {
+        //     method: "GET",
+        //     mode: "no-cors",
+        //     headers: myHeaders,
+        //     redirect: "follow"
+        // };
+
+        // const res = await fetch(API_link, requestOptions).catch(console.log("error"));
+        // const data = await res.json();
+
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -24,15 +36,7 @@ const Form = () => {
         // rasm: '',
         },
         onSubmit: values => {
-            // fetch('http://api.kspi.uz/v1/yangilik/yangilik/', {
-            //     method: "POST",
-            //     credentials: 'include',
-            //     mode: 'no-cors',
-            //     headers: {'Content-Type': 'text/plain', },
-            //     body: values
-            // })
-            // .then(result => console.log("to'g'ri:", result))
-            // .catch(error => console.log('error:', error));
+
         },
         
     });

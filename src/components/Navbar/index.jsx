@@ -1,30 +1,55 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { AiFillHome } from 'react-icons/ai';
+import { FiSettings } from 'react-icons/fi';
 
 const Navbar = ({post, bg, color}) => {
+
+    const [isSetting, setIsSetting] = useState(false);
+    
+    const handleDown = () => {
+        setTimeout(() => {
+            setIsSetting(true)
+        }, 3000)
+    };
+
+    const handleUp = () => {
+        clearTimeout(handleDown)
+    };
+
     return (
         <div className={`${post ? post : 'relative' } ${bg ? `bg-[${bg}]` : 'bg-[rgba(0, 0, 0, 0)]'} ${ color ? `text-${color}` : '' } w-full left-0 z-50 text-[35px] px-20 py-16 `}>
             <ul className='flex justify-between items-end'>
-                <li>
-                    <Link className={`${isActive => isActive ? '' : ''} `} to='/'>
-                        <AiFillHome className='text-[4rem]' />
-                    </Link>
+                <li onMouseDown={handleDown} onMouseUp={handleUp}>
+                    {isSetting ?
+                        <NavLink className={`${isActive => isActive ? '' : ''} `} to='/admin'>
+                            <FiSettings className='text-[4rem]' /> 
+                        </NavLink>
+                    : 
+                        <NavLink className={`${isActive => isActive ? '' : ''} `} to='/'>
+                            <AiFillHome className='text-[4rem]' />
+                        </NavLink>
+                    }
                 </li>
                 <li>
-                    <Link className={`${isActive => isActive ? '' : ''} `} to='/yangiliklar'>
+                    <NavLink className={`${isActive => isActive ? '' : ''} `} to='/yangiliklar'>
                         Yangiliklar
-                    </Link>
+                    </NavLink>
                 </li>
                 <li>
-                    <Link className={`${isActive => isActive ? '' : ''} `} to='/dars-jadvali'>
+                    <NavLink className={`${isActive => isActive ? '' : ''} `} to='/dars-jadvali'>
                         Dars jadvali
-                    </Link>
+                    </NavLink>
                 </li>
                 <li>
-                    <Link className={`${isActive => isActive ? '' : ''} `} to='/institut-haritasi'>
+                    <NavLink className={`${isActive => isActive ? '' : ''} `} to='/institut-haritasi'>
                         Institut haritasi
-                    </Link>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink className={`${isActive => isActive ? '' : ''} `} to='/admin'>
+
+                    </NavLink>
                 </li>
             </ul>
         </div>
