@@ -32,7 +32,7 @@ const Yangiliklar = () => {
                                 }
                             
                             return (
-                                <div className='my-3' key={idx}>
+                                <div className='my-3 shadow-lg shadow-indigo-500/50' key={idx}>
                                     <div className="w-full flex items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                                         <img src={item.urlToImage} className="m-5 object-cover w-[40%] rounded-t-lg h-60" alt="..." />
                                         <div className="flex flex-col justify-between p-4 leading-normal w-[60%]">
