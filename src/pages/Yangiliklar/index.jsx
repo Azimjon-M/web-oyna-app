@@ -25,14 +25,22 @@ const Yangiliklar = () => {
                         news.map((item, idx) => {
                             const text = item.description;
                             let modifiedText = "";
-                                if (text.length > 150) {
-                                    modifiedText += text.slice(0, 150) + "... ";
-                                } else {
-                                    modifiedText += text + " ";
-                                }
-                            
+                            if (text.length > 150) {
+                                modifiedText += text.slice(0, 150) + "... ";
+                            } else {
+                                modifiedText += text + " ";
+                            }
+
                             return (
                                 <div className='my-3 shadow-lg shadow-indigo-500/50' key={idx}>
+                                    {/* <div
+                                        class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                        role="status">
+                                        <span
+                                            class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                        >Loading...</span
+                                        >
+                                    </div> */}
                                     <div className="w-full flex items-center bg-gradient-to-r from-cyan-100 to-blue-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                                         <img src={item.urlToImage} className="m-5 object-cover w-[40%] rounded-t-lg h-60" alt="..." />
                                         <div className="flex flex-col justify-between p-4 leading-normal w-[60%]">
