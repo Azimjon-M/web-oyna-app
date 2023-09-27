@@ -19,7 +19,10 @@ export const routes = [
             },
             {
                 element: <Admin />,
-                path: '/admin'
+                path: '/panel-admins-login',
+                children: [
+                    
+                ]
             },
             {
                 element: <Yangiliklar />,

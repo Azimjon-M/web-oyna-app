@@ -1,12 +1,15 @@
 import React from 'react';
-import Admin from '../../components/Admin'
+import LoginAdmin from '../../components/LoginAdmin';
 
 const AdminPanel = () => {
+
+    const user = {id: "12345", password: "12345"}
+
     return (
-        <div className='w-full'>
-            <Admin />
+        <div>
+            <LoginAdmin data={user} />
         </div>
     )
 }
 
-export default AdminPanel
+export default AdminPanel;

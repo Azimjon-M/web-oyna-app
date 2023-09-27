@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { AiFillHome } from 'react-icons/ai';
 import { FiSettings } from 'react-icons/fi';
 
@@ -11,87 +11,84 @@ import kuz from '../../assets/images/kuz.gif';
 const Navbar = () => {
     // Settings Admin panel
     const [isSetting, setIsSetting] = useState(false);
-    // 
-    const [isSeason, setIsSeason] = useState('default')
+    // Fasillar Navbarda
+    const [season, setSeason] = useState('default')
 
-    
     const handleDown = () => {
         setTimeout(() => {
             setIsSetting(true);
         }, 3000);
-    };
-
-    const handleUp = () => {
-        clearTimeout(handleDown)
         setTimeout( () => {
             setIsSetting(false);
-        }, 5000);
-    };
-
+        }, 8000);
+    };    
+    
     useEffect(() => {
-        let getDate = new Date();
-        let getMonth = getDate.getMonth() + 1;
 
-        if (getMonth === 1 || getMonth === 2 || getMonth === 12) {
-            setIsSeason('qish') ; 
-        } else if (getMonth >= 3 && getMonth <= 5) {
-            setIsSeason('bahor');
-        } else if (getMonth >= 6 && getMonth <= 8) {
-            setIsSeason('yoz');
-        } else if (getMonth >= 9 && getMonth <= 11) {
-            setIsSeason('kuz');
-        } else {
-            setIsSeason('default');
-        };
+        let getMonth = new Date().getMonth() + 1;
 
+        const getSeason = () => {
+            if (getMonth === 1 || getMonth === 2 || getMonth === 12) {
+                setSeason('qish') ; 
+            } else if (getMonth >= 3 && getMonth <= 5) {
+                setSeason('bahor');
+            } else if (getMonth >= 6 && getMonth <= 8) {
+                setSeason('yoz');
+            } else if (getMonth >= 9 && getMonth <= 11) {
+                setSeason('kuz');
+            } else {
+                setSeason('default');
+            };
+        }
+        getSeason();
     }, []);
 
     return (
-        <div className={`${isSeason === 'qish' ? 'text-black' : isSeason === 'bahor' ? 'text-black' : isSeason === 'yoz' ? 'text-black' : isSeason === 'kuz' ? 'text-white' : ''} w-full relative left-0 z-50 text-[35px] px-20 py-16 shadow-2xl`}>
+        <div className={`${season === 'kuz' && 'text-white'} w-full relative left-0 z-50 text-[35px] px-20 py-16 shadow-2xl`}>
             <div className='w-full h-full absolute top-0 left-0 -z-10 overflow-hidden'>
                 {
-                    isSeason === "bahor" ? 
+                    season === "bahor" ? 
                     <img className='w-full h-auto' src={bahor} alt="bahor" />
-                    : isSeason === "yoz" ?
+                    : season === "yoz" ?
                     <img className='w-full h-auto' src={yoz} alt="yoz" />
-                    : isSeason === "kuz" ?
+                    : season === "kuz" ?
                     <img className='w-full h-auto' src={kuz} alt="kuz" />
-                    : isSeason === "qish" ?
+                    : season === "qish" ?
                     <img className='w-full h-auto' src={qish} alt="qish" />
                     : ''
                 }
             </div>
             <ul className='flex justify-between items-end'>
-                <li onMouseDown={handleDown} onMouseUp={handleUp}>
+                <li onMouseDown={handleDown}>
                     {isSetting ?
-                        <NavLink className={`${isActive => isActive ? '' : ''} `} to='/admin'>
+                        <Link to='/panel-admins-login'>
                             <FiSettings className='text-[4rem]' /> 
-                        </NavLink>
+                        </Link>
                     : 
-                        <NavLink className={`${isActive => isActive ? '' : ''} `} to='/'>
+                        <Link to='/'>
                             <AiFillHome className='text-[4rem]' />
-                        </NavLink>
+                        </Link>
                     }
                 </li>
                 <li>
-                    <NavLink className={`${isActive => isActive ? '' : ''} font-[900] text-[30px] `} to='/yangiliklar'>
+                    <Link className={`${isActive => isActive ? '' : ''} font-[900] text-[30px] `} to='/yangiliklar'>
                         Yangiliklar
-                    </NavLink>
+                    </Link>
                 </li>
                 <li>
-                    <NavLink className={`${isActive => isActive ? '' : ''} font-[900] text-[30px] `} to='/dars-jadvali'>
+                    <Link className={`${isActive => isActive ? '' : ''} font-[900] text-[30px] `} to='/dars-jadvali'>
                         Dars jadvali
-                    </NavLink>
+                    </Link>
                 </li>
                 <li>
-                    <NavLink className={`${isActive => isActive ? '' : ''} font-[900] text-[30px] `} to='/institut-haritasi'>
+                    <Link className={`${isActive => isActive ? '' : ''} font-[900] text-[30px] `} to='/institut-haritasi'>
                         Institut haritasi
-                    </NavLink>
+                    </Link>
                 </li>
                 <li>
-                    <NavLink className={`${isActive => isActive ? '' : ''} font-[900] text-[30px] `} to='/admin'>
+                    <Link className={`${isActive => isActive ? '' : ''} font-[900] text-[30px] `} to='/admin'>
 
-                    </NavLink>
+                    </Link>
                 </li>
             </ul>
         </div>
