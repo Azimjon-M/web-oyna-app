@@ -30,8 +30,7 @@ const Navbar = () => {
 
     useEffect(() => {
         let getDate = new Date();
-        let getMonth = 9;
-        console.log(getMonth);
+        let getMonth = getDate.getMonth() + 1;
 
         if (getMonth === 1 || getMonth === 2 || getMonth === 12) {
             setIsSeason('qish') ; 
