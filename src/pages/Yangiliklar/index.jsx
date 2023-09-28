@@ -18,7 +18,7 @@ const Yangiliklar = () => {
 
     return (
         <div>
-            <Navbar position='relative' color='blach' />
+            <Navbar/>
             <div className=''>
                 <div className='mx-3 my-5 text-center'>
                     {
