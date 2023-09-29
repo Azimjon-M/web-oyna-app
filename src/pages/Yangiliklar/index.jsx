@@ -4,10 +4,8 @@ import Navbar from '../../components/Navbar';
 import Loader from '../../components/Loader';
 
 const Yangiliklar = () => {
-
     const [loading, setLoading] = useState(false);
     const [news, setNews] = useState([]);
-
     useEffect(() => {
         const loadPost = async () => {
             setLoading(true);

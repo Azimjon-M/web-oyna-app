@@ -1,13 +1,11 @@
 import React from 'react';
 import LoginAdmin from '../../components/LoginAdmin';
+import Passwords from '../../passwords';
 
 const AdminPanel = () => {
-
-    const user = {id: "12345", password: "12345"}
-
     return (
         <div>
-            <LoginAdmin data={user} />
+            <LoginAdmin data={Passwords} />
         </div>
     )
 }

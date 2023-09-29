@@ -1,0 +1,1 @@
+export const setData = () => ({ type: 'SET_DATA'});

@@ -2,10 +2,11 @@ import React from 'react';
 
 import Root from '../root/index';
 import Home from '../pages/Home';
-import Admin from '../pages/AdminPanel';
+import Admin from '../pages/LoginToAdmins';
 import Yangiliklar from '../pages/Yangiliklar';
 import DarsJadvali from '../pages/DarsJadvali';
 import InstitutHaritasi from '../pages/InstitutHaritasi';
+import AdminPanel from '../pages/AdminsPanel';
 
 
 export const routes = [
@@ -20,9 +21,6 @@ export const routes = [
             {
                 element: <Admin />,
                 path: '/panel-admins-login',
-                children: [
-                    
-                ]
             },
             {
                 element: <Yangiliklar />,
@@ -35,6 +33,10 @@ export const routes = [
             {
                 element: <InstitutHaritasi />,
                 path: '/institut-haritasi'
+            },
+            {
+                element: <AdminPanel />,
+                path: '/panel-admins-login/admin-pane-0001'
             }
         ]
     }

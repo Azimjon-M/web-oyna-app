@@ -11,33 +11,10 @@ import "./styles.css";
 // import required modules
 import { Autoplay, Pagination } from "swiper/modules";
 
-import img1 from '../../assets/images/img-1.jpg';
-import img2 from '../../assets/images/img-2.jpg';
-import img3 from '../../assets/images/img-3.jpg';
-
-const Carousel = () => {
-
-  const images = [
-    {
-      id: 1,
-      src: img2,
-      btnName: 'Yangiliklar'
-      
-    },
-    {
-        id: 0,
-        src: img1,
-        btnName: 'Dars jadval'
-    },
-    {
-      id: 2,
-      src: img3,
-      btnName: 'Institut haritasi'
-    },
-  ]
+const Carousel = ({data}) => {
 
   return (
-    <div>
+    <div className="w-full h-full relative">
       <Swiper
         pagination={{
           dynamicBullets: true,
@@ -50,9 +27,9 @@ const Carousel = () => {
         modules={[Autoplay, Pagination]}
         className="mySwiper"
       >
-        {images.map(item => (
-          <SwiperSlide key={item.id} className="">
-            <img src={item.src} alt="images" />
+        {data.map((item, idx) => (
+          <SwiperSlide className="relative border border-blue-600 flex items-start" key={idx}>
+            <img className="absolute" src={item.src} alt="news" />
           </SwiperSlide>
         ))}
       </Swiper>
