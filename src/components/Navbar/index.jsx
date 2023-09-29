@@ -29,7 +29,7 @@ const Navbar = () => {
         }, 3000)
     }
 
-    const date = useSelector(state => state.reducerData.state)
+    const date = useSelector(state => state.reducerData.state);
     
     return (
         <div className={`${date === 'kuz' && 'text-white'} w-full relative left-0 z-50 text-[35px] px-20 py-16 shadow-2xl`}>
