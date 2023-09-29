@@ -29,10 +29,10 @@ const Home = () => {
     return (
         <div>
             <Navbar />
-            <div className="border border-red-600 w-full h-[calc(50vh-96px)]">
+            <div className="w-full h-[calc(50vh-96px)]">
                 <Carousel data={newsData} />
             </div>
-            <div className="border border-red-600 w-full h-[calc(50vh-96px)]">
+            <div className="w-full h-[calc(50vh-96px)]">
                 <Carousel data={newsData} />
             </div>
         </div>
