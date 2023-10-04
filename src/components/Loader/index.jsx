@@ -1,5 +1,5 @@
-import './style.css'
 import { MetroSpinner } from "react-spinners-kit";
+import './style.css'
 
 const Loader = () => {
     return (
