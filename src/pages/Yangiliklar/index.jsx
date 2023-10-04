@@ -15,7 +15,7 @@ const Yangiliklar = () => {
         }
         loadPost();
     }, []);
-
+    
     return (
         <>
             <div className='w-[100%]'>
