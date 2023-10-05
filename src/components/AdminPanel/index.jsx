@@ -1,10 +1,10 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
+// import axios from "axios";
 
 const AdminPanel = () => {
     //  Talim turi Get Data value
-    const [isData, setIsData] = useState(null);
+    // const [isData, setIsData] = useState(null);
 
     // Talim turi Link
     const urlTalimTur = "http://api.kspi.uz/v1/jadval/talim_turi/";
@@ -63,7 +63,7 @@ const AdminPanel = () => {
     return (
         <div className="flex">
             <div className="w-[50%]">
-                <div>Data: {isData}</div>
+                {/* <div>Data: {isData}</div> */}
                 <button className="border" type="button" onClick={handleUpdate}>
                     Yangilash
                 </button>
