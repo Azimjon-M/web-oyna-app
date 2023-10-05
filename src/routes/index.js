@@ -5,8 +5,8 @@ import Home from '../pages/Home';
 import Admin from '../pages/LoginToAdmins';
 import Yangiliklar from '../pages/Yangiliklar';
 import DarsJadvali from '../pages/DarsJadvali';
-import InstitutHaritasi from '../pages/InstitutHaritasi';
 import AdminPanel from '../pages/AdminsPanel';
+import Raxbaryat from '../pages/Raxbaryat';
 
 
 export const routes = [
@@ -31,8 +31,8 @@ export const routes = [
                 path: '/dars-jadvali'
             },
             {
-                element: <InstitutHaritasi />,
-                path: '/institut-haritasi'
+                element: <Raxbaryat />,
+                path: '/raxbaryat'
             },
             {
                 element: <AdminPanel />,

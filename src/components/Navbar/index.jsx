@@ -32,7 +32,7 @@ const Navbar = () => {
     const date = useSelector(state => state.reducerData.state);
     
     return (
-        <div className={`${date === 'kuz' && 'text-white'} w-full relative left-0 z-50 text-[35px] px-20 py-16 shadow-2xl`}>
+        <div className={`${date === 'kuz' && 'text-white'} w-full relative left-0 z-50 text-[35px] px-10 py-16 shadow-2xl`}>
             <div className='w-full h-full absolute top-0 left-0 -z-10 overflow-hidden'>
                 {
                     date === "bahor" ? 
@@ -59,18 +59,23 @@ const Navbar = () => {
                     }
                 </li>
                 <li>
-                    <NavLink className={`${isActive => isActive ? '' : ''} font-[900] text-[30px] `} to='/yangiliklar'>
+                    <NavLink className={`${isActive => isActive ? '' : ''} font-[900] text-[32px] `} to='/yangiliklar'>
                         Yangiliklar
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink className={`${isActive => isActive ? '' : ''} font-[900] text-[30px] `} to='/dars-jadvali'>
+                    <NavLink className={`${isActive => isActive ? '' : ''} font-[900] text-[32px] `} to='/dars-jadvali'>
                         Dars jadvali
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink className={`${isActive => isActive ? '' : ''} font-[900] text-[30px] `} to='/institut-haritasi'>
-                        Institut haritasi
+                    <NavLink className={`${isActive => isActive ? '' : ''} font-[900] text-[32px] `} to='/raxbaryat'>
+                        Raxbaryat
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink className={`${isActive => isActive ? '' : ''} font-[900] text-[32px] `} to='/raxbaryat'>
+                        Iteraktiv hizmatlar
                     </NavLink>
                 </li>
             </ul>
@@ -78,4 +83,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default Navbar;

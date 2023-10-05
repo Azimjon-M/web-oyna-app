@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from '../../components/Navbar';
 import Harita from '../../components/Harita';
 
-const InstitutHaritasi = () => {
+const Raxbaryat = () => {
     return (
         <div>
             <Navbar />
@@ -11,4 +11,4 @@ const InstitutHaritasi = () => {
     )
 }
 
-export default InstitutHaritasi
+export default Raxbaryat;
