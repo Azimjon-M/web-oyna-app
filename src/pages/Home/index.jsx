@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import img1 from "../../assets/images/img-1.jpg";
 import img2 from "../../assets/images/img-2.jpg";
 import img3 from "../../assets/images/img-3.jpg";
+import logo from '../../assets/icons/logo.png'
 
 const Home = () => {
 
@@ -32,11 +33,22 @@ const Home = () => {
     return (
         <div>
             <Navbar />
-            <div className="w-full h-[calc(50vh-96px)]">
-                <Carousel data={newsData} />
+            <div className="h-[300px] flex flex-col items-center justify-center">
+                <div className="w-[120px] h-[160px]">
+                    <img className="w-full h-full" src={logo} alt="icon" />
+                </div>
+                <div className="text-[35px] font-bold">
+                    QO'QON DAVLAT PEDAGOGIKA INSTITUTI
+                </div>
             </div>
-            <div className="w-full h-[calc(50vh-96px)]">
-                <Carousel data={newsData} />
+            <div className="w-full h-[calc(75vh-272px-300px)]">
+                <Carousel data={newsData} tdelay='5000' />
+            </div>
+            <div className="w-full h-[calc(25vh)] border-b border-red-600">
+                <Carousel data={newsData} tdelay='3000' />
+                <div className="h-[80px] flex justify-end items-center text-[30px] bg-gray-100 text-red-600 font-bold px-4">
+                    Reklama joylashtirish uchun: +998907777777
+                </div>
             </div>
         </div>
     );

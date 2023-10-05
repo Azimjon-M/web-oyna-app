@@ -1,4 +1,7 @@
 import React from "react";
+//Youtube
+// import YouTube from "react-youtube";
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -11,7 +14,7 @@ import "./styles.css";
 // import required modules
 import { Autoplay, Pagination } from "swiper/modules";
 
-const Carousel = ({ data }) => {
+const Carousel = ({ data, tdelay }) => {
     return (
         <div className="w-full h-full relative">
             <Swiper
@@ -19,7 +22,7 @@ const Carousel = ({ data }) => {
                     dynamicBullets: true,
                 }}
                 autoplay={{
-                    delay: 2500,
+                    delay: tdelay,
                     disableOnInteraction: false,
                 }}
                 loop={true}
