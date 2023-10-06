@@ -31,7 +31,7 @@ const Carousel = ({ data, tdelay }) => {
             >
                 {data.map((item, idx) => (
                     <SwiperSlide
-                        className="relative border border-blue-600 flex items-start"
+                        className="relative flex items-start"
                         key={idx}
                     >
                         <img className="absolute" src={item.src} alt="news" />
