@@ -41,13 +41,13 @@ const Home = () => {
                     QO'QON DAVLAT PEDAGOGIKA INSTITUTI
                 </div>
             </div>
-            <div className="w-full h-[calc(85vh-194px-300px-140px)]">
+            <div className="w-full h-[calc(80vh-194px-300px-130px)]">
                 <Carousel data={newsData} tdelay="5000" />
             </div>
             <div className="w-full h-[100px]" />
-            <div className="w-full h-[15vh]">
+            <div className="w-full h-[20vh]">
                 <Carousel data={newsData} tdelay="3000" />
-                <div className="h-[40px] flex justify-end items-center text-[25px] bg-[#ddeaff] text-red-600 font-bold px-4">
+                <div className="h-[30px] flex justify-end items-center text-[20px] bg-[#ddeaff] text-red-600 font-bold px-4">
                     Biz bilan bog'lanish uchun: +998907777777
                 </div>
             </div>
