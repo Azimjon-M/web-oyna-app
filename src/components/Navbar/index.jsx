@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { AiFillHome } from 'react-icons/ai';
 import { FiSettings } from 'react-icons/fi';
+import logo from "../../assets/icons/logo.png";
+
 
 import qish from '../../assets/images/qish.gif';
 import bahor from '../../assets/images/bahor.gif';
@@ -32,7 +33,7 @@ const Navbar = () => {
     const date = useSelector(state => state.reducerData.state);
     
     return (
-        <div className={`${date === 'kuz' && 'text-white'} w-full relative left-0 z-50 text-[35px] px-10 py-16 shadow-2xl`}>
+        <div className={`${date === 'kuz' && 'text-white'} w-full h-[220px] relative left-0 z-50 text-[35px] px-10 py-16 shadow-2xl`}>
             <div className='w-full h-full absolute top-0 left-0 -z-10 overflow-hidden'>
                 {
                     date === "bahor" ? 
@@ -54,7 +55,7 @@ const Navbar = () => {
                         </Link>
                     : 
                         <Link to='/'>
-                            <AiFillHome className='text-[4rem]' />
+                            <img className='w-[60px] h-auto' src={logo} alt="icon" />
                         </Link>
                     }
                 </li>

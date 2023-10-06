@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import img1 from "../../assets/images/img-1.jpg";
 import img2 from "../../assets/images/img-2.jpg";
 import img3 from "../../assets/images/img-3.jpg";
-import logo from "../../assets/icons/logo.png";
 
 const Home = () => {
     const newsData = [{ src: img1 }, { src: img2 }, { src: img3 }];
@@ -30,21 +29,17 @@ const Home = () => {
 
     return (
         <div className="w-full h-[100vh]">
-            <div className="h-[194px]">
-                <Navbar />
-            </div>
-            <div className="h-[300px] flex flex-col items-center justify-center">
-                <div className="w-[120px] h-[160px]">
-                    <img className="w-full h-full" src={logo} alt="icon" />
-                </div>
+            <div className="h-[100px] flex flex-col items-center justify-center">
                 <div className="text-[35px] font-bold">
                     QO'QON DAVLAT PEDAGOGIKA INSTITUTI
                 </div>
             </div>
-            <div className="w-full h-[calc(80vh-194px-300px-130px)]">
+            <div className="h-[220px]">
+                <Navbar />
+            </div>
+            <div className="w-full h-[calc(80vh-220px-130px)]">
                 <Carousel data={newsData} tdelay="5000" />
             </div>
-            <div className="w-full h-[100px]" />
             <div className="w-full h-[20vh]">
                 <Carousel data={newsData} tdelay="3000" />
                 <div className="h-[30px] flex justify-end items-center text-[20px] bg-[#ddeaff] text-red-600 font-bold px-4">
