@@ -29,22 +29,22 @@ const Home = () => {
 
     return (
         <div className="w-full h-[100vh]">
+            <div className="h-[220px]">
+                <Navbar />
+            </div>
             <div className="h-[100px] flex flex-col items-center justify-center">
                 <div className="text-[35px] font-bold">
                     QO'QON DAVLAT PEDAGOGIKA INSTITUTI
                 </div>
             </div>
-            <div className="h-[220px]">
-                <Navbar />
-            </div>
-            <div className="w-full h-[calc(80vh-220px-130px)]">
+            <div className="w-full h-[calc(80vh-220px-100px)]">
                 <Carousel data={newsData} tdelay="5000" />
             </div>
-            <div className="w-full h-[20vh]">
+            <div className="w-full h-[20vh] relative">
                 <Carousel data={newsData} tdelay="3000" />
-                <div className="h-[30px] flex justify-end items-center text-[20px] bg-[#ddeaff] text-red-600 font-bold px-4">
+                <span className="absolute bottom-0 right-0 text-[16px] z-20 bg-[#ddeaff] text-red-600 font-bold px-4">
                     Biz bilan bog'lanish uchun: +998907777777
-                </div>
+                </span>
             </div>
         </div>
     );

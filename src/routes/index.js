@@ -7,6 +7,7 @@ import Yangiliklar from '../pages/Yangiliklar';
 import DarsJadvali from '../pages/DarsJadvali';
 import AdminPanel from '../pages/AdminsPanel';
 import Raxbaryat from '../pages/Raxbaryat';
+import InterActiveHiz from '../pages/InterActiveHiz';
 
 
 export const routes = [
@@ -33,6 +34,10 @@ export const routes = [
             {
                 element: <Raxbaryat />,
                 path: '/raxbaryat'
+            },
+            {
+                element: <InterActiveHiz />,
+                path: 'inter-active-hizmatlar'
             },
             {
                 element: <AdminPanel />,
