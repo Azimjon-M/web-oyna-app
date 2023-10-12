@@ -9,7 +9,7 @@ const AdminYangilik = () => {
     const Url = "http://api.kspi.uz/v1/yangilik/yangilik/";
 
     const [isData, setIsData] = useState([]);
-    // const [isFile, setIsFile] = useState('');
+    const [isFile, setIsFile] = useState('');
 
     const defaultTex = "Rasim tanlanmagan";
 
@@ -24,10 +24,15 @@ const AdminYangilik = () => {
         initialValues: {
             title: "",
             body: "",
-            image: '',
+            // image: '',
         },
         onSubmit: (values) => {
-            axios.post(Url, values)
+            const formData = new FormData();
+            formData.append("title", values.title);
+            formData.append("body", values.body);
+            formData.append("rasm", isFile);
+            axios.post(Url, formData);
+            formik.resetForm();
         },
     });
 
@@ -41,6 +46,7 @@ const AdminYangilik = () => {
     // Delete
     const handleDelete = (id) => {
         axios.delete(Url+id+'/')
+        handleRefresh()
     }
     
     //Click button in input
@@ -51,8 +57,7 @@ const AdminYangilik = () => {
         const inp = document.getElementById("rasim");
         const inp_tex = document.getElementById("inp-text");
 
-        // setIsFile(inp.files[0]); //isValue Rasim
-        console.log(inp.files[0]);
+        setIsFile(inp.files[0]); //isValue Rasim
 
         if (inp.value) {
             if (inp.value.length >= 50) {
@@ -93,7 +98,7 @@ const AdminYangilik = () => {
                                 <span className="w-[60px] h-[40px] inline-block overflow-hidden">
                                     <img
                                         className="w-full h-auto"
-                                        src={item.image}
+                                        src={item.rasm}
                                         alt="img"
                                     />
                                 </span>
@@ -174,11 +179,10 @@ const AdminYangilik = () => {
                                 </span>
                             </div>
                             <input
-                                onChange={() => (handleChange(), formik.handleChange())}
+                                onChange={() => (handleChange())}
                                 id="rasim"
                                 type="file"
                                 hidden="hidden"
-                                value={formik.values.image}
                             />
                         </div>
                         <button
