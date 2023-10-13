@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import axios from "axios";
 
 import { MdEdit, MdDelete } from "react-icons/md";
@@ -7,25 +8,54 @@ import { BsImage } from "react-icons/bs";
 
 const AdminYangilik = () => {
     const Url = "http://api.kspi.uz/v1/yangilik/yangilik/";
-
+    // get Data
     const [isData, setIsData] = useState([]);
-    const [isFile, setIsFile] = useState('');
+    // input File
+    const [isFile, setIsFile] = useState("");
+    // const [imgErr, setImgErr] = useState('')
 
-    const defaultTex = "Rasim tanlanmagan";
+    const defaultTex = "Rasim yuklanmagan";
+    const imgTypes = ['jpg','jpeg','png','pdf','tiff','psd','eps','ai','indd','rav'];
 
     useEffect(() => {
-        axios.get(Url)
+        axios
+            .get(Url)
             .then((response) => setIsData(response.data))
             .catch((xato) => console.error(xato));
-    }, [])
+    }, [isData]);
+
+    const SignupSchema = Yup.object().shape({
+        title: Yup.string()
+            .min(2, 'Judaham kam!')
+            .required("Required"),
+        body: Yup.string()
+            .min(2, 'Judaham kam!')
+            .required("Required"),
+    });
+
+    //change inpTex
+    const changeInpText = () => {
+        const inp_tex = document.getElementById("inp-text");
+        setIsFile("");
+        inp_tex.innerHTML = "Fayl yuklanmagan";
+        
+    };
+
+    //Refresh
+    const handleRefresh = () => {
+        axios
+            .get(Url)
+            .then((response) => setIsData(response.data))
+            .catch((xato) => console.error(xato));
+    };
 
     //Post
     const formik = useFormik({
         initialValues: {
             title: "",
             body: "",
-            // image: '',
         },
+        validationSchema: SignupSchema,
         onSubmit: (values) => {
             const formData = new FormData();
             formData.append("title", values.title);
@@ -33,98 +63,91 @@ const AdminYangilik = () => {
             formData.append("rasm", isFile);
             axios.post(Url, formData);
             formik.resetForm();
+            setIsFile("");
+            changeInpText();
+            handleRefresh();
         },
     });
 
-    //Refresh
-    const handleRefresh = async () => {
-        axios.get(Url)
-            .then((response) => setIsData(response.data))
-            .catch((xato) => console.error(xato));
-    };
-
     // Delete
     const handleDelete = (id) => {
-        axios.delete(Url+id+'/')
-        handleRefresh()
-    }
-    
-    //Click button in input
+        axios.delete(Url + id + "/");
+    };
+
+    //Click button in input Change
     const handleClick = () => {
         document.getElementById("rasim").click();
     };
-    const handleChange = (e) => {
-        const inp = document.getElementById("rasim");
+    const handleChange = () => {
+        const fayl = document.getElementById("rasim").files[0];
         const inp_tex = document.getElementById("inp-text");
 
-        setIsFile(inp.files[0]); //isValue Rasim
-
-        if (inp.value) {
-            if (inp.value.length >= 50) {
-                inp_tex.innerHTML = inp.value.slice(0, 50) + "...";
-            } else {
-                inp_tex.innerHTML = inp.value;
+        for (let i = 0; i < imgTypes.length; i++) {
+            if (fayl.name.split(".").pop().includes(imgTypes[i])) {
+                console.log('helklo');
+                setIsFile(fayl);
+                inp_tex.innerHTML = fayl.name
             }
-        } else {
-            inp_tex.innerHTML = defaultTex;
         }
     };
 
     return (
-        <div>
+        <div className="border border-black">
             <div className="text-center">
                 <h1 className="text-[25px]">
-                    <b>Yangiliklar</b>
+                    <b>Yangilik</b>
                 </h1>
             </div>
             {/* GET DATA */}
             <div className="flex items-start h-[500px]">
-                <div className="w-[50%] flex flex-col gap-y-2 p-10">
+                <div className="w-[50%] flex flex-col gap-y-2 py-4 px-10">
                     <div className="flex justify-between">
-                        <h1>Ma'lumotlar</h1>
-                        <button
-                            className="border px-4 py-1 bg-blue-400 text-white"
-                            onClick={() => handleRefresh()}
-                        >
-                            Yangilash
-                        </button>
+                        <h1>Joylangan Yangiliklar</h1>
                     </div>
-                    {isData.map((item) => (
-                        <div
-                            key={item.id}
-                            className="w-full h-[50px] flex justify-between items-center border border-gray-400 p-1"
-                        >
-                            <div className="flex items-center gap-x-2">
-                                <span className="w-[60px] h-[40px] inline-block overflow-hidden">
-                                    <img
-                                        className="w-full h-auto"
-                                        src={item.rasm}
-                                        alt="img"
-                                    />
-                                </span>
-                                <div className="flex flex-col">
-                                    <div className="whitespace-nowrap">
-                                        <b>Sarlavha:</b>
-                                        {item.title}
-                                    </div>
-                                    <div className="whitespace-nowrap">
-                                        <b>O'rta qsim:</b>
-                                        {item.body}
+                    <div className="flex flex-col-reverse gap-y-2">
+                        {isData.map((item, idx) => (
+                            <div
+                                key={item.id}
+                                className="w-full h-[50px] flex justify-between items-center border border-gray-400 p-1"
+                            >
+                                <div className="flex items-center gap-x-2">
+                                    <span className="w-[60px] h-[40px] inline-block overflow-hidden">
+                                        <img
+                                            className="w-full h-auto"
+                                            src={item.rasm}
+                                            alt="img"
+                                        />
+                                    </span>
+                                    <div className="flex flex-col">
+                                        <div className="whitespace-nowrap">
+                                            <b>Title:</b>
+                                            {item.title.length > 18
+                                                ? item.title.slice(0, 18) + "..."
+                                                : item.title}
+                                        </div>
+                                        <div className="whitespace-nowrap">
+                                            <b>Body:</b>
+                                            {item.body.length > 18
+                                                ? item.body.slice(0, 18) + "..."
+                                                : item.body}
+                                        </div>
                                     </div>
                                 </div>
+                                <div className="flex justify-end items-center gap-x-3 pe-2">
+                                    <div>No: {idx + 1}</div>
+                                    <span className="cursor-pointer">
+                                        <MdEdit className="text-green-700" />
+                                    </span>
+                                    <span className="cursor-pointer">
+                                        <MdDelete
+                                            onClick={() => handleDelete(item.id)}
+                                            className="text-red-600"
+                                        />
+                                    </span>
+                                </div>
                             </div>
-                            <div className="flex justify-end items-center gap-x-3 pe-2">
-                                <div>id: {item.id}</div>
-                                <span className="cursor-pointer">
-                                    <MdEdit className="text-green-700" />
-                                </span>
-                                <span className="cursor-pointer">
-                                    <MdDelete onClick={() => handleDelete(item.id)} className="text-red-600" />
-                                </span>
-                            </div>
-                        </div>
-                    ))
-                    }
+                        ))}
+                    </div>
                 </div>
 
                 {/* POST DATA */}
@@ -137,9 +160,9 @@ const AdminYangilik = () => {
                             className="flex flex-col items-start"
                             htmlFor="title"
                         >
-                            Sarlavha
+                            Title:
                             <textarea
-                                className="w-full border border-gray-400 outline-none p-2"
+                                className={`${formik.errors.title ? 'border-red-600' : 'border-gray-400'} w-full border  outline-none p-2`}
                                 id="title"
                                 cols="70"
                                 rows="3"
@@ -151,9 +174,9 @@ const AdminYangilik = () => {
                             className="flex flex-col items-start"
                             htmlFor="body"
                         >
-                            O'rta qsim
+                            Body:
                             <textarea
-                                className="w-full border border-gray-400 outline-none p-2"
+                                className={`${formik.errors.body ? 'border-red-600' : 'border-gray-400'} w-full border  outline-none p-2`}
                                 id="body"
                                 cols="70"
                                 rows="5"
@@ -162,8 +185,8 @@ const AdminYangilik = () => {
                             ></textarea>
                         </label>
                         <div className="flex flex-col items-start">
-                            Rasim joylashtirish
-                            <div className="flex items-center">
+                            Image:
+                            <div className={`flex items-center border`}>
                                 <button
                                     onClick={() => handleClick()}
                                     type="button"
@@ -179,7 +202,7 @@ const AdminYangilik = () => {
                                 </span>
                             </div>
                             <input
-                                onChange={() => (handleChange())}
+                                onChange={() => handleChange()}
                                 id="rasim"
                                 type="file"
                                 hidden="hidden"
