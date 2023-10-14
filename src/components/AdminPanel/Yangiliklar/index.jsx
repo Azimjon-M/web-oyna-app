@@ -12,17 +12,17 @@ const AdminYangilik = () => {
     const [isData, setIsData] = useState([]);
     // input File
     const [isFile, setIsFile] = useState("");
-    // const [imgErr, setImgErr] = useState('')
+    //img Error
+    const [imgErr, setImgErr] = useState(null)
+    //Edit
+    const [isEdit, setIsEdit] = useState(null);
 
     const defaultTex = "Rasim yuklanmagan";
     const imgTypes = ['jpg','jpeg','png','pdf','tiff','psd','eps','ai','indd','rav'];
-
+    // for
     useEffect(() => {
-        axios
-            .get(Url)
-            .then((response) => setIsData(response.data))
-            .catch((xato) => console.error(xato));
-    }, [isData]);
+        handleRefresh()
+    }, []);
 
     const SignupSchema = Yup.object().shape({
         title: Yup.string()
@@ -37,16 +37,15 @@ const AdminYangilik = () => {
     const changeInpText = () => {
         const inp_tex = document.getElementById("inp-text");
         setIsFile("");
-        inp_tex.innerHTML = "Fayl yuklanmagan";
+        inp_tex.innerHTML = defaultTex;
         
     };
 
     //Refresh
-    const handleRefresh = () => {
-        axios
-            .get(Url)
-            .then((response) => setIsData(response.data))
-            .catch((xato) => console.error(xato));
+    const handleRefresh = async () => {
+        const data = await axios.get(Url).then((response) => {return response.data}).catch((err) => console.error(err));
+        data.sort((a, b) => b.id + a.id);
+        setIsData(data);
     };
 
     //Post
@@ -57,22 +56,61 @@ const AdminYangilik = () => {
         },
         validationSchema: SignupSchema,
         onSubmit: (values) => {
-            const formData = new FormData();
-            formData.append("title", values.title);
-            formData.append("body", values.body);
-            formData.append("rasm", isFile);
-            axios.post(Url, formData);
-            formik.resetForm();
-            setIsFile("");
-            changeInpText();
-            handleRefresh();
+            //Edit
+            if  (isEdit) {
+                const formData = new FormData();
+                formData.append("title", values.title);
+                formData.append("body", values.body);
+                formData.append("rasm", isFile);
+                axios.put(Url + isEdit + "/", formData);
+                formik.resetForm();
+                setIsFile("");
+                changeInpText();
+                handleRefresh();
+                setIsEdit(null);
+            }
+            //Post
+            else {
+                if (!imgErr && isFile.length === 0) {
+                    setImgErr(true)
+                } else {
+                    const formData = new FormData();
+                    formData.append("title", values.title);
+                    formData.append("body", values.body);
+                    formData.append("rasm", isFile);
+                    axios.post(Url, formData);
+                    formik.resetForm();
+                    setIsFile("");
+                    changeInpText();
+                    handleRefresh();
+                }
+            }
         },
     });
+    //Post Click
+    const handleClickSubmit = () => {
+        if (formik.values.body.length < 2 || formik.values.title.length < 2) {
+            if (isFile) {
+                setImgErr(false)
+            } else {
+                setImgErr(true)
+            }
+        } else {
+            setImgErr(false)
+        }
+    }
 
     // Delete
     const handleDelete = (id) => {
         axios.delete(Url + id + "/");
     };
+    //Edit
+    const handleEdit = async (id) => {
+        const idData = await axios.get(Url + id + "/").then(res => (res.data)).catch(err => console.log(err))
+        formik.values.title = idData.title
+        formik.values.body = idData.body
+        setIsEdit(id)
+    }
 
     //Click button in input Change
     const handleClick = () => {
@@ -81,12 +119,16 @@ const AdminYangilik = () => {
     const handleChange = () => {
         const fayl = document.getElementById("rasim").files[0];
         const inp_tex = document.getElementById("inp-text");
-
-        for (let i = 0; i < imgTypes.length; i++) {
-            if (fayl.name.split(".").pop().includes(imgTypes[i])) {
-                console.log('helklo');
-                setIsFile(fayl);
-                inp_tex.innerHTML = fayl.name
+        setImgErr(true)
+        setIsFile("");
+        changeInpText();
+        if (fayl) {
+            for (let i = 0; i < imgTypes.length; i++) {
+                if (fayl.name.split(".").pop().includes(imgTypes[i])) {
+                    setIsFile(fayl);
+                    setImgErr(false)
+                    inp_tex.innerHTML = fayl.name.length > 43 ? fayl.name.slice(0, 43)+'...' : fayl.name
+                }
             }
         }
     };
@@ -134,9 +176,9 @@ const AdminYangilik = () => {
                                     </div>
                                 </div>
                                 <div className="flex justify-end items-center gap-x-3 pe-2">
-                                    <div>No: {idx + 1}</div>
+                                    <div>id: {item.id}</div>
                                     <span className="cursor-pointer">
-                                        <MdEdit className="text-green-700" />
+                                        <MdEdit onClick={() => handleEdit(item.id)} className="text-green-700" />
                                     </span>
                                     <span className="cursor-pointer">
                                         <MdDelete
@@ -186,21 +228,24 @@ const AdminYangilik = () => {
                         </label>
                         <div className="flex flex-col items-start">
                             Image:
-                            <div className={`flex items-center border`}>
+                            <div className={`${imgErr ? 'border-red-600' : 'border-gray-400'} flex items-center border`}>
                                 <button
                                     onClick={() => handleClick()}
                                     type="button"
-                                    className="h-[30px] border flex items-center gap-x-2 border-black bg-green-300 hover:bg-green-500 active:bg-green-300 px-4"
+                                    className="h-[30px] flex items-center gap-x-2 bg-green-300 hover:bg-green-500 active:bg-green-300 px-4"
                                 >
                                     <BsImage /> Tanlash
                                 </button>
                                 <span
-                                    className="h-[30px] border border-t-black border-e-black border-b-black border-s-0 px-2"
+                                    className={`${imgErr ? 'text-red-600' : ''} h-[30px] px-2 border border-s-gray-400`}
                                     id="inp-text"
                                 >
                                     {defaultTex}
                                 </span>
                             </div>
+                            <span className={`${imgErr ? 'translate-y-0 opacity-100 h-auto mt-4' : '-translate-y-5 opacity-0 h-0'} bg-red-500 text-white text-[14px] px-2 transition-all -z-20`}>
+                                Rasim {imgTypes.map(i => i+', ')} farmatlarda bo'lishi kerak !
+                            </span>
                             <input
                                 onChange={() => handleChange()}
                                 id="rasim"
@@ -209,6 +254,7 @@ const AdminYangilik = () => {
                             />
                         </div>
                         <button
+                            onClick={() => handleClickSubmit()}
                             type="submit"
                             className="relative right-0 bottom-0 bg-blue-400 text-white px-8 py-1"
                         >
