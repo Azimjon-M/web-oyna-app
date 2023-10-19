@@ -10,6 +10,11 @@ const DarsJadval = () => {
     const UrlYonalish = "http://api.kspi.uz/v1/jadval/yonalish/";
     const UrlKurs = "http://api.kspi.uz/v1/jadval/kurs/";
 
+    //Refresh
+    // const refresh = async () => {
+
+    // };
+
     const [isDataTalim, setIsDataTalim] = useState([]);
     const [isDataFakultet, setIsDataFakultet] = useState([]);
     const [isDataYonalish, setIsDataYonalish] = useState([]);
@@ -36,6 +41,7 @@ const DarsJadval = () => {
             .get(UrlKurs)
             .then((res) => setIsDataKurs(res.data))
             .catch((err) => console.log(err));
+        //Refresh
     }, []);
 
     const SignupSchemaTalim = Yup.object().shape({
@@ -62,6 +68,7 @@ const DarsJadval = () => {
             formik_talim.resetForm();
         },
     });
+
     //Fakultet POST
     const formik_fakultet = useFormik({
         initialValues: {
@@ -70,16 +77,17 @@ const DarsJadval = () => {
         },
         validationSchema: SignupSchemaFakultet,
         onSubmit: (values) => {
-            if (values.fakultet_talim_turi_id === "") {
-                if (isDataTalim[0].id) {
-                    formik_fakultet.values.fakultet_talim_turi_id = `${isDataTalim[0].id}`;
-                }
-                //else internet yaxshi ihslaman yoxud isDataTalim kelmagda
-            }
-            axios.post(UrlFakultet, values);
-            formik_fakultet.resetForm();
+            console.log(values);
+            // if (values.fakultet_talim_turi_id === "") {
+            //     if (isDataTalim[0].id) {
+            //         formik_fakultet.values.fakultet_talim_turi_id = `${isDataTalim[0].id}`;
+            //     }
+            // }
+            // axios.post(UrlFakultet, values);
+            // formik_fakultet.resetForm();
         },
     });
+
     //Yonalish POST
     const formik_yonalish = useFormik({
         initialValues: {
@@ -103,7 +111,8 @@ const DarsJadval = () => {
             formik_yonalish.resetForm();
         },
     });
-    //kurs POST
+
+    //Kurs POST
     const formik_kurs = useFormik({
         initialValues: {
             kurs_talim_turi_id: "",
@@ -152,7 +161,6 @@ const DarsJadval = () => {
     const handleDeletKurs = (id) => {
         axios.delete(UrlKurs + id + "/");
     };
-
     return (
         <div className="px-2 py-10">
             <div className="flex flex-col items-center">
@@ -169,38 +177,48 @@ const DarsJadval = () => {
                 <div className="w-[1000px] h-[400px] flex gap-x-2 border-b border-black">
                     <div className="w-[50%] flex flex-col gap-y-2">
                         {/* Get Data */}
-                        <div className="border-b border-black px-10 py-2"><b>Joylashtirilgan ma'lumotlar</b></div>
+                        <div className="border-b border-black px-10 py-2">
+                            <b>Joylashtirilgan ma'lumotlar</b>
+                        </div>
                         {isDataTalim.length === 0 ? (
-                            <div className="text-red-600">Ma'lumotlar joylanmagan !</div>
+                            <div className="text-red-600">
+                                Ma'lumotlar joylanmagan !
+                            </div>
                         ) : (
-                            isDataTalim.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="flex justify-between items-center border border-gray-400 px-2"
-                                >
-                                    <div>
-                                        <b>id:</b> {item.id}
-                                        <br />
-                                        <b>Talim turi:</b> {item.talim_turi}
+                            <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
+                                {isDataTalim.map((item) => (
+                                    <div
+                                        key={item.id}
+                                        className="flex justify-between items-center border border-gray-400 px-2"
+                                    >
+                                        <div>
+                                            <b>id:</b> {item.id}
+                                            <br />
+                                            <b>Talim turi:</b> {item.talim_turi}
+                                        </div>
+                                        <div className="flex gap-x-2">
+                                            <MdEdit
+                                                className="text-green-700 cursor-pointer"
+                                                onClick={() =>
+                                                    handleEdit(item.id)
+                                                }
+                                            />
+                                            <MdDelete
+                                                className="text-red-600 cursor-pointer"
+                                                onClick={() =>
+                                                    handleDeletTalim(item.id)
+                                                }
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="flex gap-x-2">
-                                        <MdEdit
-                                            className="text-green-700 cursor-pointer"
-                                            onClick={() => handleEdit(item.id)}
-                                        />
-                                        <MdDelete
-                                            className="text-red-600 cursor-pointer"
-                                            onClick={() =>
-                                                handleDeletTalim(item.id)
-                                            }
-                                        />
-                                    </div>
-                                </div>
-                            ))
+                                ))}
+                            </div>
                         )}
                     </div>
                     <div className="w-[50%]">
-                    <div className="px-10 py-2 border-b border-black"><b>Ma'lumotlar joylashtirish</b></div>
+                        <div className="px-10 py-2 border-b border-black">
+                            <b>Ma'lumotlar joylashtirish</b>
+                        </div>
                         {/* Post Data */}
                         {/* Ta'lim tur */}
                         <form
@@ -241,49 +259,59 @@ const DarsJadval = () => {
                 </h1>
                 {isDataTalim.length === 0 ? (
                     <div className="w-[1000px] text-center text-red-600 border-b border-black pb-10">
-                        Fakultet ma'lumotlarini joylashingiz uchun Talim turi ma'lumotlari joylangan bo'lishi kerak !
+                        Fakultet ma'lumotlarini joylashingiz uchun Talim turi
+                        ma'lumotlari joylangan bo'lishi kerak !
                     </div>
                 ) : (
                     <div className="w-[1000px] h-[400px] flex gap-x-2 border-b border-black">
                         <div className="w-[50%] flex flex-col gap-y-2">
                             {/* Get Data */}
-                            <div className="border-b border-black px-10 py-2"><b>Joylashtirilgan ma'lumotlar</b></div>
+                            <div className="border-b border-black px-10 py-2">
+                                <b>Joylashtirilgan ma'lumotlar</b>
+                            </div>
                             {isDataFakultet.length === 0 ? (
-                                <div className="text-red-600">Ma'lumotlar joylanmagan !</div>
+                                <div className="text-red-600">
+                                    Ma'lumotlar joylanmagan !
+                                </div>
                             ) : (
-                                isDataFakultet.map((item) => (
-                                    <div
-                                        key={item.id}
-                                        className="flex justify-between items-center border border-gray-400 px-2"
-                                    >
-                                        <div>
-                                            <b>id:</b> {item.id}
-                                            <br />
-                                            <b>Talim turi id:</b>{" "}
-                                            {item.fakultet_talim_turi_id}
-                                            <br />
-                                            <b>Fakultet:</b> {item.fakultet}
+                                <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
+                                    {isDataFakultet.map((item) => (
+                                        <div
+                                            key={item.id}
+                                            className="flex justify-between items-center border border-gray-400 px-2"
+                                        >
+                                            <div>
+                                                <b>id:</b> {item.id}
+                                                <br />
+                                                <b>Talim turi id:</b>{item.fakultet_talim_turi_id}
+                                                <br />
+                                                <b>Fakultet:</b> {item.fakultet}
+                                            </div>
+                                            <div className="flex gap-x-2">
+                                                <MdEdit
+                                                    className="text-green-700 cursor-pointer"
+                                                    onClick={() =>
+                                                        handleEdit(item.id)
+                                                    }
+                                                />
+                                                <MdDelete
+                                                    className="text-red-600 cursor-pointer"
+                                                    onClick={() =>
+                                                        handleDeletFakultet(
+                                                            item.id
+                                                        )
+                                                    }
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="flex gap-x-2">
-                                            <MdEdit
-                                                className="text-green-700 cursor-pointer"
-                                                onClick={() =>
-                                                    handleEdit(item.id)
-                                                }
-                                            />
-                                            <MdDelete
-                                                className="text-red-600 cursor-pointer"
-                                                onClick={() =>
-                                                    handleDeletFakultet(item.id)
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                ))
+                                    ))}
+                                </div>
                             )}
                         </div>
                         <div className="w-[50%]">
-                        <div className="px-10 py-2 border-b border-black"><b>Ma'lumotlar joylashtirish</b></div>
+                            <div className="px-10 py-2 border-b border-black">
+                                <b>Ma'lumotlar joylashtirish</b>
+                            </div>
                             {/* Post Data */}
                             <form
                                 className="w-full px-10 mt-10"
@@ -337,52 +365,64 @@ const DarsJadval = () => {
                 </h1>
                 {isDataFakultet.length === 0 ? (
                     <div className="w-[1000px] text-center text-red-600 border-b border-black pb-10">
-                        Yo'nalish ma'lumotlarini joylashingiz uchun Fakultetlar ma'lumotlari joylangan bo'lishi kerak !
+                        Yo'nalish ma'lumotlarini joylashingiz uchun Fakultetlar
+                        ma'lumotlari joylangan bo'lishi kerak !
                     </div>
                 ) : (
                     <div className="w-[1000px] h-[400px] flex gap-x-2 border-b border-black">
                         <div className="w-[50%] flex flex-col gap-y-2">
                             {/* Get Data */}
-                            <div className="border-b border-black px-10 py-2"><b>Joylashtirilgan ma'lumotlar</b></div>
+                            <div className="border-b border-black px-10 py-2">
+                                <b>Joylashtirilgan ma'lumotlar</b>
+                            </div>
                             {isDataYonalish.length === 0 ? (
-                                <div className="text-red-600">Ma'lumotlar joylanmagan !</div>
+                                <div className="text-red-600">
+                                    Ma'lumotlar joylanmagan !
+                                </div>
                             ) : (
-                                isDataYonalish.map((item) => (
-                                    <div
-                                        key={item.id}
-                                        className="flex justify-between items-center border border-gray-400 px-2"
-                                    >
-                                        <div>
-                                            <b>id:</b> {item.id}
-                                            <br />
-                                            <b>talim tur id:</b>{" "}
-                                            {item.yonalish_talim_turi_id}
-                                            <br />
-                                            <b>Fakultet id:</b>{" "}
-                                            {item.yonalish_fakultet_id}
-                                            <br />
-                                            <b>Yo'nalish:</b> {item.yonalish}
+                                <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
+                                    {isDataYonalish.map((item) => (
+                                        <div
+                                            key={item.id}
+                                            className="flex justify-between items-center border border-gray-400 px-2"
+                                        >
+                                            <div>
+                                                <b>id:</b> {item.id}
+                                                <br />
+                                                <b>talim tur id:</b>{" "}
+                                                {item.yonalish_talim_turi_id}
+                                                <br />
+                                                <b>Fakultet id:</b>{" "}
+                                                {item.yonalish_fakultet_id}
+                                                <br />
+                                                <b>Yo'nalish:</b>{" "}
+                                                {item.yonalish}
+                                            </div>
+                                            <div className="flex gap-x-2">
+                                                <MdEdit
+                                                    className="text-green-700 cursor-pointer"
+                                                    onClick={() =>
+                                                        handleEdit(item.id)
+                                                    }
+                                                />
+                                                <MdDelete
+                                                    className="text-red-600 cursor-pointer"
+                                                    onClick={() =>
+                                                        handleDeletYonalish(
+                                                            item.id
+                                                        )
+                                                    }
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="flex gap-x-2">
-                                            <MdEdit
-                                                className="text-green-700 cursor-pointer"
-                                                onClick={() =>
-                                                    handleEdit(item.id)
-                                                }
-                                            />
-                                            <MdDelete
-                                                className="text-red-600 cursor-pointer"
-                                                onClick={() =>
-                                                    handleDeletYonalish(item.id)
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                ))
+                                    ))}
+                                </div>
                             )}
                         </div>
                         <div className="w-[50%]">
-                        <div className="px-10 py-2 border-b border-black"><b>Ma'lumotlar joylashtirish</b></div>
+                            <div className="px-10 py-2 border-b border-black">
+                                <b>Ma'lumotlar joylashtirish</b>
+                            </div>
                             {/* Post Data */}
                             <form
                                 className="w-full px-10 mt-10"
@@ -404,6 +444,7 @@ const DarsJadval = () => {
                                         </option>
                                     ))}
                                 </select>
+
                                 <select
                                     className="border"
                                     onChange={formik_yonalish.handleChange}
@@ -420,6 +461,7 @@ const DarsJadval = () => {
                                         </option>
                                     ))}
                                 </select>
+
                                 <label
                                     className="flex flex-col"
                                     htmlFor="yonalish"
@@ -455,15 +497,20 @@ const DarsJadval = () => {
                 </h1>
                 {isDataYonalish.length === 0 ? (
                     <div className="w-[1000px] text-center text-red-600 border-b border-black pb-10">
-                        Kurs ma'lumotlarini joylashingiz uchun Yo'nalish ma'lumotlari joylangan bo'lishi kerak !
+                        Kurs ma'lumotlarini joylashingiz uchun Yo'nalish
+                        ma'lumotlari joylangan bo'lishi kerak !
                     </div>
                 ) : (
                     <div className="w-[1000px] h-[400px] flex gap-x-2 border-b border-black">
                         <div className="w-[50%] h-full flex flex-col gap-y-2">
                             {/* Get Data */}
-                            <div className="border-b border-black px-10 py-2"><b>Joylashtirilgan ma'lumotlar</b></div>
+                            <div className="border-b border-black px-10 py-2">
+                                <b>Joylashtirilgan ma'lumotlar</b>
+                            </div>
                             {isDataKurs.length === 0 ? (
-                                <div className="text-red-600">Ma'lumotlar joylanmagan !</div>
+                                <div className="text-red-600">
+                                    Ma'lumotlar joylanmagan !
+                                </div>
                             ) : (
                                 <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
                                     {isDataKurs.map((item) => (
@@ -491,13 +538,13 @@ const DarsJadval = () => {
                                                     onClick={() =>
                                                         handleEdit(item.id)
                                                     }
-                                                    />
+                                                />
                                                 <MdDelete
                                                     className="text-red-600 cursor-pointer"
                                                     onClick={() =>
                                                         handleDeletKurs(item.id)
                                                     }
-                                                    />
+                                                />
                                             </div>
                                         </div>
                                     ))}
@@ -505,7 +552,9 @@ const DarsJadval = () => {
                             )}
                         </div>
                         <div className="w-[50%]">
-                        <div className="px-10 py-2 border-b border-black"><b>Ma'lumotlar joylashtirish</b></div>
+                            <div className="px-10 py-2 border-b border-black">
+                                <b>Ma'lumotlar joylashtirish</b>
+                            </div>
                             {/* Post Data */}
                             <form
                                 className="w-full px-10 mt-10"
