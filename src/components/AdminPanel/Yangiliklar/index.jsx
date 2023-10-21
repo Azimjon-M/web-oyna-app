@@ -6,10 +6,11 @@ import axios from "axios";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { BsImage } from "react-icons/bs";
 
-const AdminYangilik = () => {
+const Yangilik = ({dataYangilik}) => {
+    
     const Url = "http://api.kspi.uz/v1/yangilik/yangilik/";
     // get Data
-    const [isData, setIsData] = useState([]);
+    const [isData, setIsData] = useState(dataYangilik);
     // input File
     const [isFile, setIsFile] = useState("");
     //img Error
@@ -42,10 +43,6 @@ const AdminYangilik = () => {
         "indd",
         "rav",
     ];
-    // for
-    useEffect(() => {
-        handleRefresh();
-    }, []);
 
     const SignupSchema = Yup.object().shape({
         title: Yup.string().min(2, "Judaham kam!").required("Required"),
@@ -56,11 +53,9 @@ const AdminYangilik = () => {
         const data = await axios
             .get(Url)
             .then((response) => {
-                return response.data;
+                return setIsData(response.data.sort((a, b) => b.id + a.id));
             })
             .catch((err) => console.error(err));
-        data.sort((a, b) => b.id + a.id);
-        setIsData(data);
     };
     const handleRefreshTimeout = () => {
         setTimeout(() => {
@@ -346,4 +341,4 @@ const AdminYangilik = () => {
     );
 };
 
-export default AdminYangilik;
+export default Yangilik;

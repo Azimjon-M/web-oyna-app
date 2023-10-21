@@ -1,11 +1,11 @@
 import React from "react";
-import AdminYangilik from "./Yangiliklar";
+import Yangiliklar from "./Yangiliklar";
 import DarsJadval from "./DarsJadval";
 
-const AdminPanel = () => {
+const AdminPanel = ({dataYangilik}) => {
     return (
         <div>
-            <AdminYangilik />
+            <Yangiliklar dataYangilik={dataYangilik}  />
             <DarsJadval />
         </div>
     );
