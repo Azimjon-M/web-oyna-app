@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -6,8 +6,7 @@ import axios from "axios";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { BsImage } from "react-icons/bs";
 
-const Yangilik = ({dataYangilik}) => {
-    
+const Yangilik = ({ dataYangilik }) => {
     const Url = "http://api.kspi.uz/v1/yangilik/yangilik/";
     // get Data
     const [isData, setIsData] = useState(dataYangilik);
@@ -22,14 +21,14 @@ const Yangilik = ({dataYangilik}) => {
     //Edit and Delete Click
     const [editDel, setEditDel] = useState(false);
     if (editDel) {
-        setTimeout(() => setEditDel(false), 1000)
+        setTimeout(() => setEditDel(false), 1000);
     }
     //Title
     const [isTitle, setIsTitle] = useState("Sarlavha");
     //Body
     const [isBody, setIsBody] = useState("Tafsilot");
     //Image
-    const [isImg, setIsImg] = useState('Rasm')
+    const [isImg, setIsImg] = useState("Rasm");
 
     const imgTypes = [
         "jpg",
@@ -43,14 +42,14 @@ const Yangilik = ({dataYangilik}) => {
         "indd",
         "rav",
     ];
-
+    //Yup
     const SignupSchema = Yup.object().shape({
         title: Yup.string().min(2, "Judaham kam!").required("Required"),
         body: Yup.string().min(2, "Judaham kam!").required("Required"),
     });
     //Refresh
     const handleRefresh = async () => {
-        const data = await axios
+        await axios
             .get(Url)
             .then((response) => {
                 return setIsData(response.data.sort((a, b) => b.id + a.id));
@@ -86,7 +85,7 @@ const Yangilik = ({dataYangilik}) => {
                 setIsEdit(null);
                 setIsTitle("Sarlavha");
                 setIsBody("Tafsilot");
-                setIsImg("Rasm")
+                setIsImg("Rasm");
             }
             //Post
             else {
@@ -97,7 +96,12 @@ const Yangilik = ({dataYangilik}) => {
                     formData.append("title", values.title);
                     formData.append("body", values.body);
                     formData.append("rasm", isFile);
-                    axios.post(Url, formData);
+                    axios.post(Url, formData, {
+                        onUploadProgress: (progressEvent) => {
+                            const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                            console.log(`Fayl yuklash jarayoni: ${percentage}%`); // Konsolda taraqqiyotni ko'rsatish
+                        }
+                    });
                     formik.resetForm();
                     setIsFile("");
                     setImgInpText("Rasm tanlanmagan !");
@@ -134,7 +138,7 @@ const Yangilik = ({dataYangilik}) => {
     //Edit
     const handleEdit = async (id) => {
         const idData = await axios
-            .get(Url+id+"/")
+            .get(Url + id + "/")
             .then((res) => res.data)
             .catch((err) => console.log(err));
         formik.values.title = idData.title;
@@ -143,7 +147,7 @@ const Yangilik = ({dataYangilik}) => {
         setImgInpText("Rasm tahrirlanmagan");
         setIsTitle("Sarlavhani tahrirlash");
         setIsBody("Tafsilotni tahrirlash");
-        setIsImg("Rasmni tahrirlash")
+        setIsImg("Rasmni tahrirlash");
     };
 
     //Click button in input Change
@@ -204,7 +208,7 @@ const Yangilik = ({dataYangilik}) => {
                                             <b>Sarlavha: </b>
                                             {item.title.length > 30
                                                 ? item.title.slice(0, 30) +
-                                                    "..."
+                                                  "..."
                                                 : item.title}
                                         </div>
                                         <div className="whitespace-nowrap">
@@ -244,7 +248,11 @@ const Yangilik = ({dataYangilik}) => {
                         <b>Joylash</b>
                     </div>
                     <form
-                        className={`${editDel ? 'border-2 border-red-600' : 'border-2 border-white'} h-[450px] flex flex-col items-baseline gap-y-4 style-owerflow-001 overflow-y-auto p-2`}
+                        className={`${
+                            editDel
+                                ? "border-2 border-red-600"
+                                : "border-2 border-white"
+                        } h-[450px] flex flex-col items-baseline gap-y-4 style-owerflow-001 overflow-y-auto p-2`}
                         onSubmit={formik.handleSubmit}
                     >
                         <label
@@ -285,7 +293,13 @@ const Yangilik = ({dataYangilik}) => {
                         </label>
                         <div className="flex flex-col items-start">
                             <div className="flex items-center">
-                                {isImg}: {isImg === "Rasmni tahrirlash" && <div className="inline-block italic text-[12px] text-red-600 ms-5">Agar o'zgartirilmasa o'z holida qoladi !Rasm</div>}
+                                {isImg}:{" "}
+                                {isImg === "Rasmni tahrirlash" && (
+                                    <div className="inline-block italic text-[12px] text-red-600 ms-5">
+                                        Agar o'zgartirilmasa o'z holida qoladi
+                                        !Rasm
+                                    </div>
+                                )}
                             </div>
                             <div
                                 className={`${

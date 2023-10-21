@@ -4,7 +4,8 @@ import Fakultet from "./Fakultet";
 import Yonalish from "./Yonalish";
 import Kurs from "./Kurs";
 
-const DarsJadval = () => {
+const DarsJadval = ({dataTalim, dataFakultet, dataYonalish, dataKurs}) => {
+    console.log(dataTalim);
     
     return (
         <div className="px-2 py-10">
