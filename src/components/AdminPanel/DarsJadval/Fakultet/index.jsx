@@ -25,17 +25,17 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
         validationSchema: SignupSchemaFakultet,
         onSubmit: async (values) => {
             try {
+                //Edit
                 if (isEdit) {
                     await axios.put(UrlFakultet + isEdit + "/", values);
-                } else {
-                    console.log(values);
+                }
+                //Post
+                else {
                     if (values.fakultet_talim_turi_id === "") {
-                        formik_fakultet.setValues({
-                            fakultet_talim_turi_id: isDataTalim && `${isDataTalim[0].id}`
-                        })
+                        formik_fakultet.values.fakultet_talim_turi_id = isDataTalim && `${isDataTalim[0].id}`
                     }
-                    // await axios.post(UrlFakultet, values);
-                    // formik_fakultet.resetForm();
+                    await axios.post(UrlFakultet, values);
+                    formik_fakultet.resetForm();
                 }
                 handleRefresh();
             } catch (error) {
@@ -139,7 +139,7 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                                 onChange={formik_fakultet.handleChange}
                                 value={formik_fakultet.values.talim_turi}
                                 name="fakultet_talim_turi_id"
-                                id="fakultet"
+                                id="fakultet_select"
                                 
                                 >
                                 {
