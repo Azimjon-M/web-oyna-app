@@ -8,6 +8,7 @@ const TalimTur = ({ dataTalim }) => {
     const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
     const [isDataTalim, setIsDataTalim] = useState(dataTalim);
     const [isEdit, setIsEdit] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const SignupSchemaTalim = Yup.object().shape({
         talim_turi: Yup.string().min(2, "Judaham kam!").required("Required"),
@@ -18,46 +19,57 @@ const TalimTur = ({ dataTalim }) => {
             talim_turi: "",
         },
         validationSchema: SignupSchemaTalim,
-        onSubmit: (values) => {
-            //Edit
-            if (isEdit) {
-                axios.put(UrlTalim + isEdit + '/', values)
-                setIsEdit('')
-                formik_talim.values.talim_turi = ''
+        onSubmit: async (values) => {
+            try {
+                if (isEdit) {
+                    await axios.put(UrlTalim + isEdit + "/", values);
+                } else {
+                    await axios.post(UrlTalim, values);
+                    formik_talim.resetForm();
+                }
                 handleRefresh();
-            } 
-            //Post
-            else {
-                axios.post(UrlTalim, values);
-                formik_talim.resetForm();
-                handleRefresh();
+            } catch (error) {
+                console.error("Error:", error);
             }
         },
     });
-    //Edit
     const handleEdit = async (id) => {
-        const data = await axios
-            .get(UrlTalim + id + "/")
-            .then((res) => res.data)
-            .catch((err) => console.log(err));
-        formik_talim.values.talim_turi = data.talim_turi;
-        setIsEdit(id);
+        try {
+            const response = await axios.get(UrlTalim + id + "/");
+            const data = response.data;
+            formik_talim.setValues({
+                talim_turi: data.talim_turi,
+            });
+            setIsEdit(id);
+        } catch (error) {
+            console.error("Error:", error);
+        }
     };
 
-    //Delet Talim
-    const handleDelete = (id) => {
-        axios.delete(UrlTalim + id + "/");
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(UrlTalim + id + "/");
+            handleRefresh();
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
+    const handleRefresh = async () => {
+        setIsLoading(true);
+        try {
+            const response = await axios.get(UrlTalim);
+            setIsDataTalim(response.data);
+        } catch (error) {
+            console.error("Error:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
         handleRefresh();
-    };
-    //Refresh
-    const handleRefresh = () => {
-        setTimeout(() => {
-            axios
-                .get(UrlTalim)
-                .then((res) => setIsDataTalim(res.data))
-                .catch((err) => console.log(err));
-        }, 1000);
-    };
+    }, []);
     return (
         <>
             {/* Talim turi */}
@@ -70,7 +82,9 @@ const TalimTur = ({ dataTalim }) => {
                     <div className="border-b border-black px-10 py-2">
                         <b>Joylashtirilgan ma'lumotlar</b>
                     </div>
-                    {isDataTalim.length === 0 ? (
+                    {isLoading ? (
+                        <div>Loading...</div>
+                    ) : isDataTalim.length === 0 ? (
                         <div className="text-red-600">
                             Ma'lumotlar joylanmagan !
                         </div>
