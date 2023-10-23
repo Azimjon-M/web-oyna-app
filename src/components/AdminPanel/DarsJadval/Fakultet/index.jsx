@@ -19,7 +19,7 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
     //Fakultet POST
     const formik_fakultet = useFormik({
         initialValues: {
-            fakultet_talim_turi_id: "",
+            fakultet_talim_turi_id: isDataTalim.id,
             fakultet: "",
         },
         validationSchema: SignupSchemaFakultet,
@@ -28,8 +28,9 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                 if (isEdit) {
                     await axios.put(UrlFakultet + isEdit + "/", values);
                 } else {
-                    await axios.post(UrlFakultet, values);
-                    formik_fakultet.resetForm();
+                    console.log(values);
+                    // await axios.post(UrlFakultet, values);
+                    // formik_fakultet.resetForm();
                 }
                 handleRefresh();
             } catch (error) {
@@ -81,7 +82,7 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                     <div className="border-b border-black px-10 py-2">
                         <b>Joylashtirilgan ma'lumotlar</b>
                     </div>
-                    {isDataFakultet.length === 0 ? (
+                    {isDataFakultet && isDataFakultet.length === 0 ? (
                         <div className="text-red-600">
                             Ma'lumotlar joylanmagan !
                         </div>
@@ -133,7 +134,11 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                             name="fakultet_talim_turi_id"
                             id="fakultet"
                         >
-                            <option value="0">0</option>
+                            {
+                                isDataTalim && isDataTalim.map(item => (
+                                    <option value={item.id}>{item.talim_turi}</option>
+                                ))
+                            }
                         </select>
                         <label className="flex flex-col" htmlFor="fakultet">
                             Fakultet
