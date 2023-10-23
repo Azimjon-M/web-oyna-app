@@ -19,7 +19,7 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
     //Fakultet POST
     const formik_fakultet = useFormik({
         initialValues: {
-            fakultet_talim_turi_id: isDataTalim.id,
+            fakultet_talim_turi_id: "",
             fakultet: "",
         },
         validationSchema: SignupSchemaFakultet,
@@ -29,6 +29,11 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                     await axios.put(UrlFakultet + isEdit + "/", values);
                 } else {
                     console.log(values);
+                    if (values.fakultet_talim_turi_id === "") {
+                        formik_fakultet.setValues({
+                            fakultet_talim_turi_id: isDataTalim && `${isDataTalim[0].id}`
+                        })
+                    }
                     // await axios.post(UrlFakultet, values);
                     // formik_fakultet.resetForm();
                 }
@@ -88,7 +93,7 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                         </div>
                     ) : (
                         <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
-                            {isDataFakultet.map((item) => (
+                            {isDataFakultet && isDataFakultet.map((item) => (
                                 <div
                                     key={item.id}
                                     className="flex justify-between items-center border border-gray-400 px-2"
@@ -127,19 +132,25 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                         className="w-full px-10 mt-10"
                         onSubmit={formik_fakultet.handleSubmit}
                     >
-                        <select
-                            className="border"
-                            onChange={formik_fakultet.handleChange}
-                            value={formik_fakultet.values.talim_turi}
-                            name="fakultet_talim_turi_id"
-                            id="fakultet"
-                        >
-                            {
-                                isDataTalim && isDataTalim.map(item => (
-                                    <option value={item.id}>{item.talim_turi}</option>
-                                ))
-                            }
-                        </select>
+                    {
+                        isDataTalim && (
+                            <select
+                                className="border"
+                                onChange={formik_fakultet.handleChange}
+                                value={formik_fakultet.values.talim_turi}
+                                name="fakultet_talim_turi_id"
+                                id="fakultet"
+                                
+                                >
+                                {
+                                    isDataTalim && isDataTalim.map(item => (
+                                        <option key={item.id} value={item.id}>{item.talim_turi}</option>
+                                    ))
+                                }
+                            </select>
+
+                        )
+                    }
                         <label className="flex flex-col" htmlFor="fakultet">
                             Fakultet
                             <input
