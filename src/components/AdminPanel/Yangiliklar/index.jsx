@@ -8,157 +8,138 @@ import { BsImage } from "react-icons/bs";
 
 const Yangilik = ({ dataYangilik }) => {
     const Url = "http://api.kspi.uz/v1/yangilik/yangilik/";
-    // get Data
+
     const [isData, setIsData] = useState(dataYangilik);
-    // input File
     const [isFile, setIsFile] = useState("");
-    //img Error
     const [imgErr, setImgErr] = useState(null);
-    //Edit
     const [isEdit, setIsEdit] = useState(null);
-    //Input Text
     const [imgInpText, setImgInpText] = useState("Rasm Tanlanmagan !");
-    //Edit and Delete Click
     const [editDel, setEditDel] = useState(false);
-    if (editDel) {
-        setTimeout(() => setEditDel(false), 1000);
-    }
-    //Title
     const [isTitle, setIsTitle] = useState("Sarlavha");
-    //Body
     const [isBody, setIsBody] = useState("Tafsilot");
-    //Image
     const [isImg, setIsImg] = useState("Rasm");
 
-    const imgTypes = [
-        "jpg",
-        "jpeg",
-        "png",
-        "pdf",
-        "tiff",
-        "psd",
-        "eps",
-        "ai",
-        "indd",
-        "rav",
-    ];
-    //Yup
+    const imgTypes = ["jpg", "jpeg", "png", "pdf", "tiff", "psd", "eps", "ai", "indd", "rav"];
+
     const SignupSchema = Yup.object().shape({
         title: Yup.string().min(2, "Judaham kam!").required("Required"),
         body: Yup.string().min(2, "Judaham kam!").required("Required"),
     });
-    //Refresh
-    const handleRefresh = async () => {
-        await axios
-            .get(Url)
-            .then((response) => {
-                return setIsData(response.data.sort((a, b) => b.id + a.id));
-            })
-            .catch((err) => console.error(err));
-    };
-    const handleRefreshTimeout = () => {
-        setTimeout(() => {
-            handleRefresh();
-        }, 1000);
-    };
 
-    //Form
     const formik = useFormik({
         initialValues: {
             title: "",
             body: "",
         },
         validationSchema: SignupSchema,
-        onSubmit: (values) => {
-            //Edit
-            if (isEdit) {
-                const formData = new FormData();
-                formData.append("title", values.title);
-                formData.append("body", values.body);
-                formData.append("rasm", isFile);
-                axios.put(Url + isEdit + "/", formData);
-                formik.values.title = "";
-                formik.values.body = "";
-                setIsFile("");
-                setImgInpText("Rasm tanlanmagan !");
-                handleRefreshTimeout();
-                setIsEdit(null);
-                setIsTitle("Sarlavha");
-                setIsBody("Tafsilot");
-                setIsImg("Rasm");
-            }
-            //Post
-            else {
-                if (!imgErr && isFile.length === 0) {
-                    setImgErr(true);
-                } else {
+        onSubmit: async (values) => {
+            try {
+                if (isEdit) {
                     const formData = new FormData();
                     formData.append("title", values.title);
                     formData.append("body", values.body);
                     formData.append("rasm", isFile);
-                    axios.post(Url, formData, {
-                        onUploadProgress: (progressEvent) => {
-                            const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                            console.log(`Fayl yuklash jarayoni: ${percentage}%`); // Konsolda taraqqiyotni ko'rsatish
-                        }
-                    });
-                    formik.resetForm();
+
+                    await axios.put(Url + isEdit + "/", formData);
+                    formik.setValues({ title: "", body: "" });
                     setIsFile("");
                     setImgInpText("Rasm tanlanmagan !");
-                    handleRefreshTimeout();
+                    handleRefresh();
+                    setIsEdit(null);
+                    setIsTitle("Sarlavha");
+                    setIsBody("Tafsilot");
+                    setIsImg("Rasm");
+                } else {
+                    if (!imgErr && isFile.length === 0) {
+                        setImgErr(true);
+                    } else {
+                        const formData = new FormData();
+                        formData.append("title", values.title);
+                        formData.append("body", values.body);
+                        formData.append("rasm", isFile);
+
+                        await axios.post(Url, formData, {
+                            onUploadProgress: (progressEvent) => {
+                                const percentage = Math.round(
+                                    (progressEvent.loaded * 100) / progressEvent.total
+                                );
+                                console.log(`Fayl yuklash jarayoni: ${percentage}%`);
+                            },
+                        });
+
+                        formik.resetForm();
+                        setIsFile("");
+                        setImgInpText("Rasm tanlanmagan !");
+                        handleRefresh();
+                    }
                 }
+            } catch (error) {
+                console.error("Error:", error);
             }
         },
     });
-    //Post Click
-    const handleClickSubmit = () => {
-        if (formik.values.body.length < 2 || formik.values.title.length < 2) {
-            if (isFile) {
-                setImgErr(false);
+
+    const handleDelete = async (id) => {
+        try {
+            if (isEdit === id) {
+                setEditDel(true);
+                setTimeout(() => {
+                    setEditDel(false);
+                }, 3000);
             } else {
-                setImgErr(true);
+                await axios.delete(Url + id + "/");
+                handleRefresh();
             }
-        } else {
-            setImgErr(false);
+        } catch (error) {
+            console.error("Error:", error);
         }
     };
 
-    // Delete
-    const handleDelete = (id) => {
-        if (isEdit === id) {
-            setEditDel(true);
-            setTimeout(() => {
-                setEditDel(false);
-            }, 3000);
-        } else {
-            axios.delete(Url + id + "/");
-            handleRefreshTimeout();
+    const handleRefresh = async () => {
+        try {
+            const response = await axios.get(Url);
+            setIsData(response.data.sort((a, b) => b.id - a.id));
+        } catch (error) {
+            console.error("Error:", error);
         }
     };
-    //Edit
+
+    const handleRefreshTimeout = () => {
+        setTimeout(() => {
+            handleRefresh();
+        }, 1000);
+    };
+
     const handleEdit = async (id) => {
-        const idData = await axios
-            .get(Url + id + "/")
-            .then((res) => res.data)
-            .catch((err) => console.log(err));
-        formik.values.title = idData.title;
-        formik.values.body = idData.body;
-        setIsEdit(id);
-        setImgInpText("Rasm tahrirlanmagan");
-        setIsTitle("Sarlavhani tahrirlash");
-        setIsBody("Tafsilotni tahrirlash");
-        setIsImg("Rasmni tahrirlash");
+        try {
+            const response = await axios.get(Url + id + "/");
+            const idData = response.data;
+
+            formik.setValues({
+                title: idData.title,
+                body: idData.body,
+            });
+
+            setIsEdit(id);
+            setImgInpText("Rasm tahrirlanmagan");
+            setIsTitle("Sarlavhani tahrirlash");
+            setIsBody("Tafsilotni tahrirlash");
+            setIsImg("Rasmni tahrirlash");
+        } catch (error) {
+            console.error("Error:", error);
+        }
     };
 
-    //Click button in input Change
     const handleClick = () => {
         document.getElementById("rasim").click();
     };
+
     const handleChange = () => {
         const fayl = document.getElementById("rasim").files[0];
         setImgErr(true);
         setIsFile("");
         setImgInpText("Rasm tanlanmagan !");
+
         if (fayl) {
             for (let i = 0; i < imgTypes.length; i++) {
                 if (fayl.name.split(".").pop().includes(imgTypes[i])) {
@@ -173,6 +154,22 @@ const Yangilik = ({ dataYangilik }) => {
             }
         }
     };
+
+    const handleClickSubmit = () => {
+        if (formik.values.body.length < 2 || formik.values.title.length < 2) {
+            if (isFile) {
+                setImgErr(false);
+            } else {
+                setImgErr(true);
+            }
+        } else {
+            setImgErr(false);
+        }
+    };
+
+    useEffect(() => {
+        handleRefresh();
+    }, []);
 
     return (
         <div className="border border-b-black px-2 py-10">
