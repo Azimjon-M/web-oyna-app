@@ -23,6 +23,8 @@ const TalimTur = ({ dataTalim }) => {
             try {
                 if (isEdit) {
                     await axios.put(UrlTalim + isEdit + "/", values);
+                    setIsEdit(false)
+                    formik_talim.resetForm();
                 } else {
                     await axios.post(UrlTalim, values);
                     formik_talim.resetForm();

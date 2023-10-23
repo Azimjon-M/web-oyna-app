@@ -4,15 +4,14 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { MdEdit, MdDelete } from "react-icons/md";
 
-const Fakultet = () => {
+const Fakultet = ({ dataTalim, dataFakultet }) => {
     const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
-    const [isDataFakultet, setIsDataFakultet] = useState([]);
+    const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
+    const [isDataTalim, setIsDataTalim] = useState(dataTalim);
+    const [isDataFakultet, setIsDataFakultet] = useState(dataFakultet);
+    const [isEdit, setIsEdit] = useState(false)
     useEffect(() => {
-        //Fakultet
-        axios
-            .get(UrlFakultet)
-            .then((res) => setIsDataFakultet(res.data))
-            .catch((err) => console.log(err));
+        handleRefresh()
     }, []);
     const SignupSchemaFakultet = Yup.object().shape({
         fakultet: Yup.string().min(2, "Judaham kam!").required("Required"),
@@ -24,23 +23,50 @@ const Fakultet = () => {
             fakultet: "",
         },
         validationSchema: SignupSchemaFakultet,
-        onSubmit: (values) => {
-            // console.log(values);
-            // if (values.fakultet_talim_turi_id === "") {
-            //     if (isDataTalim[0].id) {
-            //         formik_fakultet.values.fakultet_talim_turi_id = `${isDataTalim[0].id}`;
-            //     }
-            // }
-            axios.post(UrlFakultet, values);
-            formik_fakultet.resetForm();
+        onSubmit: async (values) => {
+            try {
+                if (isEdit) {
+                    await axios.put(UrlFakultet + isEdit + "/", values);
+                } else {
+                    await axios.post(UrlFakultet, values);
+                    formik_fakultet.resetForm();
+                }
+                handleRefresh();
+            } catch (error) {
+                console.error("Error:", error);
+            }
         },
     });
     //Edit
-    const handleEdit = (id) => {};
+    const handleEdit = async (id) => {
+        try {
+            const response = await axios.get(UrlFakultet + id + "/");
+            const data = response.data;
+            formik_fakultet.setValues({
+                fakultet: data.fakultet,
+            });
+            setIsEdit(id);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     //Delet Fakultet
     const handleDeletFakultet = (id) => {
         axios.delete(UrlFakultet + id + "/");
+    };
+    //Refresh
+    const handleRefresh = async () => {
+        //Talim
+        await axios
+            .get(UrlTalim)
+            .then((res) => setIsDataTalim(res.data))
+            .catch((err) => console.log(err));
+        //Fakultet
+        await axios
+            .get(UrlFakultet)
+            .then((res) => setIsDataFakultet(res.data))
+            .catch((err) => console.log(err));
     };
 
     return (
@@ -77,9 +103,7 @@ const Fakultet = () => {
                                     <div className="flex gap-x-2">
                                         <MdEdit
                                             className="text-green-700 cursor-pointer"
-                                            onClick={() =>
-                                                handleEdit(item.id)
-                                            }
+                                            onClick={() => handleEdit(item.id)}
                                         />
                                         <MdDelete
                                             className="text-red-600 cursor-pointer"
