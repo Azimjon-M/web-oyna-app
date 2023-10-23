@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -84,13 +84,13 @@ const TalimTur = ({ dataTalim }) => {
                     </div>
                     {isLoading ? (
                         <div>Loading...</div>
-                    ) : isDataTalim.length === 0 ? (
+                    ) : isDataTalim &&  isDataTalim.length === 0 ? (
                         <div className="text-red-600">
                             Ma'lumotlar joylanmagan !
                         </div>
                     ) : (
                         <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
-                            {isDataTalim.map((item) => (
+                            {isDataTalim && isDataTalim.map((item) => (
                                 <div
                                     key={item.id}
                                     className="flex justify-between items-center border border-gray-400 px-2"

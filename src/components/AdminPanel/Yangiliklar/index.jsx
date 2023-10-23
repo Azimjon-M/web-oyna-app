@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -19,7 +19,7 @@ const Yangilik = ({ dataYangilik }) => {
     const [isBody, setIsBody] = useState("Tafsilot");
     const [isImg, setIsImg] = useState("Rasm");
 
-    const imgTypes = ["jpg", "jpeg", "png", "pdf", "tiff", "psd", "eps", "ai", "indd", "rav"];
+    const imgTypes = ["jpg", "jpeg", "png", "pdf", "tiff"];
 
     const SignupSchema = Yup.object().shape({
         title: Yup.string().min(2, "Judaham kam!").required("Required"),
@@ -58,14 +58,7 @@ const Yangilik = ({ dataYangilik }) => {
                         formData.append("body", values.body);
                         formData.append("rasm", isFile);
 
-                        await axios.post(Url, formData, {
-                            onUploadProgress: (progressEvent) => {
-                                const percentage = Math.round(
-                                    (progressEvent.loaded * 100) / progressEvent.total
-                                );
-                                console.log(`Fayl yuklash jarayoni: ${percentage}%`);
-                            },
-                        });
+                        await axios.post(Url, formData);
 
                         formik.resetForm();
                         setIsFile("");
@@ -102,12 +95,6 @@ const Yangilik = ({ dataYangilik }) => {
         } catch (error) {
             console.error("Error:", error);
         }
-    };
-
-    const handleRefreshTimeout = () => {
-        setTimeout(() => {
-            handleRefresh();
-        }, 1000);
     };
 
     const handleEdit = async (id) => {
