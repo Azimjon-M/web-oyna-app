@@ -6,12 +6,10 @@ import { MdEdit, MdDelete } from "react-icons/md";
 
 const Fakultet = ({ dataTalim, dataFakultet }) => {
     const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
-    const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
-    const [isDataTalim, setIsDataTalim] = useState(dataTalim);
     const [isDataFakultet, setIsDataFakultet] = useState(dataFakultet);
-    const [isEdit, setIsEdit] = useState(false)
+    const [isEdit, setIsEdit] = useState(false);
     useEffect(() => {
-        handleRefresh()
+        handleRefresh();
     }, []);
     const SignupSchemaFakultet = Yup.object().shape({
         fakultet: Yup.string().min(2, "Judaham kam!").required("Required"),
@@ -29,12 +27,13 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                 if (isEdit) {
                     await axios.put(UrlFakultet + isEdit + "/", values);
                     formik_fakultet.resetForm();
-                    setIsEdit(false)
+                    setIsEdit(false);
                 }
                 //Post
                 else {
                     if (values.fakultet_talim_turi_id === "") {
-                        formik_fakultet.values.fakultet_talim_turi_id = isDataTalim && `${isDataTalim[0].id}`
+                        formik_fakultet.values.fakultet_talim_turi_id =
+                            dataTalim && `${dataTalim[0].id}`;
                     }
                     await axios.post(UrlFakultet, values);
                     formik_fakultet.resetForm();
@@ -61,22 +60,31 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
     };
 
     //Delet Fakultet
-    const handleDeletFakultet = (id) => {
-        axios.delete(UrlFakultet + id + "/");
+    const handleDeletFakultet = async (id) => {
+        try {
+            await axios.delete(UrlFakultet + id + "/");
+            handleRefresh()
+        }catch (error) {
+            console.error(error);
+        }
     };
     //Refresh
     const handleRefresh = async () => {
-        //Talim
-        await axios
-            .get(UrlTalim)
-            .then((res) => setIsDataTalim(res.data))
-            .catch((err) => console.log(err));
-        //Fakultet
-        await axios
-            .get(UrlFakultet)
-            .then((res) => setIsDataFakultet(res.data))
-            .catch((err) => console.log(err));
+        try {
+            await axios
+                .get(UrlFakultet)
+                .then((res) => setIsDataFakultet(res.data))
+                .catch((err) => console.log(err));
+        } catch (error) {
+            console.error(error);
+        }
     };
+    //Logic fakultet_TalimTur_id = TalimTur.id
+    const getTalimTuri = (id) => {
+        const foundTalim = dataTalim.find(item => Number(item.id) === Number(id));
+        return foundTalim ? foundTalim.talim_turi : "(noaniq)";
+    };
+
 
     return (
         <>
@@ -96,33 +104,37 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                         </div>
                     ) : (
                         <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
-                            {isDataFakultet && isDataFakultet.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="flex justify-between items-center border border-gray-400 px-2"
-                                >
-                                    <div>
-                                        <b>id:</b> {item.id}
-                                        <br />
-                                        <b>Talim turi id:</b>
-                                        {item.fakultet_talim_turi_id}
-                                        <br />
-                                        <b>Fakultet:</b> {item.fakultet}
+                            {isDataFakultet &&
+                                isDataFakultet.map((item) => (
+                                    <div
+                                        key={item.id}
+                                        className="flex justify-between items-center border border-gray-400 px-2 py-2"
+                                    >
+                                        <div>
+                                            <b>ID:</b> {item.id}
+                                            <br />
+                                            <b> Talim tur ID:</b> {item.fakultet_talim_turi_id}
+                                            <br />
+                                            <b>Talim turi:</b> {getTalimTuri(item.fakultet_talim_turi_id)}
+                                            <br />
+                                            <b>Fakultet:</b> {item.fakultet}
+                                        </div>
+                                        <div className="flex gap-x-2">
+                                            <MdEdit
+                                                className="text-green-700 cursor-pointer"
+                                                onClick={() =>
+                                                    handleEdit(item.id)
+                                                }
+                                            />
+                                            <MdDelete
+                                                className="text-red-600 cursor-pointer"
+                                                onClick={() =>
+                                                    handleDeletFakultet(item.id)
+                                                }
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="flex gap-x-2">
-                                        <MdEdit
-                                            className="text-green-700 cursor-pointer"
-                                            onClick={() => handleEdit(item.id)}
-                                        />
-                                        <MdDelete
-                                            className="text-red-600 cursor-pointer"
-                                            onClick={() =>
-                                                handleDeletFakultet(item.id)
-                                            }
-                                        />
-                                    </div>
-                                </div>
-                            ))}
+                                ))}
                         </div>
                     )}
                 </div>
@@ -135,25 +147,22 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                         className="w-full px-10 mt-10"
                         onSubmit={formik_fakultet.handleSubmit}
                     >
-                    {
-                        isDataTalim && (
+                        {dataTalim && (
                             <select
                                 className="border"
                                 onChange={formik_fakultet.handleChange}
                                 value={formik_fakultet.values.talim_turi}
                                 name="fakultet_talim_turi_id"
                                 id="fakultet_select"
-                                
-                                >
-                                {
-                                    isDataTalim && isDataTalim.map(item => (
-                                        <option key={item.id} value={item.id}>{item.talim_turi}</option>
-                                    ))
-                                }
+                            >
+                                {dataTalim &&
+                                    dataTalim.map((item) => (
+                                        <option key={item.id} value={item.id}>
+                                            {item.talim_turi}
+                                        </option>
+                                    ))}
                             </select>
-
-                        )
-                    }
+                        )}
                         <label className="flex flex-col" htmlFor="fakultet">
                             Fakultet
                             <input

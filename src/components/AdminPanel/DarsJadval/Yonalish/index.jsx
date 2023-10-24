@@ -4,9 +4,12 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { MdEdit, MdDelete } from "react-icons/md";
 
-const Yonalish = () => {
+const Yonalish = ({ dataTalim, dataFakultet, dataYonalish }) => {
     const UrlYonalish = "http://api.kspi.uz/v1/jadval/yonalish/";
-    const [isDataYonalish, setIsDataYonalish] = useState([]);
+    const [isDataYonalish, setIsDataYonalish] = useState(dataYonalish);
+    const [isDataFakultet, setIsDataFakultet] = useState(dataFakultet);
+    const [isEdit, setIsEdit] = useState(false) 
+
     useEffect(() => {
         //Yo'nalish
         axios
@@ -25,27 +28,91 @@ const Yonalish = () => {
             yonalish: "",
         },
         validationSchema: SignupSchemaYonalish,
-        onSubmit: (values) => {
-            // if (values.yonalish_talim_turi_id === "") {
-            //     if (isDataTalim[0].id) {
-            //         formik_yonalish.values.yonalish_talim_turi_id = `${isDataTalim[0].id}`;
-            //     }
-            // }
-            // if (values.yonalish_fakultet_id === "") {
-            //     if (isDataFakultet[0].id) {
-            //         formik_yonalish.values.yonalish_fakultet_id = `${isDataFakultet[0].id}`;
-            //     }
-            // }
-            axios.post(UrlYonalish, values);
-            formik_yonalish.resetForm();
+        onSubmit: async (values) => {
+            //Edit
+            if (isEdit) {
+                await axios.put(UrlYonalish + isEdit + "/", values);
+                    formik_yonalish.resetForm();
+                    setIsEdit(false);
+                    handleRefresh();
+            }
+            //Post 
+            else {
+                if (values.yonalish_talim_turi_id === "") {
+                    formik_yonalish.values.yonalish_talim_turi_id =
+                        dataTalim && `${dataTalim[0].id}`;
+                }
+                if (values.yonalish_fakultet_id === "") {
+                    formik_yonalish.values.yonalish_fakultet_id =
+                        dataFakultet && `${dataFakultet[0].id}`;
+                }
+                await axios.post(UrlYonalish, values);
+                formik_yonalish.resetForm();
+                handleRefresh();
+            }
         },
     });
     //Edit
-    const handleEdit = (id) => {};
-    //Delet Yonalish
-    const handleDeletYonalish = (id) => {
-        axios.delete(UrlYonalish + id + "/");
+    const handleEdit = async (id) => {
+        try {
+            const response = await axios.get(UrlYonalish + id + "/");
+            const data = response.data;
+            formik_yonalish.setValues({
+                yonalish_talim_turi_id: data.yonalish_talim_turi_id,
+                yonalish_fakultet_id: data.yonalish_fakultet_id,
+                yonalish: data.yonalish,
+            });
+            setIsEdit(id);
+        } catch (error) {
+            console.error("Error:", error);
+        }
     };
+    //Delet Yonalish
+    const handleDeletYonalish = async (id) => {
+        try {
+            await axios.delete(UrlYonalish + id + "/");
+            handleRefresh()
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    //Refresh
+    const handleRefresh = async () => {
+        try {
+            await axios
+                .get(UrlYonalish)
+                .then((res) => setIsDataYonalish(res.data))
+                .catch((err) => console.log(err));
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const handleGetTalimTur = (id) => {
+        const foundTalim = dataTalim && dataTalim.find(
+            (item) => Number(item.id) === Number(id)
+        );
+        return foundTalim ? foundTalim.talim_turi : "(noaniq)";
+    };
+
+    const handleGetFakultet = (id) => {
+        const foundFakultet = dataFakultet && dataFakultet.find(
+            (item) => Number(item.id) === Number(id)
+        );
+        return foundFakultet ? foundFakultet.fakultet : "(noaniq)";
+    };
+
+    //Logic Selects
+    useEffect(() => {
+        if (formik_yonalish.values.yonalish_talim_turi_id === "") {
+            formik_yonalish.values.yonalish_talim_turi_id = dataTalim && `${dataTalim[0].id}`;
+        } else if (formik_yonalish.values.yonalish_talim_turi_id) {
+            const filteredData = dataFakultet.filter(
+                (item) => item.fakultet_talim_turi_id === formik_yonalish.values.yonalish_talim_turi_id
+            );
+            setIsDataFakultet(filteredData);
+        }
+    }, [formik_yonalish.values.yonalish_talim_turi_id]);
+
     return (
         <>
             {/* Yo'nalish */}
@@ -58,42 +125,56 @@ const Yonalish = () => {
                     <div className="border-b border-black px-10 py-2">
                         <b>Joylashtirilgan ma'lumotlar</b>
                     </div>
-                    {isDataYonalish.length === 0 ? (
+                    {isDataYonalish && isDataYonalish.length === 0 ? (
                         <div className="text-red-600">
                             Ma'lumotlar joylanmagan !
                         </div>
                     ) : (
                         <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
-                            {isDataYonalish.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="flex justify-between items-center border border-gray-400 px-2"
-                                >
-                                    <div>
-                                        <b>id:</b> {item.id}
-                                        <br />
-                                        <b>talim tur id:</b>{" "}
-                                        {item.yonalish_talim_turi_id}
-                                        <br />
-                                        <b>Fakultet id:</b>{" "}
-                                        {item.yonalish_fakultet_id}
-                                        <br />
-                                        <b>Yo'nalish:</b> {item.yonalish}
+                            {isDataYonalish &&
+                                isDataYonalish.map((item) => (
+                                    <div
+                                        key={item.id}
+                                        className="flex justify-between items-center border border-gray-400 px-2"
+                                    >
+                                        <div>
+                                            <b>ID:</b>
+                                            {item.id}
+                                            <br />
+                                            <b>Talim tur:</b>{" "}
+                                            {handleGetTalimTur(
+                                                item.yonalish_talim_turi_id
+                                            )}
+                                            <br />
+                                            <b>Talim tur ID:</b>
+                                            {item.yonalish_talim_turi_id}
+                                            <br />
+                                            <b>Fakultet:</b>{" "}
+                                            {handleGetFakultet(
+                                                item.yonalish_fakultet_id
+                                            )}
+                                            <br />
+                                            <b>Fakultet ID:</b>
+                                            {item.yonalish_fakultet_id}
+                                            <br />
+                                            <b>Yo'nalish:</b> {item.yonalish}
+                                        </div>
+                                        <div className="flex gap-x-2">
+                                            <MdEdit
+                                                className="text-green-700 cursor-pointer"
+                                                onClick={() =>
+                                                    handleEdit(item.id)
+                                                }
+                                            />
+                                            <MdDelete
+                                                className="text-red-600 cursor-pointer"
+                                                onClick={() =>
+                                                    handleDeletYonalish(item.id)
+                                                }
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="flex gap-x-2">
-                                        <MdEdit
-                                            className="text-green-700 cursor-pointer"
-                                            onClick={() => handleEdit(item.id)}
-                                        />
-                                        <MdDelete
-                                            className="text-red-600 cursor-pointer"
-                                            onClick={() =>
-                                                handleDeletYonalish(item.id)
-                                            }
-                                        />
-                                    </div>
-                                </div>
-                            ))}
+                                ))}
                         </div>
                     )}
                 </div>
@@ -106,6 +187,7 @@ const Yonalish = () => {
                         className="w-full px-10 mt-10"
                         onSubmit={formik_yonalish.handleSubmit}
                     >
+                        {/* Talim Turi */}
                         <select
                             className="border"
                             onChange={formik_yonalish.handleChange}
@@ -115,9 +197,14 @@ const Yonalish = () => {
                             name="yonalish_talim_turi_id"
                             id="yonalish_talim_turi_id"
                         >
-                            <option value="0">0</option>
+                            {dataTalim &&
+                                dataTalim.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.talim_turi}
+                                    </option>
+                                ))}
                         </select>
-
+                        {/* Fakultet */}
                         <select
                             className="border"
                             onChange={formik_yonalish.handleChange}
@@ -125,7 +212,12 @@ const Yonalish = () => {
                             name="yonalish_fakultet_id"
                             id="yonalish_fakultet_id"
                         >
-                            <option value="1">1</option>
+                            {isDataFakultet &&
+                                isDataFakultet.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.fakultet}
+                                    </option>
+                                ))}
                         </select>
 
                         <label className="flex flex-col" htmlFor="yonalish">

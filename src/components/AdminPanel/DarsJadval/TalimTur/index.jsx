@@ -95,10 +95,10 @@ const TalimTur = ({ dataTalim }) => {
                             {isDataTalim && isDataTalim.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="flex justify-between items-center border border-gray-400 px-2"
+                                    className="flex justify-between items-center border border-gray-400 px-2 py-2"
                                 >
                                     <div>
-                                        <b>id:</b> {item.id}
+                                        <b>ID:</b> {item.id}
                                         <br />
                                         <b>Talim turi:</b> {item.talim_turi}
                                     </div>
