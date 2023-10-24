@@ -81,7 +81,7 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
     };
     //Logic fakultet_TalimTur_id = TalimTur.id
     const getTalimTuri = (id) => {
-        const foundTalim = dataTalim.find(item => Number(item.id) === Number(id));
+        const foundTalim = dataTalim && dataTalim.find(item => Number(item.id) === Number(id));
         return foundTalim ? foundTalim.talim_turi : "(noaniq)";
     };
 

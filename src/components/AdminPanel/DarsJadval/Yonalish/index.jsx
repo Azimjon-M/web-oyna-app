@@ -10,13 +10,6 @@ const Yonalish = ({ dataTalim, dataFakultet, dataYonalish }) => {
     const [isDataFakultet, setIsDataFakultet] = useState(dataFakultet);
     const [isEdit, setIsEdit] = useState(false) 
 
-    useEffect(() => {
-        //Yo'nalish
-        axios
-            .get(UrlYonalish)
-            .then((res) => setIsDataYonalish(res.data))
-            .catch((err) => console.log(err));
-    }, []);
     const SignupSchemaYonalish = Yup.object().shape({
         yonalish: Yup.string().min(2, "Judaham kam!").required("Required"),
     });
@@ -26,7 +19,7 @@ const Yonalish = ({ dataTalim, dataFakultet, dataYonalish }) => {
             yonalish_talim_turi_id: "",
             yonalish_fakultet_id: "",
             yonalish: "",
-        },
+        },        
         validationSchema: SignupSchemaYonalish,
         onSubmit: async (values) => {
             //Edit
@@ -100,18 +93,20 @@ const Yonalish = ({ dataTalim, dataFakultet, dataYonalish }) => {
         );
         return foundFakultet ? foundFakultet.fakultet : "(noaniq)";
     };
-
+    useEffect(() => {
+        handleRefresh()
+    }, [])
     //Logic Selects
     useEffect(() => {
         if (formik_yonalish.values.yonalish_talim_turi_id === "") {
             formik_yonalish.values.yonalish_talim_turi_id = dataTalim && `${dataTalim[0].id}`;
         } else if (formik_yonalish.values.yonalish_talim_turi_id) {
-            const filteredData = dataFakultet.filter(
+            const filteredData = dataFakultet && dataFakultet.filter(
                 (item) => item.fakultet_talim_turi_id === formik_yonalish.values.yonalish_talim_turi_id
             );
             setIsDataFakultet(filteredData);
         }
-    }, [formik_yonalish.values.yonalish_talim_turi_id]);
+    }, [formik_yonalish.values, dataFakultet, dataTalim]);
 
     return (
         <>
@@ -192,7 +187,7 @@ const Yonalish = ({ dataTalim, dataFakultet, dataYonalish }) => {
                             className="border"
                             onChange={formik_yonalish.handleChange}
                             value={
-                                formik_yonalish.values.yonalish_talim_turi_id
+                                formik_yonalish.values.yonalish_talim_turi_id || ""
                             }
                             name="yonalish_talim_turi_id"
                             id="yonalish_talim_turi_id"
@@ -208,7 +203,7 @@ const Yonalish = ({ dataTalim, dataFakultet, dataYonalish }) => {
                         <select
                             className="border"
                             onChange={formik_yonalish.handleChange}
-                            value={formik_yonalish.values.yonalish_fakultet_id}
+                            value={formik_yonalish.values.yonalish_talim_turi_id || ""}
                             name="yonalish_fakultet_id"
                             id="yonalish_fakultet_id"
                         >
