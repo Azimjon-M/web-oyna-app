@@ -28,6 +28,8 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                 //Edit
                 if (isEdit) {
                     await axios.put(UrlFakultet + isEdit + "/", values);
+                    formik_fakultet.resetForm();
+                    setIsEdit(false)
                 }
                 //Post
                 else {
@@ -49,6 +51,7 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
             const response = await axios.get(UrlFakultet + id + "/");
             const data = response.data;
             formik_fakultet.setValues({
+                fakultet_talim_turi_id: data.fakultet_talim_turi_id,
                 fakultet: data.fakultet,
             });
             setIsEdit(id);

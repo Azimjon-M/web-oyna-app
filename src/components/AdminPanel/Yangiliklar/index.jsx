@@ -19,7 +19,7 @@ const Yangilik = ({ dataYangilik }) => {
     const [isBody, setIsBody] = useState("Tafsilot");
     const [isImg, setIsImg] = useState("Rasm");
 
-    const imgTypes = ["jpg", "jpeg", "png", "pdf", "tiff"];
+    const imgTypes = ["jpg", "jpeg", "png", "tiff"];
 
     const SignupSchema = Yup.object().shape({
         title: Yup.string().min(2, "Judaham kam!").required("Required"),
