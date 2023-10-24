@@ -22,26 +22,30 @@ const Yonalish = ({ dataTalim, dataFakultet, dataYonalish }) => {
         },        
         validationSchema: SignupSchemaYonalish,
         onSubmit: async (values) => {
-            //Edit
-            if (isEdit) {
-                await axios.put(UrlYonalish + isEdit + "/", values);
+            try {
+                //Edit
+                if (isEdit) {
+                    await axios.put(UrlYonalish + isEdit + "/", values);
+                        formik_yonalish.resetForm();
+                        setIsEdit(false);
+                        handleRefresh();
+                }
+                //Post 
+                else {
+                    if (values.yonalish_talim_turi_id === "") {
+                        formik_yonalish.values.yonalish_talim_turi_id =
+                            dataTalim && `${dataTalim[0].id}`;
+                    }
+                    if (values.yonalish_fakultet_id === "") {
+                        formik_yonalish.values.yonalish_fakultet_id =
+                            dataFakultet && `${dataFakultet[0].id}`;
+                    }
+                    await axios.post(UrlYonalish, values);
                     formik_yonalish.resetForm();
-                    setIsEdit(false);
                     handleRefresh();
-            }
-            //Post 
-            else {
-                if (values.yonalish_talim_turi_id === "") {
-                    formik_yonalish.values.yonalish_talim_turi_id =
-                        dataTalim && `${dataTalim[0].id}`;
                 }
-                if (values.yonalish_fakultet_id === "") {
-                    formik_yonalish.values.yonalish_fakultet_id =
-                        dataFakultet && `${dataFakultet[0].id}`;
-                }
-                await axios.post(UrlYonalish, values);
-                formik_yonalish.resetForm();
-                handleRefresh();
+            } catch (error) {
+                console.error(error);
             }
         },
     });
@@ -80,19 +84,21 @@ const Yonalish = ({ dataTalim, dataFakultet, dataYonalish }) => {
             console.error(error);
         }
     };
+    //GetTalimTur
     const handleGetTalimTur = (id) => {
         const foundTalim = dataTalim && dataTalim.find(
             (item) => Number(item.id) === Number(id)
         );
         return foundTalim ? foundTalim.talim_turi : "(noaniq)";
     };
-
+    //GetFakultet
     const handleGetFakultet = (id) => {
         const foundFakultet = dataFakultet && dataFakultet.find(
             (item) => Number(item.id) === Number(id)
         );
         return foundFakultet ? foundFakultet.fakultet : "(noaniq)";
     };
+    //LifeCycle
     useEffect(() => {
         handleRefresh()
     }, [])
