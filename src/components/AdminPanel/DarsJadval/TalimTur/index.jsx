@@ -98,8 +98,6 @@ const TalimTur = ({ dataTalim }) => {
                                     className="flex justify-between items-center border border-gray-400 px-2 py-2"
                                 >
                                     <div>
-                                        <b>ID:</b> {item.id}
-                                        <br />
                                         <b>Talim turi:</b> {item.talim_turi}
                                     </div>
                                     <div className="flex gap-x-2">

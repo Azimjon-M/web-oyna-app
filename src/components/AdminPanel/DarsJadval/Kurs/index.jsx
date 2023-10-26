@@ -126,6 +126,7 @@ const Kurs = ({ dataTalim, dataFakultet, dataYonalish, dataKurs }) => {
             formik_kurs.values.kurs_talim_turi_id === "" &&
             (formik_kurs.values.kurs_talim_turi_id =
                 dataTalim && `${dataTalim[0].id}`);
+
         if (formik_kurs.values.kurs_talim_turi_id) {
             const filteredData =
                 dataFakultet &&
@@ -136,7 +137,18 @@ const Kurs = ({ dataTalim, dataFakultet, dataYonalish, dataKurs }) => {
                 );
             setIsDataFakultet(filteredData);
         }
-    }, [formik_kurs.values, dataFakultet, dataTalim]);
+
+        if (formik_kurs.values.kurs_fakultet_id) {
+            const filteredData =
+                dataYonalish &&
+                dataYonalish.filter(
+                    (item) =>
+                        item.fakultet_talim_turi_id ===
+                        formik_kurs.values.kurs_yonalish_id
+                );
+            setIsDataYonalish(filteredData);
+        }
+    }, [formik_kurs.values, dataTalim, dataFakultet, dataYonalish]);
 
     return (
         <>

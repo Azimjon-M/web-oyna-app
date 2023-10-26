@@ -8,9 +8,7 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
     const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
     const [isDataFakultet, setIsDataFakultet] = useState(dataFakultet);
     const [isEdit, setIsEdit] = useState(false);
-    useEffect(() => {
-        handleRefresh();
-    }, []);
+
     const SignupSchemaFakultet = Yup.object().shape({
         fakultet: Yup.string().min(2, "Judaham kam!").required("Required"),
     });
@@ -32,8 +30,9 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                 //Post
                 else {
                     if (values.fakultet_talim_turi_id === "") {
-                        formik_fakultet.values.fakultet_talim_turi_id =
-                            dataTalim && `${dataTalim[0].id}`;
+                        formik_fakultet.setValues({
+                            fakultet_talim_turi_id: dataTalim && `${dataTalim[0].id}`
+                        })
                     }
                     await axios.post(UrlFakultet, values);
                     formik_fakultet.resetForm();
@@ -63,8 +62,8 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
     const handleDeletFakultet = async (id) => {
         try {
             await axios.delete(UrlFakultet + id + "/");
-            handleRefresh()
-        }catch (error) {
+            handleRefresh();
+        } catch (error) {
             console.error(error);
         }
     };
@@ -81,10 +80,14 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
     };
     //Logic fakultet_TalimTur_id = TalimTur.id
     const getTalimTuri = (id) => {
-        const foundTalim = dataTalim && dataTalim.find(item => Number(item.id) === Number(id));
+        const foundTalim =
+            dataTalim &&
+            dataTalim.find((item) => Number(item.id) === Number(id));
         return foundTalim ? foundTalim.talim_turi : "(noaniq)";
     };
-
+    useEffect(() => {
+        handleRefresh();
+    }, []);
 
     return (
         <>
@@ -111,11 +114,10 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                                         className="flex justify-between items-center border border-gray-400 px-2 py-2"
                                     >
                                         <div>
-                                            <b>ID:</b> {item.id}
-                                            <br />
-                                            <b> Talim tur ID:</b> {item.fakultet_talim_turi_id}
-                                            <br />
-                                            <b>Talim turi:</b> {getTalimTuri(item.fakultet_talim_turi_id)}
+                                            <b>Talim turi:</b>{" "}
+                                            {getTalimTuri(
+                                                item.fakultet_talim_turi_id
+                                            )}
                                             <br />
                                             <b>Fakultet:</b> {item.fakultet}
                                         </div>
@@ -129,7 +131,9 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                                             <MdDelete
                                                 className="text-red-600 cursor-pointer"
                                                 onClick={() =>
-                                                    handleDeletFakultet(item.id)
+                                                    handleDeletFakultet(
+                                                        item.id
+                                                    )
                                                 }
                                             />
                                         </div>
@@ -151,13 +155,16 @@ const Fakultet = ({ dataTalim, dataFakultet }) => {
                             <select
                                 className="border"
                                 onChange={formik_fakultet.handleChange}
-                                value={formik_fakultet.values.talim_turi}
+                                value={formik_fakultet.values.fakultet_talim_turi_id}
                                 name="fakultet_talim_turi_id"
                                 id="fakultet_select"
                             >
                                 {dataTalim &&
                                     dataTalim.map((item) => (
-                                        <option key={item.id} value={item.id}>
+                                        <option
+                                            key={item.id}
+                                            value={item.id}
+                                        >
                                             {item.talim_turi}
                                         </option>
                                     ))}
