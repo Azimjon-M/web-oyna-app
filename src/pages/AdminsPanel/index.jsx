@@ -16,7 +16,6 @@ const AdminsPanel = () => {
     const [dataFakultet, setDataFakultet] = useState(null);
     const [dataYonalish, setDataYonalish] = useState(null);
     const [dataKurs, setDataKurs] = useState(null);
-
     const [isLoader, setIsLoader] = useState(true);
     useEffect(() => {
         //Yngilik

@@ -139,24 +139,15 @@ const Yonalish = ({ dataTalim, dataFakultet, dataYonalish }) => {
                                         className="flex justify-between items-center border border-gray-400 px-2"
                                     >
                                         <div>
-                                            <b>ID:</b>
-                                            {item.id}
-                                            <br />
                                             <b>Talim tur:</b>{" "}
                                             {handleGetTalimTur(
                                                 item.yonalish_talim_turi_id
                                             )}
                                             <br />
-                                            <b>Talim tur ID:</b>
-                                            {item.yonalish_talim_turi_id}
-                                            <br />
                                             <b>Fakultet:</b>{" "}
                                             {handleGetFakultet(
                                                 item.yonalish_fakultet_id
                                             )}
-                                            <br />
-                                            <b>Fakultet ID:</b>
-                                            {item.yonalish_fakultet_id}
                                             <br />
                                             <b>Yo'nalish:</b> {item.yonalish}
                                         </div>
