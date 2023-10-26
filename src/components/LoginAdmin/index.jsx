@@ -16,6 +16,7 @@ const LoginAdmin = ({ data }) => {
         },
         onSubmit: values => {
             const loggedInUser = data.find(item => item.id === values.id && item.password === values.password);
+            console.log(loggedInUser);
             if (loggedInUser) {
                 navigate('/panel-admins-login/admin-pane-0001')
             } else {
