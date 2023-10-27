@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Yangiliklar from "./Yangiliklar";
 import DarsJadval from "./DarsJadval";
@@ -22,50 +22,55 @@ const AdminPanel = () => {
         //Yngilik
         axios
             .get(UrlYangilik)
-            .then((response) => {
-                setDataYangilik(response.data);
-                setIsLoader(false);
-            })
-            .catch((err) => {
-                console.error(err);
-                setIsLoader(false);
-            });
+            .then((res) => setDataYangilik(res.data))
+            .catch((err) => console.error(err));
         //Talim
         axios
-        .get(UrlTalim)
+            .get(UrlTalim)
             .then((res) => setDataTalim(res.data))
             .catch((err) => console.log(err));
         //Fakultet
         axios
-        .get(UrlFakultet)
+            .get(UrlFakultet)
             .then((res) => setDataFakultet(res.data))
             .catch((err) => console.log(err));
         //Yonalish
         axios
-        .get(UrlYonalish)
+            .get(UrlYonalish)
             .then((res) => setDataYonalish(res.data))
             .catch((err) => console.log(err));
         //Kurs
         axios
-        .get(UrlKurs)
-            .then((res) => setDataKurs(res.data))
-            .catch((err) => console.log(err));
+            .get(UrlKurs)
+            .then((res) => {
+                setDataKurs(res.data);
+                setIsLoader(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsLoader(false)
+            });
     }, []);
 
     return (
         <div className="relative ">
-        {isLoader ? (
-            <div className="h-[100vh] flex justify-center items-center ">
-                <div className="spinner">
-                    <MetroSpinner size={80} color="black" />
+            {isLoader ? (
+                <div className="h-[100vh] flex justify-center items-center ">
+                    <div className="spinner">
+                        <MetroSpinner size={80} color="black" />
+                    </div>
                 </div>
-            </div>
-        ) : (
-        <div>
-            <Yangiliklar dataYangilik={dataYangilik}  />
-            <DarsJadval dataTalim={dataTalim} dataFakultet={dataFakultet} dataYonalish={dataYonalish} dataKurs={dataKurs} />
-        </div>
-        )}
+            ) : (
+                <div>
+                    <Yangiliklar dataYangilik={dataYangilik} />
+                    <DarsJadval
+                        dataTalim={dataTalim}
+                        dataFakultet={dataFakultet}
+                        dataYonalish={dataYonalish}
+                        dataKurs={dataKurs}
+                    />
+                </div>
+            )}
         </div>
     );
 };

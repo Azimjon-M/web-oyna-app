@@ -20,33 +20,46 @@ const LoginAdmin = ({ data }) => {
                 if (loggedInUser) {
                     switch (loggedInUser.name) {
                         case "alladmin":
-                            navigate('/panel-admins-login/admin-pane-0001')
+                            navigate('/panel-admins-login/admin-panel-all')
                             break;
                         case "fizmat":
+                            navigate('/panel-admins-login/fizmat')
                             break;
                         case "boshlan":
+                            navigate('/panel-admins-login/boshlangich')
                             break;
                         case "uzlet":
+                            navigate('/panel-admins-login/oz-til-adabiyot')
                             break;
                         case "pedpsx":
+                            navigate('/panel-admins-login/ped-psx')
                             break;
                         case "jismad":
+                            navigate('/panel-admins-login/jis-mad')
                             break;
                         case "milhun":
+                            navigate('/panel-admins-login/milliy-hunar')
                             break;
                         case "xorij":
+                            navigate('/panel-admins-login/xorij-til')
                             break;
                         case "tabiy":
+                            navigate('/panel-admins-login/tabiy-fan')
                             break;
                         case "ruslet":
+                            navigate('/panel-admins-login/rus-tili')
                             break;
                         case "tarix":
+                            navigate('/panel-admins-login/tarix')
                             break;
                         case "maktal":
+                            navigate('/panel-admins-login/mak-tal')
                             break;
                         case "kechki":
+                            navigate('/panel-admins-login/kechki')
                             break;
                         case "sirtqi":
+                            navigate('/panel-admins-login/sirtqi')
                             break;
                         default:
                             setIsError(true)
