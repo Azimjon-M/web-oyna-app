@@ -21,6 +21,7 @@ import Tarix from '../pages/Tarix';
 import MakTal from '../pages/MakTal';
 import Kechki from '../pages/Kechki';
 import Sirtqi from '../pages/Sirqi';
+import AdminYangilik from '../pages/AdminYangilik';
 
 
 export const routes = [
@@ -107,6 +108,10 @@ export const routes = [
             {
                 element: <Sirtqi />,
                 path: '/panel-admins-login/sirtqi'
+            },
+            {
+                element: <AdminYangilik />,
+                path: '/panel-admins-login/managment-yangilik'
             },
         ]
     }

@@ -104,15 +104,19 @@ const Yonalish = ({ dataTalim, dataFakultet, dataYonalish }) => {
     }, [])
     //Logic Selects
     useEffect(() => {
-        if (formik_yonalish.values.yonalish_talim_turi_id === "") {
-            formik_yonalish.values.yonalish_talim_turi_id = dataTalim && `${dataTalim[0].id}`;
-        } else if (formik_yonalish.values.yonalish_talim_turi_id) {
+        formik_yonalish.values.yonalish_talim_turi_id &&
+        formik_yonalish.values.yonalish_talim_turi_id === "" &&
+            formik_yonalish.setValues({
+                yonalish_talim_turi_id: dataTalim && `${dataTalim[0].id}`
+            })
+        
+        if (formik_yonalish.values.yonalish_talim_turi_id) {
             const filteredData = dataFakultet && dataFakultet.filter(
                 (item) => item.fakultet_talim_turi_id === formik_yonalish.values.yonalish_talim_turi_id
             );
             setIsDataFakultet(filteredData);
         }
-    }, [formik_yonalish.values, dataFakultet, dataTalim]);
+    }, [formik_yonalish, dataFakultet, dataTalim]);
 
     return (
         <>
