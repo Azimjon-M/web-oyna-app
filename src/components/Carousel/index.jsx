@@ -29,7 +29,7 @@ const Carousel = ({ data, tdelay }) => {
                 modules={[Autoplay, Pagination]}
                 className="mySwiper"
             >
-                {data.map((item, idx) => (
+                {data && data.map((item, idx) => (
                     <SwiperSlide
                         className="relative flex items-start"
                         key={idx}

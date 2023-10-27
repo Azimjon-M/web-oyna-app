@@ -15,15 +15,53 @@ const LoginAdmin = ({ data }) => {
             password: ''
         },
         onSubmit: values => {
-            const loggedInUser = data.find(item => item.id === values.id && item.password === values.password);
-            console.log(loggedInUser);
-            if (loggedInUser) {
-                navigate('/panel-admins-login/admin-pane-0001')
-            } else {
-                setIsError(true)
-                setTimeout(() => {
-                    setIsError(false)
-                }, 4000)
+            try {
+                const loggedInUser = data.find(item => item.id === values.id && item.password === values.password);
+                if (loggedInUser) {
+                    switch (loggedInUser.name) {
+                        case "alladmin":
+                            navigate('/panel-admins-login/admin-pane-0001')
+                            break;
+                        case "fizmat":
+                            break;
+                        case "boshlan":
+                            break;
+                        case "uzlet":
+                            break;
+                        case "pedpsx":
+                            break;
+                        case "jismad":
+                            break;
+                        case "milhun":
+                            break;
+                        case "xorij":
+                            break;
+                        case "tabiy":
+                            break;
+                        case "ruslet":
+                            break;
+                        case "tarix":
+                            break;
+                        case "maktal":
+                            break;
+                        case "kechki":
+                            break;
+                        case "sirtqi":
+                            break;
+                        default:
+                            setIsError(true)
+                            setTimeout(() => {
+                                setIsError(false)
+                            }, 4000)
+                    }
+                } else {
+                    setIsError(true)
+                    setTimeout(() => {
+                        setIsError(false)
+                    }, 4000)
+                }
+            } catch (error) {
+                console.error(error);
             }
         },
     })

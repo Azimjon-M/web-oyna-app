@@ -274,7 +274,7 @@ export const DarsJadvallari = () => {
                     </div>
 
                     <div className="w-[800px] flex flex-wrap justify-center items-center">
-                        {Object.keys(data).map((objectKey) => (
+                        {data && Object.keys(data).map((objectKey) => (
                             <button className="m-3 bg-yellow-400 py-3 px-8 text-[20px] font-bold text-white rounded-md" key={objectKey} onClick={() => handleFakultetClick(objectKey)}>
                                 {objectKey}
                             </button>
@@ -287,7 +287,7 @@ export const DarsJadvallari = () => {
                                 <h2 className="text-[30px] font-bold">{selectFakutet} fakultet yo'nalishlari:</h2>
                             </div>
                             <div className="flex flex-wrap justify-center items-center">
-                                {Object.keys(data[selectFakutet]).map((nestedObjectKey) => (
+                                {data && Object.keys(data[selectFakutet]).map((nestedObjectKey) => (
                                     <button
                                     className="m-3 bg-blue-500 py-3 px-8 text-[20px] font-bold text-white rounded-md"
                                     key={nestedObjectKey}
@@ -306,7 +306,7 @@ export const DarsJadvallari = () => {
                                 <h3 className="text-[30px] font-bold">{selectedYonalish}:</h3>
                             </div>
                             <div className="flex flex-wrap justify-center items-center">
-                                {Object.keys(data[selectFakutet][selectedYonalish]).map(
+                                {data && Object.keys(data[selectFakutet][selectedYonalish]).map(
                                     (KursKey) => (
                                         <button 
                                             className="m-3 bg-green-600 py-3 px-8 text-[20px] font-bold text-white rounded-md"
@@ -324,7 +324,7 @@ export const DarsJadvallari = () => {
                         {selectedKurs && (
                             <div>
                                 {/* <h4>Selected Kurs: {selectedKurs}</h4> */}
-                                {data[selectFakutet][selectedYonalish][selectedKurs].map(
+                                {data && data[selectFakutet][selectedYonalish][selectedKurs].map(
                                     (ImgSRC, index) => (
                                         <button 
                                             className="text-[30px]"

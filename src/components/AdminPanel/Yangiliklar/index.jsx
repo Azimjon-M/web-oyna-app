@@ -174,7 +174,7 @@ const Yangilik = ({ dataYangilik }) => {
                         </h1>
                     </div>
                     <div className="flex flex-col-reverse gap-y-2 style-owerflow-001 overflow-y-auto p-2">
-                        {isData.map((item) => (
+                        {isData && isData.map((item) => (
                             <div
                                 key={item.id}
                                 className="w-full h-[50px] flex justify-between items-center border border-gray-400 p-1"
@@ -315,7 +315,7 @@ const Yangilik = ({ dataYangilik }) => {
                                         : "-translate-y-5 opacity-0 h-0"
                                 } bg-red-500 text-white text-[14px] px-2 transition-all -z-20`}
                             >
-                                Rasim {imgTypes.map((i) => i + ", ")}{" "}
+                                Rasim {imgTypes && imgTypes.map((i) => i + ", ")}{" "}
                                 farmatlarda bo'lishi kerak !
                             </span>
                             <input

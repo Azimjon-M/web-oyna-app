@@ -24,7 +24,7 @@ const Yangiliklar = () => {
                     {loading ? <Loader /> :
                         <div className='mx-3 my-5 text-center'>
                             {
-                                news.map((item, idx) => {
+                                news && news.map((item, idx) => {
                                     const text = item.description;
                                     let modifiedText = "";
                                     if (text.length > 150) {

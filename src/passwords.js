@@ -1,4 +1,5 @@
 const Passwords = [
+    {id: "a", password: "a", name: "alladmin"},
     {id: "101101931", password: "fizmat#y1931", name: "fizmat"},
     {id: "102101931", password: "boshlan#y1931", name: "boshlan"},
     {id: "103101931", password: "uzlet#y1931", name: "uzlet"},
