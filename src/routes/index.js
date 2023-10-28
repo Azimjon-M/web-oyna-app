@@ -22,6 +22,11 @@ import MakTal from '../pages/MakTal';
 import Kechki from '../pages/Kechki';
 import Sirtqi from '../pages/Sirqi';
 import AdminYangilik from '../pages/AdminYangilik';
+import AdminTalimTur from '../pages/AdminTalimTuri';
+import AdminFakultet from '../pages/AdminFakultet';
+import AdminYonalish from '../pages/AdminYonalish';
+import AdminKurs from '../pages/AdminKurs';
+import AdminDJRasm from '../pages/AdminDJRasm';
 
 
 export const routes = [
@@ -112,6 +117,26 @@ export const routes = [
             {
                 element: <AdminYangilik />,
                 path: '/panel-admins-login/managment-yangilik'
+            },
+            {
+                element: <AdminTalimTur />,
+                path: '/panel-admins-login/managment-taliom-tur'
+            },
+            {
+                element: <AdminFakultet />,
+                path: '/panel-admins-login/managment-fakultet'
+            },
+            {
+                element: <AdminYonalish />,
+                path: '/panel-admins-login/managment-yonalish'
+            },
+            {
+                element: <AdminKurs />,
+                path: '/panel-admins-login/managment-kurs'
+            },
+            {
+                element: <AdminDJRasm />,
+                path: '/panel-admins-login/managment-dars-jadval-rasm'
             },
         ]
     }
