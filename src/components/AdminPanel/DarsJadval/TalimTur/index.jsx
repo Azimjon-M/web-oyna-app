@@ -10,7 +10,7 @@ const TalimTur = () => {
     
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isEdit, setIsEdit] = useState("");
-    const [isLoader, setIsLoader] = useState(false);
+    const [isLoader, setIsLoader] = useState(true);
 
     const SignupSchemaTalim = Yup.object().shape({
         talim_turi: Yup.string().min(2, "Judaham kam!").required("Required"),
@@ -60,7 +60,6 @@ const TalimTur = () => {
     };
 
     const handleRefresh = async () => {
-        setIsLoader(true);
         try {
             await axios
                 .get(UrlTalim)
