@@ -12,10 +12,13 @@ const Fakultet = () => {
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);
     const [isEdit, setIsEdit] = useState(false);
-    const [isLoader, setIsLoader] = useState(false);
+    const [isLoader, setIsLoader] = useState(true);
+
+    const [test, setTest]= useState(null)
+    // console.log(test);
 
     const SignupSchemaFakultet = Yup.object().shape({
-        fakultet: Yup.string().min(2, "Judaham kam!").required("Required"),
+        fakultet: Yup.string().min(2, "Judaham kam!").max(100, "Judaham ko'p").required("Required"),
     });
     //Fakultet POST
     const formik_fakultet = useFormik({
@@ -126,7 +129,7 @@ const Fakultet = () => {
                     <h1 className="text-[20px] mt-6 mb-3">
                         <b>Fakultet:</b>
                     </h1>
-                    <div className="w-[1000px] h-[400px] flex gap-x-2 border-b border-black">
+                    <div className="w-[1000px] h-[400px] flex gap-x-2">
                         <div className="w-[50%] flex flex-col gap-y-2">
                             {/* Get Data */}
                             <div className="border-b border-black px-10 py-2">
@@ -181,8 +184,10 @@ const Fakultet = () => {
                                 onSubmit={formik_fakultet.handleSubmit}
                             >
                                 <select
-                                    className="border"
+                                    className={`${isEdit ? 'hidden' : 'inline-block' } border`}
                                     onChange={formik_fakultet.handleChange}
+                                    // formik.getFieldProps('yourFieldName')
+                                    // {...formik_fakultet.getFieldProps(setTest)}
                                     value={
                                         formik_fakultet.values.fakultet_talim_turi_id
                                     }
