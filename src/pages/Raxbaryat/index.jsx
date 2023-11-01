@@ -1,12 +1,12 @@
 import React from 'react';
 import Navbar from '../../components/Navbar';
-import Harita from '../../components/Harita';
+import RaxbaryatCom from '../../components/Raxbaryat';
 
 const Raxbaryat = () => {
     return (
         <div>
             <Navbar />
-            <Harita />
+            <RaxbaryatCom />
         </div>
     )
 }
