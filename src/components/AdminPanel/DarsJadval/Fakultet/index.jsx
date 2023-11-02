@@ -14,11 +14,11 @@ const Fakultet = () => {
     const [isEdit, setIsEdit] = useState(false);
     const [isLoader, setIsLoader] = useState(true);
 
-    const [test, setTest]= useState(null)
+    const [test, setTest] = useState(null);
     // console.log(test);
 
     const SignupSchemaFakultet = Yup.object().shape({
-        fakultet: Yup.string().min(2, "Judaham kam!").max(100, "Judaham ko'p").required("Required"),
+        fakultet: Yup.string().min(2, "Judaham kam!").required("Required"),
     });
     //Fakultet POST
     const formik_fakultet = useFormik({
@@ -38,10 +38,8 @@ const Fakultet = () => {
                 //Post
                 else {
                     if (values.fakultet_talim_turi_id === "") {
-                        formik_fakultet.setValues({
-                            fakultet_talim_turi_id:
-                                isDataTalim && `${isDataTalim[0].id}`,
-                        });
+                        formik_fakultet.values.fakultet_talim_turi_id =
+                            isDataTalim && `${isDataTalim[0].id}`;
                     }
                     await axios.post(UrlFakultet, values);
                     formik_fakultet.resetForm();
@@ -83,23 +81,22 @@ const Fakultet = () => {
                 .get(UrlFakultet)
                 .then((res) => {
                     setIsDataFakultet(res.data);
-                    setIsLoader(false)
+                    setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false)
+                    setIsLoader(false);
                 });
             await axios
                 .get(UrlTalim)
                 .then((res) => {
                     setIsDataTalim(res.data);
-                    setIsLoader(false)
+                    setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false)
+                    setIsLoader(false);
                 });
-
         } catch (error) {
             console.error(error);
         }
@@ -153,7 +150,8 @@ const Fakultet = () => {
                                                         item.fakultet_talim_turi_id
                                                     )}
                                                     <br />
-                                                    <b>Fakultet:</b> {item.fakultet}
+                                                    <b>Fakultet:</b>{" "}
+                                                    {item.fakultet}
                                                 </div>
                                                 <div className="flex gap-x-2">
                                                     <MdEdit
@@ -165,7 +163,9 @@ const Fakultet = () => {
                                                     <MdDelete
                                                         className="text-red-600 cursor-pointer"
                                                         onClick={() =>
-                                                            handleDeletFakultet(item.id)
+                                                            handleDeletFakultet(
+                                                                item.id
+                                                            )
                                                         }
                                                     />
                                                 </div>
@@ -184,24 +184,33 @@ const Fakultet = () => {
                                 onSubmit={formik_fakultet.handleSubmit}
                             >
                                 <select
-                                    className={`${isEdit ? 'hidden' : 'inline-block' } border`}
+                                    className={`${
+                                        isEdit ? "hidden" : "inline-block"
+                                    } border`}
                                     onChange={formik_fakultet.handleChange}
                                     // formik.getFieldProps('yourFieldName')
                                     // {...formik_fakultet.getFieldProps(setTest)}
                                     value={
-                                        formik_fakultet.values.fakultet_talim_turi_id
+                                        formik_fakultet.values
+                                            .fakultet_talim_turi_id
                                     }
                                     name="fakultet_talim_turi_id"
                                     id="fakultet_select"
                                 >
                                     {isDataTalim &&
                                         isDataTalim.map((item) => (
-                                            <option key={item.id} value={item.id}>
+                                            <option
+                                                key={item.id}
+                                                value={item.id}
+                                            >
                                                 {item.talim_turi}
                                             </option>
                                         ))}
                                 </select>
-                                <label className="flex flex-col" htmlFor="fakultet">
+                                <label
+                                    className="flex flex-col"
+                                    htmlFor="fakultet"
+                                >
                                     Fakultet
                                     <input
                                         className={`${
@@ -227,7 +236,6 @@ const Fakultet = () => {
                     </div>
                 </>
             )}
-            
         </div>
     );
 };

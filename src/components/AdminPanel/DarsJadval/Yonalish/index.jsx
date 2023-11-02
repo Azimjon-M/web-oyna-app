@@ -6,9 +6,9 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
 
 const Yonalish = () => {
-    const UrlYonalish = "http://api.kspi.uz/v1/jadval/yonalish/";
-    const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
     const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
+    const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
+    const UrlYonalish = "http://api.kspi.uz/v1/jadval/yonalish/";
 
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);
@@ -41,13 +41,13 @@ const Yonalish = () => {
                 }
                 //Post
                 else {
-                    if (values.yonalish_talim_turi_id === "") {
+                    if (!values.yonalish_talim_turi_id) {
                         formik_yonalish.values.yonalish_talim_turi_id =
                             isDataTalim && `${isDataTalim[0].id}`;
                     }
-                    if (values.yonalish_fakultet_id === "") {
+                    if (!values.yonalish_fakultet_id) {
                         formik_yonalish.values.yonalish_fakultet_id =
-                            isDataFakultet && `${isDataFakultet[0].id}`;
+                            isDataFakultetFilter && `${isDataFakultetFilter[0].id}`;
                     }
                     await axios.post(UrlYonalish, values);
                     formik_yonalish.resetForm();
@@ -264,7 +264,7 @@ const Yonalish = () => {
                                     onChange={formik_yonalish.handleChange}
                                     value={
                                         formik_yonalish.values
-                                            .yonalish_talim_turi_id || ""
+                                            .yonalish_fakultet_id || ""
                                     }
                                     name="yonalish_fakultet_id"
                                     id="yonalish_fakultet_id"

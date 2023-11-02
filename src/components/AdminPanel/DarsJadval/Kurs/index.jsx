@@ -4,12 +4,21 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { MdEdit, MdDelete } from "react-icons/md";
 
-const Kurs = ({ dataTalim, dataFakultet, dataYonalish, dataKurs }) => {
+const Kurs = () => {
+    const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
+    const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
+    const UrlYonalish = "http://api.kspi.uz/v1/jadval/yonalish/";
     const UrlKurs = "http://api.kspi.uz/v1/jadval/kurs/";
-    const [isDataYonalish, setIsDataYonalish] = useState(dataYonalish);
-    const [isDataFakultet, setIsDataFakultet] = useState(dataFakultet);
-    const [isDataKurs, setIsDataKurs] = useState(dataKurs);
+
+    const [isDataTalim, setIsDataTalim] = useState(null);
+    const [isDataFakultet, setIsDataFakultet] = useState(null);
+    const [isDataFakultetFilter, setIsDataFakultetFilter] = useState(null);
+    const [isDataYonalish, setIsDataYonalish] = useState(null);
+    const [isDataYonalishFilter, setIsDataYonalishFilter] = useState(null);
+    const [isDataKurs, setIsDataKurs] = useState(null);
+
     const [isEdit, setIsEdit] = useState(false);
+    const [isLoader, setIsLoader] = useState(true);
 
     const SignupSchemaKurs = Yup.object().shape({
         kurs: Yup.number().max(5, "Ko'p").required("Required"),
@@ -24,7 +33,6 @@ const Kurs = ({ dataTalim, dataFakultet, dataYonalish, dataKurs }) => {
         },
         validationSchema: SignupSchemaKurs,
         onSubmit: async (values) => {
-            console.log('bosilayabdi');
             try {
                 //Edit
                 if (isEdit) {
@@ -37,22 +45,23 @@ const Kurs = ({ dataTalim, dataFakultet, dataYonalish, dataKurs }) => {
                 else {
                     if (values.kurs_talim_turi_id === "") {
                         formik_kurs.values.kurs_talim_turi_id =
-                            dataTalim && `${dataTalim[0].id}`;
+                            isDataTalim && `${isDataTalim[0].id}`;
                     }
                     if (values.kurs_fakultet_id === "") {
                         formik_kurs.values.kurs_fakultet_id =
-                            dataFakultet && `${dataFakultet[0].id}`;
+                            isDataFakultet && `${isDataFakultet[0].id}`;
                     }
                     if (values.kurs_yonalish_id === "") {
                         formik_kurs.values.kurs_yonalish_id =
-                            dataYonalish && `${dataYonalish[0].id}`;
+                            isDataYonalish && `${isDataYonalish[0].id}`;
                     }
                     if (values.kurs === "") {
-                        formik_kurs.values.kurs_yonalish_id = '1'
+                        formik_kurs.values.kurs_yonalish_id = "1";
                     }
-                    await axios.post(UrlKurs, values);
-                    formik_kurs.resetForm();
-                    handleRefresh();
+                    console.log(values);
+                    // await axios.post(UrlKurs, values);
+                    // formik_kurs.resetForm();
+                    // handleRefresh();
                 }
             } catch (error) {
                 console.error(error);
@@ -88,9 +97,45 @@ const Kurs = ({ dataTalim, dataFakultet, dataYonalish, dataKurs }) => {
     const handleRefresh = async () => {
         try {
             await axios
+                .get(UrlFakultet)
+                .then((res) => {
+                    setIsDataFakultet(res.data);
+                    setIsLoader(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setIsLoader(false);
+                });
+            await axios
+                .get(UrlTalim)
+                .then((res) => {
+                    setIsDataTalim(res.data);
+                    setIsLoader(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setIsLoader(false);
+                });
+            await axios
+                .get(UrlYonalish)
+                .then((res) => {
+                    setIsDataYonalish(res.data);
+                    setIsLoader(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setIsLoader(false);
+                });
+            await axios
                 .get(UrlKurs)
-                .then((res) => setIsDataKurs(res.data))
-                .catch((err) => console.log(err));
+                .then((res) => {
+                    setIsDataKurs(res.data);
+                    setIsLoader(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setIsLoader(false);
+                });
         } catch (error) {
             console.error(error);
         }
@@ -98,65 +143,102 @@ const Kurs = ({ dataTalim, dataFakultet, dataYonalish, dataKurs }) => {
     //GetTalimTur
     const handleGetTalimTur = (id) => {
         const foundTalim =
-            dataTalim &&
-            dataTalim.find((item) => Number(item.id) === Number(id));
+            isDataTalim &&
+            isDataTalim.find((item) => Number(item.id) === Number(id));
         return foundTalim ? foundTalim.talim_turi : "(noaniq)";
     };
     //GetFakultet
     const handleGetFakultet = (id) => {
         const foundFakultet =
-            dataFakultet &&
-            dataFakultet.find((item) => Number(item.id) === Number(id));
+            isDataFakultet &&
+            isDataFakultet.find((item) => Number(item.id) === Number(id));
         return foundFakultet ? foundFakultet.fakultet : "(noaniq)";
     };
     //GetYonalish
     const handleGetYonalish = (id) => {
         const foundYonalish =
-            dataYonalish &&
-            dataYonalish.find((item) => Number(item.id) === Number(id));
+            isDataYonalish &&
+            isDataYonalish.find((item) => Number(item.id) === Number(id));
         return foundYonalish ? foundYonalish.yonalish : "(noaniq)";
     };
     //LifeCycle
     useEffect(() => {
         handleRefresh();
     }, []);
+
     //Logic Selects
     useEffect(() => {
-        formik_kurs.values.kurs_talim_turi_id &&
-            formik_kurs.values.kurs_talim_turi_id === "" &&
-            (formik_kurs.values.kurs_talim_turi_id =
-                dataTalim && `${dataTalim[0].id}`);
-
+        // Talim
+        if (!formik_kurs.values.kurs_talim_turi_id) {
+            formik_kurs.values.kurs_talim_turi_id =
+                isDataTalim && `${isDataTalim[0].id}`;
+        }
+        // Fakultet
+        if (!formik_kurs.values.kurs_fakultet_id) {
+            formik_kurs.values.kurs_fakultet_id =
+                isDataFakultetFilter && `${isDataFakultetFilter[0].id}`;
+        }
+        // Fakultet Logik
         if (formik_kurs.values.kurs_talim_turi_id) {
-            const filteredData =
-                dataFakultet &&
-                dataFakultet.filter(
+            const filteredDataF =
+                isDataFakultet &&
+                isDataFakultet.filter(
                     (item) =>
                         item.fakultet_talim_turi_id ===
                         formik_kurs.values.kurs_talim_turi_id
                 );
-            setIsDataFakultet(filteredData);
+            // Yonalish Logik
+            if (filteredDataF) {
+                const filteredDataY =
+                    isDataYonalish &&
+                    isDataYonalish.filter(
+                        (item) =>
+                            item.yonalish_fakultet_id == filteredDataF[0].id
+                    );
+                if (
+                    JSON.stringify(filteredDataY) !==
+                    JSON.stringify(isDataFakultetFilter)
+                ) {
+                    setIsDataYonalishFilter(filteredDataY);
+                }
+            }
+            if (
+                JSON.stringify(filteredDataF) !==
+                JSON.stringify(isDataFakultetFilter)
+            ) {
+                setIsDataFakultetFilter(filteredDataF);
+            }
         }
-
-        if (formik_kurs.values.kurs_fakultet_id) {
-            const filteredData =
-                dataYonalish &&
-                dataYonalish.filter(
+        // Yonalish Logik
+        if (!formik_kurs.values.kurs_fakultet_id) {
+            const filteredDataY =
+                isDataYonalish &&
+                isDataYonalish.filter(
                     (item) =>
-                        item.fakultet_talim_turi_id ===
-                        formik_kurs.values.kurs_yonalish_id
+                        item.yonalish_fakultet_id == formik_kurs.values.kurs_fakultet_id
                 );
-            setIsDataYonalish(filteredData);
+            if (
+                JSON.stringify(filteredDataY) !==
+                JSON.stringify(isDataFakultetFilter)
+            ) {
+                setIsDataYonalishFilter(filteredDataY);
+            }
         }
-    }, [formik_kurs.values, dataTalim, dataFakultet, dataYonalish]);
+    }, [
+        formik_kurs.values,
+        isDataTalim,
+        isDataFakultet,
+        isDataFakultetFilter,
+        isDataYonalish,
+    ]);
 
     return (
-        <>
+        <div className="flex flex-col items-center">
             {/* Kurs */}
             <h1 className="text-[20px] mt-6 mb-3">
                 <b>Kurs:</b>
             </h1>
-            <div className="w-[1000px] h-[400px] flex gap-x-2 border-b border-black">
+            <div className="w-[1000px] h-[400px] flex justify-center gap-x-2">
                 <div className="w-[50%] h-full flex flex-col gap-y-2">
                     {/* Get Data */}
                     <div className="border-b border-black px-10 py-2">
@@ -168,37 +250,46 @@ const Kurs = ({ dataTalim, dataFakultet, dataYonalish, dataKurs }) => {
                         </div>
                     ) : (
                         <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
-                            {isDataKurs && isDataKurs.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="flex justify-between items-center border border-gray-400 px-2"
-                                >
-                                    <div>
-                                        <b>Talim tur:</b>
-                                        {handleGetTalimTur(item.kurs_talim_turi_id)}
-                                        <br />
-                                        <b>Fakultet:</b>
-                                        {handleGetFakultet(item.kurs_fakultet_id)}
-                                        <br />
-                                        <b>Yo'nalish:</b>
-                                        {handleGetYonalish(item.kurs_yonalish_id)}
-                                        <br />
-                                        <b>Kurs:</b> {item.kurs}
+                            {isDataKurs &&
+                                isDataKurs.map((item) => (
+                                    <div
+                                        key={item.id}
+                                        className="flex justify-between items-center border border-gray-400 px-2"
+                                    >
+                                        <div>
+                                            <b>Talim tur:</b>
+                                            {handleGetTalimTur(
+                                                item.kurs_talim_turi_id
+                                            )}
+                                            <br />
+                                            <b>Fakultet:</b>
+                                            {handleGetFakultet(
+                                                item.kurs_fakultet_id
+                                            )}
+                                            <br />
+                                            <b>Yo'nalish:</b>
+                                            {handleGetYonalish(
+                                                item.kurs_yonalish_id
+                                            )}
+                                            <br />
+                                            <b>Kurs:</b> {item.kurs}
+                                        </div>
+                                        <div className="flex gap-x-2">
+                                            <MdEdit
+                                                className="text-green-700 cursor-pointer"
+                                                onClick={() =>
+                                                    handleEdit(item.id)
+                                                }
+                                            />
+                                            <MdDelete
+                                                className="text-red-600 cursor-pointer"
+                                                onClick={() =>
+                                                    handleDeletKurs(item.id)
+                                                }
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="flex gap-x-2">
-                                        <MdEdit
-                                            className="text-green-700 cursor-pointer"
-                                            onClick={() => handleEdit(item.id)}
-                                        />
-                                        <MdDelete
-                                            className="text-red-600 cursor-pointer"
-                                            onClick={() =>
-                                                handleDeletKurs(item.id)
-                                            }
-                                        />
-                                    </div>
-                                </div>
-                            ))}
+                                ))}
                         </div>
                     )}
                 </div>
@@ -215,12 +306,12 @@ const Kurs = ({ dataTalim, dataFakultet, dataYonalish, dataKurs }) => {
                         <select
                             className="border"
                             onChange={formik_kurs.handleChange}
-                            value={formik_kurs.values.kurs_talim_turi_id}
+                            value={formik_kurs.values.kurs_talim_turi_id || ""}
                             name="kurs_talim_turi_id"
                             id="kurs_talim_turi_id"
                         >
-                            {dataTalim &&
-                                dataTalim.map((item) => (
+                            {isDataTalim &&
+                                isDataTalim.map((item) => (
                                     <option key={item.id} value={item.id}>
                                         {item.talim_turi}
                                     </option>
@@ -230,12 +321,12 @@ const Kurs = ({ dataTalim, dataFakultet, dataYonalish, dataKurs }) => {
                         <select
                             className="border"
                             onChange={formik_kurs.handleChange}
-                            value={formik_kurs.values.kurs_fakultet_id}
+                            value={formik_kurs.values.kurs_fakultet_id || ""}
                             name="kurs_fakultet_id"
                             id="kurs_fakultet_id"
                         >
-                            {isDataFakultet &&
-                                isDataFakultet.map((item) => (
+                            {isDataFakultetFilter &&
+                                isDataFakultetFilter.map((item) => (
                                     <option key={item.id} value={item.id}>
                                         {item.fakultet}
                                     </option>
@@ -245,12 +336,12 @@ const Kurs = ({ dataTalim, dataFakultet, dataYonalish, dataKurs }) => {
                         <select
                             className="border"
                             onChange={formik_kurs.handleChange}
-                            value={formik_kurs.values.kurs_yonalish_id}
+                            value={formik_kurs.values.kurs_yonalish_id || ""}
                             name="kurs_yonalish_id"
                             id="kurs_yonalish_id"
                         >
-                            {isDataYonalish &&
-                                isDataYonalish.map((item) => (
+                            {isDataYonalishFilter &&
+                                isDataYonalishFilter.map((item) => (
                                     <option key={item.id} value={item.id}>
                                         {item.yonalish}
                                     </option>
@@ -295,7 +386,7 @@ const Kurs = ({ dataTalim, dataFakultet, dataYonalish, dataKurs }) => {
                     </form>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
