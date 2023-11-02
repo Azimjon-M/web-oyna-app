@@ -34,6 +34,12 @@ const AdminPanel = () => {
                         <button className="border border-blue-800 bg-blue-400 text-white px-10 py-2 font-bold rounded-md mt-3">KIRISH</button>
                     </Link>
                 </div>
+                <div className="text-center">
+                    <h1 className="text-[30px] font-bold">RAXBARYAT PANELI</h1>
+                    <Link to="/panel-admins-login/managment-raxbaryat">
+                        <button className="border border-blue-800 bg-blue-400 text-white px-10 py-2 font-bold rounded-md mt-3">KIRISH</button>
+                    </Link>
+                </div>
             </div>
         </div>
     );

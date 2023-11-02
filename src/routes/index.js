@@ -27,6 +27,7 @@ import AdminFakultet from '../pages/AdminFakultet';
 import AdminYonalish from '../pages/AdminYonalish';
 import AdminKurs from '../pages/AdminKurs';
 import AdminDJRasm from '../pages/AdminDJRasm';
+import AdminRaxbaryat from '../pages/AdminRaxbaryat';
 
 
 export const routes = [
@@ -138,6 +139,10 @@ export const routes = [
                 element: <AdminDJRasm />,
                 path: '/panel-admins-login/managment-dars-jadval-rasm'
             },
+            {
+                element: <AdminRaxbaryat />,
+                path: '/panel-admins-login/managment-raxbaryat'
+            }
         ]
     }
 
