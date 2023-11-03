@@ -19,6 +19,7 @@ const Kurs = () => {
 
     const [isEdit, setIsEdit] = useState(false);
     const [isLoader, setIsLoader] = useState(true);
+    console.log(isLoader);
 
     const SignupSchemaKurs = Yup.object().shape({
         kurs: Yup.number().max(5, "Ko'p").required("Required"),
@@ -187,21 +188,6 @@ const Kurs = () => {
                         item.fakultet_talim_turi_id ===
                         formik_kurs.values.kurs_talim_turi_id
                 );
-            // Yonalish Logik
-            if (filteredDataF) {
-                const filteredDataY =
-                    isDataYonalish &&
-                    isDataYonalish.filter(
-                        (item) =>
-                            item.yonalish_fakultet_id == filteredDataF[0].id
-                    );
-                if (
-                    JSON.stringify(filteredDataY) !==
-                    JSON.stringify(isDataFakultetFilter)
-                ) {
-                    setIsDataYonalishFilter(filteredDataY);
-                }
-            }
             if (
                 JSON.stringify(filteredDataF) !==
                 JSON.stringify(isDataFakultetFilter)
@@ -215,7 +201,7 @@ const Kurs = () => {
                 isDataYonalish &&
                 isDataYonalish.filter(
                     (item) =>
-                        item.yonalish_fakultet_id == formik_kurs.values.kurs_fakultet_id
+                        item.yonalish_fakultet_id === formik_kurs.values.kurs_fakultet_id
                 );
             if (
                 JSON.stringify(filteredDataY) !==
@@ -310,6 +296,7 @@ const Kurs = () => {
                             name="kurs_talim_turi_id"
                             id="kurs_talim_turi_id"
                         >
+                            <option value="" disabled selected>Ta'lim turini tanlang</option>
                             {isDataTalim &&
                                 isDataTalim.map((item) => (
                                     <option key={item.id} value={item.id}>
@@ -325,6 +312,7 @@ const Kurs = () => {
                             name="kurs_fakultet_id"
                             id="kurs_fakultet_id"
                         >
+                            <option value="" disabled selected>Fakultetni tanlang</option>
                             {isDataFakultetFilter &&
                                 isDataFakultetFilter.map((item) => (
                                     <option key={item.id} value={item.id}>
