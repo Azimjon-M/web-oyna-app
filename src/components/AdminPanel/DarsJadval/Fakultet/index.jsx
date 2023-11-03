@@ -14,9 +14,6 @@ const Fakultet = () => {
     const [isEdit, setIsEdit] = useState(false);
     const [isLoader, setIsLoader] = useState(true);
 
-    const [test, setTest] = useState(null);
-    // console.log(test);
-
     const SignupSchemaFakultet = Yup.object().shape({
         fakultet: Yup.string().min(2, "Judaham kam!").required("Required"),
     });
