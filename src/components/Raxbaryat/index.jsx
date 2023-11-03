@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import Loader from '../../components/Loader';
+import cardBg from '../../assets/images/card-bg.png'
 
 const Raxbaryat = () => {
     const [loading, setLoading] = useState(true);
-    const [news, setNews] = useState(null);
+    const [person, setPerson] = useState(null);
     useEffect(() => {
         const loadPost = async () => {
             try {
                 await axios.get("http://api.kspi.uz/v1/rahbariyat/rahbariyat/").then(res => {
-                    setNews(res.data);
+                    setPerson(res.data);
                     setLoading(false);
                 }).catch(err => {
                     console.log(err);
@@ -29,14 +30,20 @@ const Raxbaryat = () => {
                 <div className=''>
                     {loading ? <Loader /> :
                         <div className='mx-3 my-5 text-center'>
+                            <h1 className='text-[45px] text-[#0156B0] font-bold'>RAHBARYAT</h1>
                             {
-                                news && news.map((item, idx) => (
-                                        <div className='my-3 shadow-lg shadow-indigo-500/50' key={idx}>
-                                            <div className="w-full flex items-center bg-gradient-to-r from-cyan-100 to-blue-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                                <img src={item.rasm} className="m-5 object-cover w-[40%] rounded-t-lg h-60" alt="..." />
-                                                <div className="flex flex-col justify-between p-4 leading-normal w-[60%]">
-                                                    <h4 className="mb-3 text-2xl font-bold text-gray-700 dark:text-gray-400">{item.lavozim}</h4>
-                                                    <h5 className="mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">{item.fish}</h5>
+                                person && person.map((item, idx) => (
+                                        <div className='my-3 border border-[#0156B0] text-white rounded-[30px] overflow-hidden bg-[#0156B0] z-0' key={idx}>
+                                            <div className="flex">
+                                                <div className='z-10'>
+                                                    <img className="w-[340px] h-[280px]" src={item.rasm} alt="" />
+                                                </div>
+                                                <div className="relative flex justify-center items-centee">
+                                                    <img className='w-[500px] h-[280px] translate-x-[-30px] z-20' src={cardBg} alt="" />
+                                                    <div className="absolute top-[50%] left-5 translate-y-[-50%] z-50">
+                                                        <h5 className="font-bold text-[32px] text-start">{item.fish}</h5>
+                                                        <h4 className="font-bold text-[32px] text-start">{item.lavozim}</h4>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
