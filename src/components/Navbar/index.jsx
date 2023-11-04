@@ -60,22 +60,22 @@ const Navbar = () => {
                     }
                 </li>
                 <li>
-                    <NavLink className={({ isActive }) => `${ isActive ? 'text-blue-200 after:w-full after:h-1 after:border-b-8 after:border-blue-500 after:absolute after:bottom-[-10px] after:left-0' : '' } relative font-[900] text-[32px] `} to='/yangiliklar'>
+                    <NavLink className={({ isActive }) => `${ isActive ? 'bg-[#0256B0] px-4 py-2 rounded-2xl' : '' } font-[900] text-[32px] `} to='/yangiliklar'>
                         Yangiliklar
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink className={({ isActive }) => `${ isActive ? 'text-blue-200 after:w-full after:h-1 after:border-b-8 after:border-blue-500 after:absolute after:bottom-[-10px] after:left-0' : '' } relative font-[900] text-[32px] `} to='/dars-jadvali'>
+                    <NavLink className={({ isActive }) => `${ isActive ? 'bg-[#0256B0] px-4 py-2 rounded-2xl' : '' } font-[900] text-[32px] `} to='/dars-jadvali'>
                         Dars jadvali
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink className={({ isActive }) => `${ isActive ? 'text-blue-200 after:w-full after:h-1 after:border-b-8 after:border-blue-500 after:absolute after:bottom-[-10px] after:left-0' : '' } relative font-[900] text-[32px] `} to='/raxbaryat'>
+                    <NavLink className={({ isActive }) => `${ isActive ? 'bg-[#0256B0] px-4 py-2 rounded-2xl' : '' } font-[900] text-[32px] `} to='/raxbaryat'>
                         Raxbaryat
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink className={({ isActive }) => `${ isActive ? 'text-blue-200 after:w-full after:h-1 after:border-b-8 after:border-blue-500 after:absolute after:bottom-[-10px] after:left-0' : '' } relative font-[900] text-[32px] `} to='/inter-active-hizmatlar'>
+                    <NavLink className={({ isActive }) => `${ isActive ? 'bg-[#0256B0] px-4 py-2 rounded-2xl' : '' } font-[900] text-[32px] `} to='/inter-active-hizmatlar'>
                         Iteraktiv hizmatlar
                     </NavLink>
                 </li>
