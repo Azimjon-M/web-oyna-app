@@ -17,7 +17,6 @@ const Kurs = () => {
     const [isDataYonalish, setIsDataYonalish] = useState(null);
     const [isDataYonalishFilter, setIsDataYonalishFilter] = useState(null);
     const [isDataKurs, setIsDataKurs] = useState(null);
-
     const [isEdit, setIsEdit] = useState(false);
     const [isLoader, setIsLoader] = useState(true);
 
@@ -27,7 +26,7 @@ const Kurs = () => {
     //Kurs POST Edit
     const formik_kurs = useFormik({
         initialValues: {
-            kurs_talim_turi_id: "" ,
+            kurs_talim_turi_id: "",
             kurs_fakultet_id: "",
             kurs_yonalish_id: "",
             kurs: "1",
@@ -59,10 +58,10 @@ const Kurs = () => {
                     // if (values.kurs === "") {
                     //     formik_kurs.values.kurs_yonalish_id = "1";
                     // }
-                    console.log(values);
                     // await axios.post(UrlKurs, values);
                     // formik_kurs.resetForm();
                     // handleRefresh();
+                    console.log(values);
                 }
             } catch (error) {
                 console.error(error);
@@ -101,10 +100,8 @@ const Kurs = () => {
                 .get(UrlTalim)
                 .then((res) => {
                     setIsDataTalim(res.data);
-                    formik_kurs.setFieldValue({
-                        kurs_talim_turi_id: res.data[0].id,
-                    })
                     setIsLoader(false);
+                    formik_kurs.values.kurs_talim_turi_id === "" && (formik_kurs.values.kurs_talim_turi_id = res.data[0].id);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -165,75 +162,99 @@ const Kurs = () => {
             isDataYonalish.find((item) => Number(item.id) === Number(id));
         return foundYonalish ? foundYonalish.yonalish : "(noaniq)";
     };
+    
     //LifeCycle
     useEffect(() => {
         handleRefresh();
-    }, []);
 
-    //Logic Selects
-    useEffect(() => {
-        // Talim
-        if (!formik_kurs.values.kurs_talim_turi_id) {
-            formik_kurs.values.kurs_talim_turi_id =
-                isDataTalim && `${isDataTalim[0].id}`;
-        }
-        // Fakultet Logik
-        if (formik_kurs.values.kurs_talim_turi_id) {
-            const filteredDataF =
-                isDataFakultet &&
-                isDataFakultet.filter(
-                    (item) =>
-                        item.fakultet_talim_turi_id ===
-                        formik_kurs.values.kurs_talim_turi_id
-                );
-            if (
-                JSON.stringify(filteredDataF) !==
-                JSON.stringify(isDataFakultetFilter)
-                ) {
-                    setIsDataFakultetFilter(filteredDataF);
-                }
-        }
-        // Fakultet
-        if (!formik_kurs.values.kurs_fakultet_id) {
-            formik_kurs.values.kurs_fakultet_id =
-                isDataFakultetFilter && `${isDataFakultetFilter[0].id}`;
-        }
-        // Yonalish Logik
-        if (formik_kurs.values.kurs_fakultet_id) {
-            const filteredDataY =
-                isDataYonalish &&
-                isDataYonalish.filter(
-                    (item) =>
-                        item.yonalish_fakultet_id === formik_kurs.values.kurs_fakultet_id
-                );
-                console.log(filteredDataY);
-            if (
-                JSON.stringify(filteredDataY) !==
-                JSON.stringify(isDataYonalishFilter)
-            ) {
-                setIsDataYonalishFilter(filteredDataY);
-            }
+        console.log("hello");
+
+        let filterF = isDataFakultet && isDataFakultet.filter(item => Number(item.fakultet_talim_turi_id) === Number(formik_kurs.values.kurs_talim_turi_id));
+
+        if (JSON.stringify(isDataFakultet) !== JSON.stringify(isDataFakultetFilter)) {
+            setIsDataFakultetFilter(filterF);
         }
 
+        if (!formik_kurs.values.kurs_fakultet_id) { 
+            formik_kurs.values.kurs_fakultet_id = isDataFakultetFilter && isDataFakultetFilter[0].id;
+        }
+
+        let filterY = isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(formik_kurs.values.kurs_fakultet_id));
+        if (JSON.stringify(isDataYonalish) !== JSON.stringify(isDataYonalishFilter)) {
+
+            setIsDataYonalishFilter(filterY);
+        }
+        
+        formik_kurs.values.kurs_fakultet_id = isDataFakultetFilter && formik_kurs.values.kurs_fakultet_id;
     }, [
         formik_kurs.values,
         isDataTalim,
         isDataFakultet,
-        isDataFakultetFilter,
         isDataYonalish,
-        isDataYonalishFilter
     ]);
+    
+    //Logic Selects
+    // useEffect(() => {
+    //     // Talim
+    //     if (!formik_kurs.values.kurs_talim_turi_id) {
+    //         formik_kurs.values.kurs_talim_turi_id =
+    //             isDataTalim && `${isDataTalim[0].id}`;
+    //     }
+    //     // Fakultet Logik
+    //     if (formik_kurs.values.kurs_talim_turi_id) {
+    //         const filteredDataF =
+    //             isDataFakultet &&
+    //             isDataFakultet.filter(
+    //                 (item) =>
+    //                     item.fakultet_talim_turi_id ===
+    //                     formik_kurs.values.kurs_talim_turi_id
+    //             );
+    //         if (
+    //             JSON.stringify(filteredDataF) !==
+    //             JSON.stringify(isDataFakultetFilter)
+    //             ) {
+    //                 setIsDataFakultetFilter(filteredDataF);
+    //             }
+    //     }
+    //     // Fakultet
+    //     if (!formik_kurs.values.kurs_fakultet_id) {
+    //         formik_kurs.values.kurs_fakultet_id =
+    //             isDataFakultetFilter && `${isDataFakultetFilter[0].id}`;
+    //     }
+    //     // Yonalish Logik
+    //     if (formik_kurs.values.kurs_fakultet_id) {
+    //         const filteredDataY =
+    //             isDataYonalish &&
+    //             isDataYonalish.filter(
+    //                 (item) =>
+    //                     item.yonalish_fakultet_id === formik_kurs.values.kurs_fakultet_id
+    //             );
+    //         if (
+    //             JSON.stringify(filteredDataY) !==
+    //             JSON.stringify(isDataYonalishFilter)
+    //         ) {
+    //             setIsDataYonalishFilter(filteredDataY);
+    //         }
+    //     }
+
+    // }, [
+    //     formik_kurs.values,
+    //     isDataTalim,
+    //     isDataFakultet,
+    //     isDataFakultetFilter,
+    //     isDataYonalish,
+    //     isDataYonalishFilter
+    // ]);
 
     return (
         <div className="flex flex-col items-center">
-            {
-                isLoader ? (
-                    <div className="h-[100vh] flex justify-center items-center ">
-                        <div className="spinner">
-                            <MetroSpinner size={80} color="black" />
-                        </div>
+            {isLoader ? (
+                <div className="h-[100vh] flex justify-center items-center ">
+                    <div className="spinner">
+                        <MetroSpinner size={80} color="black" />
                     </div>
-                ) : (
+                </div>
+            ) : (
                 <>
                     {/* Kurs */}
                     <h1 className="text-[20px] mt-6 mb-3">
@@ -285,7 +306,9 @@ const Kurs = () => {
                                                     <MdDelete
                                                         className="text-red-600 cursor-pointer"
                                                         onClick={() =>
-                                                            handleDeletKurs(item.id)
+                                                            handleDeletKurs(
+                                                                item.id
+                                                            )
                                                         }
                                                     />
                                                 </div>
@@ -307,13 +330,19 @@ const Kurs = () => {
                                 <select
                                     className="border"
                                     onChange={formik_kurs.handleChange}
-                                    value={formik_kurs.values.kurs_talim_turi_id || ""}
+                                    value={
+                                        formik_kurs.values.kurs_talim_turi_id ||
+                                        ""
+                                    }
                                     name="kurs_talim_turi_id"
                                     id="kurs_talim_turi_id"
                                 >
                                     {isDataTalim &&
                                         isDataTalim.map((item) => (
-                                            <option key={item.id} value={item.id}>
+                                            <option
+                                                key={item.id}
+                                                value={item.id}
+                                            >
                                                 {item.talim_turi}
                                             </option>
                                         ))}
@@ -322,13 +351,19 @@ const Kurs = () => {
                                 <select
                                     className="border"
                                     onChange={formik_kurs.handleChange}
-                                    value={formik_kurs.values.kurs_fakultet_id || ""}
+                                    value={
+                                        formik_kurs.values.kurs_fakultet_id ||
+                                        ""
+                                    }
                                     name="kurs_fakultet_id"
                                     id="kurs_fakultet_id"
                                 >
                                     {isDataFakultetFilter &&
                                         isDataFakultetFilter.map((item) => (
-                                            <option key={item.id} value={item.id}>
+                                            <option
+                                                key={item.id}
+                                                value={item.id}
+                                            >
                                                 {item.fakultet}
                                             </option>
                                         ))}
@@ -337,13 +372,19 @@ const Kurs = () => {
                                 <select
                                     className="border"
                                     onChange={formik_kurs.handleChange}
-                                    value={formik_kurs.values.kurs_yonalish_id || ""}
+                                    value={
+                                        formik_kurs.values.kurs_yonalish_id ||
+                                        ""
+                                    }
                                     name="kurs_yonalish_id"
                                     id="kurs_yonalish_id"
                                 >
                                     {isDataYonalishFilter &&
                                         isDataYonalishFilter.map((item) => (
-                                            <option key={item.id} value={item.id}>
+                                            <option
+                                                key={item.id}
+                                                value={item.id}
+                                            >
                                                 {item.yonalish}
                                             </option>
                                         ))}
@@ -388,8 +429,7 @@ const Kurs = () => {
                         </div>
                     </div>
                 </>
-                )
-            }
+            )}
         </div>
     );
 };
