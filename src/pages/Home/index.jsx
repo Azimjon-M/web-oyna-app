@@ -15,9 +15,7 @@ const Home = () => {
                 <Navbar />
             </div>
             <div className="h-[100px] flex flex-col items-center justify-center">
-                <div className="text-[35px] font-bold">
-                    QO'QON DAVLAT PEDAGOGIKA INSTITUTI
-                </div>
+                
             </div>
             <div className="w-full h-[calc(80vh-220px-100px)]">
                 <Carousel data={newsData} tdelay="5000" />

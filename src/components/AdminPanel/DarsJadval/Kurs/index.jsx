@@ -3,6 +3,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { MdEdit, MdDelete } from "react-icons/md";
+import { MetroSpinner } from "react-spinners-kit";
 
 const Kurs = () => {
     const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
@@ -19,7 +20,6 @@ const Kurs = () => {
 
     const [isEdit, setIsEdit] = useState(false);
     const [isLoader, setIsLoader] = useState(true);
-    console.log(isLoader);
 
     const SignupSchemaKurs = Yup.object().shape({
         kurs: Yup.number().max(5, "Ko'p").required("Required"),
@@ -27,7 +27,7 @@ const Kurs = () => {
     //Kurs POST Edit
     const formik_kurs = useFormik({
         initialValues: {
-            kurs_talim_turi_id: "",
+            kurs_talim_turi_id: "" ,
             kurs_fakultet_id: "",
             kurs_yonalish_id: "",
             kurs: "1",
@@ -44,21 +44,21 @@ const Kurs = () => {
                 }
                 //Post
                 else {
-                    if (values.kurs_talim_turi_id === "") {
-                        formik_kurs.values.kurs_talim_turi_id =
-                            isDataTalim && `${isDataTalim[0].id}`;
-                    }
-                    if (values.kurs_fakultet_id === "") {
-                        formik_kurs.values.kurs_fakultet_id =
-                            isDataFakultet && `${isDataFakultet[0].id}`;
-                    }
-                    if (values.kurs_yonalish_id === "") {
-                        formik_kurs.values.kurs_yonalish_id =
-                            isDataYonalish && `${isDataYonalish[0].id}`;
-                    }
-                    if (values.kurs === "") {
-                        formik_kurs.values.kurs_yonalish_id = "1";
-                    }
+                    // if (values.kurs_talim_turi_id === "") {
+                    //     formik_kurs.values.kurs_talim_turi_id =
+                    //         isDataTalim && `${isDataTalim[0].id}`;
+                    // }
+                    // if (values.kurs_fakultet_id === "") {
+                    //     formik_kurs.values.kurs_fakultet_id =
+                    //         isDataFakultet && `${isDataFakultet[0].id}`;
+                    // }
+                    // if (values.kurs_yonalish_id === "") {
+                    //     formik_kurs.values.kurs_yonalish_id =
+                    //         isDataYonalish && `${isDataYonalish[0].id}`;
+                    // }
+                    // if (values.kurs === "") {
+                    //     formik_kurs.values.kurs_yonalish_id = "1";
+                    // }
                     console.log(values);
                     // await axios.post(UrlKurs, values);
                     // formik_kurs.resetForm();
@@ -98,9 +98,12 @@ const Kurs = () => {
     const handleRefresh = async () => {
         try {
             await axios
-                .get(UrlFakultet)
+                .get(UrlTalim)
                 .then((res) => {
-                    setIsDataFakultet(res.data);
+                    setIsDataTalim(res.data);
+                    formik_kurs.setFieldValue({
+                        kurs_talim_turi_id: res.data[0].id,
+                    })
                     setIsLoader(false);
                 })
                 .catch((err) => {
@@ -108,9 +111,9 @@ const Kurs = () => {
                     setIsLoader(false);
                 });
             await axios
-                .get(UrlTalim)
+                .get(UrlFakultet)
                 .then((res) => {
-                    setIsDataTalim(res.data);
+                    setIsDataFakultet(res.data);
                     setIsLoader(false);
                 })
                 .catch((err) => {
@@ -174,11 +177,6 @@ const Kurs = () => {
             formik_kurs.values.kurs_talim_turi_id =
                 isDataTalim && `${isDataTalim[0].id}`;
         }
-        // Fakultet
-        if (!formik_kurs.values.kurs_fakultet_id) {
-            formik_kurs.values.kurs_fakultet_id =
-                isDataFakultetFilter && `${isDataFakultetFilter[0].id}`;
-        }
         // Fakultet Logik
         if (formik_kurs.values.kurs_talim_turi_id) {
             const filteredDataF =
@@ -191,189 +189,207 @@ const Kurs = () => {
             if (
                 JSON.stringify(filteredDataF) !==
                 JSON.stringify(isDataFakultetFilter)
-            ) {
-                setIsDataFakultetFilter(filteredDataF);
-            }
+                ) {
+                    setIsDataFakultetFilter(filteredDataF);
+                }
+        }
+        // Fakultet
+        if (!formik_kurs.values.kurs_fakultet_id) {
+            formik_kurs.values.kurs_fakultet_id =
+                isDataFakultetFilter && `${isDataFakultetFilter[0].id}`;
         }
         // Yonalish Logik
-        if (!formik_kurs.values.kurs_fakultet_id) {
+        if (formik_kurs.values.kurs_fakultet_id) {
             const filteredDataY =
                 isDataYonalish &&
                 isDataYonalish.filter(
                     (item) =>
                         item.yonalish_fakultet_id === formik_kurs.values.kurs_fakultet_id
                 );
+                console.log(filteredDataY);
             if (
                 JSON.stringify(filteredDataY) !==
-                JSON.stringify(isDataFakultetFilter)
+                JSON.stringify(isDataYonalishFilter)
             ) {
                 setIsDataYonalishFilter(filteredDataY);
             }
         }
+
     }, [
         formik_kurs.values,
         isDataTalim,
         isDataFakultet,
         isDataFakultetFilter,
         isDataYonalish,
+        isDataYonalishFilter
     ]);
 
     return (
         <div className="flex flex-col items-center">
-            {/* Kurs */}
-            <h1 className="text-[20px] mt-6 mb-3">
-                <b>Kurs:</b>
-            </h1>
-            <div className="w-[1000px] h-[400px] flex justify-center gap-x-2">
-                <div className="w-[50%] h-full flex flex-col gap-y-2">
-                    {/* Get Data */}
-                    <div className="border-b border-black px-10 py-2">
-                        <b>Joylashtirilgan ma'lumotlar</b>
-                    </div>
-                    {isDataKurs && isDataKurs.length === 0 ? (
-                        <div className="text-red-600">
-                            Ma'lumotlar joylanmagan !
+            {
+                isLoader ? (
+                    <div className="h-[100vh] flex justify-center items-center ">
+                        <div className="spinner">
+                            <MetroSpinner size={80} color="black" />
                         </div>
-                    ) : (
-                        <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
-                            {isDataKurs &&
-                                isDataKurs.map((item) => (
-                                    <div
-                                        key={item.id}
-                                        className="flex justify-between items-center border border-gray-400 px-2"
-                                    >
-                                        <div>
-                                            <b>Talim tur:</b>
-                                            {handleGetTalimTur(
-                                                item.kurs_talim_turi_id
-                                            )}
-                                            <br />
-                                            <b>Fakultet:</b>
-                                            {handleGetFakultet(
-                                                item.kurs_fakultet_id
-                                            )}
-                                            <br />
-                                            <b>Yo'nalish:</b>
-                                            {handleGetYonalish(
-                                                item.kurs_yonalish_id
-                                            )}
-                                            <br />
-                                            <b>Kurs:</b> {item.kurs}
-                                        </div>
-                                        <div className="flex gap-x-2">
-                                            <MdEdit
-                                                className="text-green-700 cursor-pointer"
-                                                onClick={() =>
-                                                    handleEdit(item.id)
-                                                }
-                                            />
-                                            <MdDelete
-                                                className="text-red-600 cursor-pointer"
-                                                onClick={() =>
-                                                    handleDeletKurs(item.id)
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
-                        </div>
-                    )}
-                </div>
-                <div className="w-[50%]">
-                    <div className="px-10 py-2 border-b border-black">
-                        <b>Ma'lumotlar joylashtirish</b>
                     </div>
-                    {/* Post Data */}
-                    <form
-                        className="w-full px-10 mt-10"
-                        onSubmit={formik_kurs.handleSubmit}
-                    >
-                        {/* TalimTur */}
-                        <select
-                            className="border"
-                            onChange={formik_kurs.handleChange}
-                            value={formik_kurs.values.kurs_talim_turi_id || ""}
-                            name="kurs_talim_turi_id"
-                            id="kurs_talim_turi_id"
-                        >
-                            <option value="" disabled selected>Ta'lim turini tanlang</option>
-                            {isDataTalim &&
-                                isDataTalim.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                        {item.talim_turi}
-                                    </option>
-                                ))}
-                        </select>
-                        {/* Fakultet */}
-                        <select
-                            className="border"
-                            onChange={formik_kurs.handleChange}
-                            value={formik_kurs.values.kurs_fakultet_id || ""}
-                            name="kurs_fakultet_id"
-                            id="kurs_fakultet_id"
-                        >
-                            <option value="" disabled selected>Fakultetni tanlang</option>
-                            {isDataFakultetFilter &&
-                                isDataFakultetFilter.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                        {item.fakultet}
-                                    </option>
-                                ))}
-                        </select>
-                        {/* Yonalish */}
-                        <select
-                            className="border"
-                            onChange={formik_kurs.handleChange}
-                            value={formik_kurs.values.kurs_yonalish_id || ""}
-                            name="kurs_yonalish_id"
-                            id="kurs_yonalish_id"
-                        >
-                            {isDataYonalishFilter &&
-                                isDataYonalishFilter.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                        {item.yonalish}
-                                    </option>
-                                ))}
-                        </select>
-                        <br />
-                        Kurs
-                        <select
-                            className="border"
-                            name="kurs"
-                            id="kurs"
-                            onChange={formik_kurs.handleChange}
-                            value={formik_kurs.values.kurs || "1"}
-                        >
-                            <option value="1">1 - kurs</option>
-                            <option value="2">2 - kurs</option>
-                            <option value="3">3 - kurs</option>
-                            <option value="4">4 - kurs</option>
-                            <option value="5">5 - kurs</option>
-                        </select>
-                        {/* <label className="flex flex-col" htmlFor="kurs">
-                            Kurs
-                            <input
-                                className={`${
-                                    formik_kurs.errors.kurs
-                                        ? "border-red-600"
-                                        : "border-gray-400"
-                                } border outline-none py-1 px-2`}
-                                type="text"
-                                id="kurs"
-                                name="kurs"
-                                onChange={formik_kurs.handleChange}
-                                value={formik_kurs.values.kurs}
-                            />
-                        </label> */}
-                        <button
-                            className="w-[100px] float-right border-blue-500 bg-blue-500 text-white py-1 px-2 mt-5"
-                            type="submit"
-                        >
-                            Jo'natish
-                        </button>
-                    </form>
-                </div>
-            </div>
+                ) : (
+                <>
+                    {/* Kurs */}
+                    <h1 className="text-[20px] mt-6 mb-3">
+                        <b>Kurs:</b>
+                    </h1>
+                    <div className="w-[1000px] h-[400px] flex justify-center gap-x-2">
+                        <div className="w-[50%] h-full flex flex-col gap-y-2">
+                            {/* Get Data */}
+                            <div className="border-b border-black px-10 py-2">
+                                <b>Joylashtirilgan ma'lumotlar</b>
+                            </div>
+                            {isDataKurs && isDataKurs.length === 0 ? (
+                                <div className="text-red-600">
+                                    Ma'lumotlar joylanmagan !
+                                </div>
+                            ) : (
+                                <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
+                                    {isDataKurs &&
+                                        isDataKurs.map((item) => (
+                                            <div
+                                                key={item.id}
+                                                className="flex justify-between items-center border border-gray-400 px-2"
+                                            >
+                                                <div>
+                                                    <b>Talim tur:</b>
+                                                    {handleGetTalimTur(
+                                                        item.kurs_talim_turi_id
+                                                    )}
+                                                    <br />
+                                                    <b>Fakultet:</b>
+                                                    {handleGetFakultet(
+                                                        item.kurs_fakultet_id
+                                                    )}
+                                                    <br />
+                                                    <b>Yo'nalish:</b>
+                                                    {handleGetYonalish(
+                                                        item.kurs_yonalish_id
+                                                    )}
+                                                    <br />
+                                                    <b>Kurs:</b> {item.kurs}
+                                                </div>
+                                                <div className="flex gap-x-2">
+                                                    <MdEdit
+                                                        className="text-green-700 cursor-pointer"
+                                                        onClick={() =>
+                                                            handleEdit(item.id)
+                                                        }
+                                                    />
+                                                    <MdDelete
+                                                        className="text-red-600 cursor-pointer"
+                                                        onClick={() =>
+                                                            handleDeletKurs(item.id)
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))}
+                                </div>
+                            )}
+                        </div>
+                        <div className="w-[50%]">
+                            <div className="px-10 py-2 border-b border-black">
+                                <b>Ma'lumotlar joylashtirish</b>
+                            </div>
+                            {/* Post Data */}
+                            <form
+                                className="w-full px-10 mt-10"
+                                onSubmit={formik_kurs.handleSubmit}
+                            >
+                                {/* TalimTur */}
+                                <select
+                                    className="border"
+                                    onChange={formik_kurs.handleChange}
+                                    value={formik_kurs.values.kurs_talim_turi_id || ""}
+                                    name="kurs_talim_turi_id"
+                                    id="kurs_talim_turi_id"
+                                >
+                                    {isDataTalim &&
+                                        isDataTalim.map((item) => (
+                                            <option key={item.id} value={item.id}>
+                                                {item.talim_turi}
+                                            </option>
+                                        ))}
+                                </select>
+                                {/* Fakultet */}
+                                <select
+                                    className="border"
+                                    onChange={formik_kurs.handleChange}
+                                    value={formik_kurs.values.kurs_fakultet_id || ""}
+                                    name="kurs_fakultet_id"
+                                    id="kurs_fakultet_id"
+                                >
+                                    {isDataFakultetFilter &&
+                                        isDataFakultetFilter.map((item) => (
+                                            <option key={item.id} value={item.id}>
+                                                {item.fakultet}
+                                            </option>
+                                        ))}
+                                </select>
+                                {/* Yonalish */}
+                                <select
+                                    className="border"
+                                    onChange={formik_kurs.handleChange}
+                                    value={formik_kurs.values.kurs_yonalish_id || ""}
+                                    name="kurs_yonalish_id"
+                                    id="kurs_yonalish_id"
+                                >
+                                    {isDataYonalishFilter &&
+                                        isDataYonalishFilter.map((item) => (
+                                            <option key={item.id} value={item.id}>
+                                                {item.yonalish}
+                                            </option>
+                                        ))}
+                                </select>
+                                <br />
+                                Kurs
+                                <select
+                                    className="border"
+                                    name="kurs"
+                                    id="kurs"
+                                    onChange={formik_kurs.handleChange}
+                                    value={formik_kurs.values.kurs || "1"}
+                                >
+                                    <option value="1">1 - kurs</option>
+                                    <option value="2">2 - kurs</option>
+                                    <option value="3">3 - kurs</option>
+                                    <option value="4">4 - kurs</option>
+                                    <option value="5">5 - kurs</option>
+                                </select>
+                                {/* <label className="flex flex-col" htmlFor="kurs">
+                                    Kurs
+                                    <input
+                                        className={`${
+                                            formik_kurs.errors.kurs
+                                                ? "border-red-600"
+                                                : "border-gray-400"
+                                        } border outline-none py-1 px-2`}
+                                        type="text"
+                                        id="kurs"
+                                        name="kurs"
+                                        onChange={formik_kurs.handleChange}
+                                        value={formik_kurs.values.kurs}
+                                    />
+                                </label> */}
+                                <button
+                                    className="w-[100px] float-right border-blue-500 bg-blue-500 text-white py-1 px-2 mt-5"
+                                    type="submit"
+                                >
+                                    Jo'natish
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </>
+                )
+            }
         </div>
     );
 };
