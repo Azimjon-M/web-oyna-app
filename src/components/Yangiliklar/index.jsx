@@ -11,8 +11,8 @@ import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
 const Yangiliklar = () => {
     const [loading, setLoading] = useState(true);
     const [news, setNews] = useState(null);
-    const cutTitle = 80;
-    const cutBody = 300;
+    const cutTitle = 100;
+    const cutBody = 340;
     useEffect(() => {
         const loadPost = async () => {
             try {
@@ -58,13 +58,12 @@ const Yangiliklar = () => {
                             clickable: true,
                         }}
                         modules={[Autoplay, EffectCoverflow, Pagination]}
-                        className="mySwiper w-[100%] h-auto py-[50px!important]"
+                        className="mySwiper w-[100%] h-auto py-[50px!important] flex justify-center"
                     >
                         {news && news.map((item, idx) => (
-                            <SwiperSlide className='w-[800px!important] bg-white flex justify-center rounded-3xl overflow-hidden' key={idx}>
+                            <SwiperSlide className='w-[800px!important] bg-white flex justify-center rounded-3xl overflow-hidden mx-[100px]' key={idx}>
                                 <div>
-                                <img className='block w-[800px] h-[900px] rounded-t-3xl object-cover' src={item.rasm} alt="yangilik img" />
-
+                                    <img className='block w-[800px] h-[900px] rounded-3xl object-cover' src={item.rasm} alt="yangilik img" />
                                 </div>
                                 <div>
                                 <h1 className='text-3xl text-center px-5 py-5'>{item.title.length > cutTitle ? item.title.slice(0, cutTitle) + "...": item.title}</h1>
