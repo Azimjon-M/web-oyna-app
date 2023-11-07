@@ -63,7 +63,7 @@ const Yangiliklar = () => {
                         {news && news.map((item, idx) => (
                             <SwiperSlide className='w-[800px!important] bg-white flex justify-center rounded-3xl overflow-hidden' key={idx}>
                                 <div>
-                                <img className='block w-[800px] h-[1200px] rounded-t-3xl object-cover' src={item.rasm} alt="yangilik img" />
+                                <img className='block w-[800px] h-[900px] rounded-t-3xl object-cover' src={item.rasm} alt="yangilik img" />
 
                                 </div>
                                 <div>
