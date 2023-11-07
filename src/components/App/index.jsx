@@ -24,7 +24,7 @@ function App() {
     }, [dispatch]);
     const content = useRoutes(routes);
 
-    return <div>{content}</div>;
+    return <div className="overflow-y-auto style-owerflow-001">{content}</div>;
 }
 
 export default App;
