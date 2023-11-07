@@ -67,8 +67,8 @@ const Yangiliklar = () => {
 
                                 </div>
                                 <div>
-                                <h1 className='text-3xl text-center py-5'>{item.title.length > cutTitle ? item.title.slice(0, cutTitle) + "...": item.title}</h1>
-                                <p className='text-2xl text-center pb-5'>{item.body.length > cutBody ? item.body.slice(0, cutBody) + "...": item.body}</p>
+                                <h1 className='text-3xl text-center px-5 py-5'>{item.title.length > cutTitle ? item.title.slice(0, cutTitle) + "...": item.title}</h1>
+                                <p className='text-2xl text-center px-5 pb-5'>{item.body.length > cutBody ? item.body.slice(0, cutBody) + "...": item.body}</p>
                                 </div>
                             </SwiperSlide>
                         ))}
