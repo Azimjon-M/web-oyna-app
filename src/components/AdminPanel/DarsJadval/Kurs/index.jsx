@@ -161,10 +161,11 @@ const Kurs = () => {
             isDataYonalish.find((item) => Number(item.id) === Number(id));
         return foundYonalish ? foundYonalish.yonalish : "(noaniq)";
     };
-
-    //LifeCycle
     useEffect(() => {
         handleRefresh();
+    }, [])
+    //LifeCycle
+    useEffect(() => {
         // agar Formikda kurs_talim_turi_id = ""
         if (!formik_kurs.values.kurs_talim_turi_id) {
             formik_kurs.values.kurs_talim_turi_id =
@@ -180,12 +181,17 @@ const Kurs = () => {
             );
         //Yonalishni filterlash
         let filterY =
-            isDataYonalish &&
-            isDataYonalish.filter(
-                (item) =>
-                    Number(item.yonalish_fakultet_id) ===
-                    Number(formik_kurs.values.kurs_fakultet_id)
-            );
+            isDataYonalish && 
+        
+            isDataYonalish 
+            if (filterF && filterF[0].id === formik_kurs.values.kurs_fakultet_id) {
+                console.log("Tio''a;sd';a");
+            }
+            // .filter(
+            //     (item) =>
+            //         Number(item.yonalish_fakultet_id) ===
+            //         Number(formik_kurs.values.kurs_fakultet_id)
+            // );
 
         if (
             JSON.stringify(isDataFakultet) !==
@@ -206,9 +212,9 @@ const Kurs = () => {
                 formik_kurs.values.kurs_yonalish_id = `${filterY[0].id}`;
             }
         }
-
+        console.log("Effect ");
         // formik_kurs.values.kurs_fakultet_id = isDataFakultetFilter && formik_kurs.values.kurs_fakultet_id;
-    }, [isDataTalim]);
+    }, [formik_kurs.values, isDataTalim, isDataFakultet, isDataFakultetFilter, isDataYonalish, isDataYonalishFilter]);
 
     //Logic Selects
     // useEffect(() => {
