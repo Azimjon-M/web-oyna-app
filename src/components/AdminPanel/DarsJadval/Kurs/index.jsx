@@ -101,7 +101,6 @@ const Kurs = () => {
                 .then((res) => {
                     setIsDataTalim(res.data);
                     setIsLoader(false);
-                    formik_kurs.values.kurs_talim_turi_id === "" && (formik_kurs.values.kurs_talim_turi_id = res.data[0].id);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -162,37 +161,55 @@ const Kurs = () => {
             isDataYonalish.find((item) => Number(item.id) === Number(id));
         return foundYonalish ? foundYonalish.yonalish : "(noaniq)";
     };
-    
+
     //LifeCycle
     useEffect(() => {
         handleRefresh();
+        // agar Formikda kurs_talim_turi_id = ""
+        if (!formik_kurs.values.kurs_talim_turi_id) {
+            formik_kurs.values.kurs_talim_turi_id =
+                isDataTalim && `${isDataTalim[0].id}`;
+        }
+        //Fakultetni filterlash
+        let filterF =
+            isDataFakultet &&
+            isDataFakultet.filter(
+                (item) =>
+                    Number(item.fakultet_talim_turi_id) ===
+                    Number(formik_kurs.values.kurs_talim_turi_id)
+            );
+        //Yonalishni filterlash
+        let filterY =
+            isDataYonalish &&
+            isDataYonalish.filter(
+                (item) =>
+                    Number(item.yonalish_fakultet_id) ===
+                    Number(formik_kurs.values.kurs_fakultet_id)
+            );
 
-        console.log("hello");
-
-        let filterF = isDataFakultet && isDataFakultet.filter(item => Number(item.fakultet_talim_turi_id) === Number(formik_kurs.values.kurs_talim_turi_id));
-
-        if (JSON.stringify(isDataFakultet) !== JSON.stringify(isDataFakultetFilter)) {
+        if (
+            JSON.stringify(isDataFakultet) !==
+            JSON.stringify(isDataFakultetFilter)
+        ) {
             setIsDataFakultetFilter(filterF);
+            if (!formik_kurs.values.kurs_fakultet_id) {
+                formik_kurs.values.kurs_fakultet_id = `${filterF[0].id}`;
+            }
         }
 
-        if (!formik_kurs.values.kurs_fakultet_id) { 
-            formik_kurs.values.kurs_fakultet_id = isDataFakultetFilter && isDataFakultetFilter[0].id;
-        }
-
-        let filterY = isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(formik_kurs.values.kurs_fakultet_id));
-        if (JSON.stringify(isDataYonalish) !== JSON.stringify(isDataYonalishFilter)) {
-
+        if (
+            JSON.stringify(isDataYonalish) !==
+            JSON.stringify(isDataYonalishFilter)
+        ) {
             setIsDataYonalishFilter(filterY);
+            if (!formik_kurs.values.kurs_yonalish_id) {
+                formik_kurs.values.kurs_yonalish_id = `${filterY[0].id}`;
+            }
         }
-        
-        formik_kurs.values.kurs_fakultet_id = isDataFakultetFilter && formik_kurs.values.kurs_fakultet_id;
-    }, [
-        formik_kurs.values,
-        isDataTalim,
-        isDataFakultet,
-        isDataYonalish,
-    ]);
-    
+
+        // formik_kurs.values.kurs_fakultet_id = isDataFakultetFilter && formik_kurs.values.kurs_fakultet_id;
+    }, [isDataTalim]);
+
     //Logic Selects
     // useEffect(() => {
     //     // Talim
