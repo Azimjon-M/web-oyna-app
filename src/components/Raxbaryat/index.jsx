@@ -29,8 +29,7 @@ const Raxbaryat = () => {
             <div className='w-[100%]'>
                 <div className=''>
                     {loading ? <Loader /> :
-                        <div className='mx-3 my-5 text-center'>
-                            <h1 className='text-[45px] text-[#0156B0] font-bold'>RAHBARYAT</h1>
+                        <div className='mx-3 my-2 text-center'>
                             {
                                 person && person.map((item, idx) => (
                                         <div className='my-4 border border-[#0156B0] text-white rounded-[30px] overflow-hidden bg-[#0156B0] z-0' key={idx}>
@@ -38,7 +37,7 @@ const Raxbaryat = () => {
                                                 <div className='z-10'>
                                                     <img className="w-[340px] h-[245px]" src={item.rasm} alt="" />
                                                 </div>
-                                                <div className="relative flex justify-center items-centee">
+                                                <div className="relative flex justify-center items-center">
                                                     <img className='w-[500px] h-[245px] translate-x-[-30px] z-20' src={cardBg} alt="" />
                                                     <div className="absolute top-[50%] left-5 translate-y-[-50%] z-50">
                                                         <h5 className="font-bold text-[28px] text-start">{item.fish}</h5>
