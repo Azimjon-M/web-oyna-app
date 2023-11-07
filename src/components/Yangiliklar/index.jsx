@@ -41,6 +41,7 @@ const Yangiliklar = () => {
                 ) : (
                     <div>
                         <Swiper
+                        navigation={true}
                         loop={true}
                         effect={'coverflow'}
                         grabCursor={true}
