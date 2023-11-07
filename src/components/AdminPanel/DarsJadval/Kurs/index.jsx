@@ -163,7 +163,7 @@ const Kurs = () => {
     };
     useEffect(() => {
         handleRefresh();
-    }, [])
+    }, []);
     //LifeCycle
     useEffect(() => {
         // agar Formikda kurs_talim_turi_id = ""
@@ -179,42 +179,24 @@ const Kurs = () => {
                     Number(item.fakultet_talim_turi_id) ===
                     Number(formik_kurs.values.kurs_talim_turi_id)
             );
+        setIsDataFakultetFilter(filterF);
+
+        // agar Formikda kurs_fakulet_id "" ? true
+        if (!formik_kurs.values.kurs_fakultet_id) {
+            formik_kurs.values.kurs_fakultet_id = filterF && filterF[0].id;
+        }
         //Yonalishni filterlash
         let filterY =
-            isDataYonalish && 
-        
-            isDataYonalish 
-            if (filterF && filterF[0].id === formik_kurs.values.kurs_fakultet_id) {
-                console.log("Tio''a;sd';a");
-            }
-            // .filter(
-            //     (item) =>
-            //         Number(item.yonalish_fakultet_id) ===
-            //         Number(formik_kurs.values.kurs_fakultet_id)
-            // );
+            isDataYonalish &&
+            isDataYonalish.filter(
+                (item) =>
+                    Number(item.yonalish_fakultet_id) ===
+                    Number(formik_kurs.values.kurs_fakultet_id)
+            );
+        setIsDataYonalishFilter(filterY);
 
-        if (
-            JSON.stringify(isDataFakultet) !==
-            JSON.stringify(isDataFakultetFilter)
-        ) {
-            setIsDataFakultetFilter(filterF);
-            if (!formik_kurs.values.kurs_fakultet_id) {
-                formik_kurs.values.kurs_fakultet_id = `${filterF[0].id}`;
-            }
-        }
-
-        if (
-            JSON.stringify(isDataYonalish) !==
-            JSON.stringify(isDataYonalishFilter)
-        ) {
-            setIsDataYonalishFilter(filterY);
-            if (!formik_kurs.values.kurs_yonalish_id) {
-                formik_kurs.values.kurs_yonalish_id = `${filterY[0].id}`;
-            }
-        }
         console.log("Effect ");
-        // formik_kurs.values.kurs_fakultet_id = isDataFakultetFilter && formik_kurs.values.kurs_fakultet_id;
-    }, [formik_kurs.values, isDataTalim, isDataFakultet, isDataFakultetFilter, isDataYonalish, isDataYonalishFilter]);
+    }, [formik_kurs.values, isDataTalim, isDataFakultet]);
 
     //Logic Selects
     // useEffect(() => {
