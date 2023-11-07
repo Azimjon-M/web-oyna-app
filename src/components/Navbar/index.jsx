@@ -71,12 +71,12 @@ const Navbar = () => {
                 </li>
                 <li>
                     <NavLink className={({ isActive }) => `${ isActive ? 'bg-[#0256B0] px-4 py-2 rounded-2xl' : '' } font-[900] text-[32px] `} to='/raxbaryat'>
-                        Raxbaryat
+                        Rahbariyat
                     </NavLink>
                 </li>
                 <li>
                     <NavLink className={({ isActive }) => `${ isActive ? 'bg-[#0256B0] px-4 py-2 rounded-2xl' : '' } font-[900] text-[32px] `} to='/inter-active-hizmatlar'>
-                        Iteraktiv hizmatlar
+                        Interaktiv xizmatlar
                     </NavLink>
                 </li>
             </ul>
