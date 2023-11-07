@@ -17,14 +17,14 @@ const InterActiveHiz = () => {
             <Navbar />
             <div className="flex flex-col items-center gap-y-8 mt-4">
                 <h1 className="text-[40px] font-bold text-center">
-                    INTERAKTIV HIZMAT TURLARI:
+                    INTERAKTIV XIZMAT TURLARI:
                 </h1>
                 <div className="flex flex-col gap-y-4">
                     <div
                         onClick={() => setDavInHiz(!davInHiz)}
                         className="bg-blue-200 font-bold text-[30px] flex items-center rounded-md px-10 py-2 cursor-pointer select-none"
                     >
-                        Davlat interaktiv hizmatlari
+                        Davlat interaktiv xizmatlari
                         <div
                             className={`${
                                 davInHiz ? "rotate-[135deg]" : "rotate-[-45deg]"
@@ -47,7 +47,7 @@ const InterActiveHiz = () => {
                         onClick={() => setInsInHiz(!insInHiz)}
                         className="bg-blue-200 font-bold text-[30px] flex items-center rounded-md px-10 py-2 cursor-pointer select-none"
                     >
-                        Institut interaktiv hizmatlari
+                        Institut interaktiv xizmatlari
                         <div
                             className={`${
                                 insInHiz ? "rotate-[135deg]" : "rotate-[-45deg]"
@@ -65,7 +65,7 @@ const InterActiveHiz = () => {
                         <div className="border-4 border-black bg-white p-3">
                             <QRCode value={urlSharnomaKant} />
                         </div>
-                        <h1 className="text-[26px] font-bold mt-10 mb-4">Talaba amalyot shartnoma</h1>
+                        <h1 className="text-[26px] font-bold mt-10 mb-4">Talaba amaliyot shartnoma</h1>
                         <div className="border-4 border-black bg-white p-3">
                             <QRCode value={urlSharnomaAmal} />
                         </div>
@@ -73,7 +73,7 @@ const InterActiveHiz = () => {
                         <div className="border-4 border-black bg-white p-3">
                             <QRCode value={urlTurarjoy} />
                         </div>
-                        <h1 className="text-[26px] font-bold mt-10 mb-4">Talaba o'qish joyidan ma'lumot</h1>
+                        <h1 className="text-[26px] font-bold mt-10 mb-4">Talaba o'qish joyidan ma'lumotnoma</h1>
                         <div className="border-4 border-black bg-white p-3 mb-10">
                             <QRCode value={urloqishMal} />
                         </div>
