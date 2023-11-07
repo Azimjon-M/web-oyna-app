@@ -14,10 +14,7 @@ const Home = () => {
             <div className="h-[220px]">
                 <Navbar />
             </div>
-            <div className="h-[100px] flex flex-col items-center justify-center">
-                
-            </div>
-            <div className="w-full h-[calc(80vh-220px-100px)]">
+            <div className="w-full h-[calc(80vh-220px)]">
                 <Carousel data={newsData} tdelay="5000" />
             </div>
             <div className="w-full h-[20vh] relative">
