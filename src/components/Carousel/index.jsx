@@ -1,6 +1,4 @@
 import React from "react";
-//Youtube
-// import YouTube from "react-youtube";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,8 +6,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-
-import "./styles.css";
 
 // import required modules
 import { Autoplay, Pagination } from "swiper/modules";
@@ -27,14 +23,14 @@ const Carousel = ({ data, tdelay }) => {
                 }}
                 loop={true}
                 modules={[Autoplay, Pagination]}
-                className="mySwiper"
+                className="mySwiper w-[100%] h-[100%]"
             >
                 {data && data.map((item, idx) => (
                     <SwiperSlide
                         className="relative flex items-start"
                         key={idx}
                     >
-                        <img className="absolute" src={item.src} alt="news" />
+                        <img className="absolute w-[100%] h-[100%] object-cover" src={item.src} alt="news" />
                     </SwiperSlide>
                 ))}
             </Swiper>
