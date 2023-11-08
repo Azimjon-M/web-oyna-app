@@ -100,7 +100,7 @@ const Kurs = () => {
                 .get(UrlTalim)
                 .then((res) => {
                     setIsDataTalim(res.data);
-                    setIsLoader(false);
+                    // setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -110,7 +110,7 @@ const Kurs = () => {
                 .get(UrlFakultet)
                 .then((res) => {
                     setIsDataFakultet(res.data);
-                    setIsLoader(false);
+                    // setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -120,7 +120,7 @@ const Kurs = () => {
                 .get(UrlYonalish)
                 .then((res) => {
                     setIsDataYonalish(res.data);
-                    setIsLoader(false);
+                    // setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
