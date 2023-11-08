@@ -27,10 +27,15 @@ const Carousel = ({ data, tdelay }) => {
             >
                 {data && data.map((item, idx) => (
                     <SwiperSlide
-                        className="relative flex items-start"
+                        className="relative w-full h-full flex items-start"
                         key={idx}
                     >
-                        <img className="absolute w-[100%] h-[100%] object-cover" src={item.src} alt="news" />
+                            <video controls autoPlay muted className="absolute top-0 left-0 object-cover w-full h-full blur-xl -z-10 border border-red-600">
+                                <source src={item.src} />
+                            </video>
+                            <video controls autoPlay muted className="w-full h-full z-10">
+                                <source src={item.src} />
+                            </video>
                     </SwiperSlide>
                 ))}
             </Swiper>

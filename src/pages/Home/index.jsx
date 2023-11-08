@@ -2,9 +2,9 @@ import React from "react";
 import Carousel from "../../components/Carousel";
 import Navbar from "../../components/Navbar";
 
-import img1 from "../../assets/images/img-1.jpg";
-import img2 from "../../assets/images/img-2.jpg";
-import img3 from "../../assets/images/img-3.jpg";
+import img1 from "../../assets/videos/rolik1.mp4";
+import img2 from "../../assets/videos/rolik1.mp4";
+import img3 from "../../assets/videos/rolik1.mp4";
 
 const Home = () => {
     const newsData = [{ src: img1 }, { src: img2 }, { src: img3 }];
@@ -15,7 +15,7 @@ const Home = () => {
                 <Navbar />
             </div>
             <div className="w-full h-[calc(80vh-220px)]">
-                <Carousel data={newsData} tdelay="5000" />
+                <Carousel data={newsData} tdelay="30000" />
             </div>
             <div className="w-full h-[20vh] relative">
                 <Carousel data={newsData} tdelay="3000" />
