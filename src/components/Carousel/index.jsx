@@ -30,7 +30,7 @@ const Carousel = ({ data, tdelay }) => {
                         className="relative w-full h-full flex items-start"
                         key={idx}
                     >
-                            <video controls autoPlay muted className="absolute top-0 left-0 object-cover w-full h-full blur-xl -z-10 border border-red-600">
+                            <video controls autoPlay muted className="absolute top-0 left-0 object-cover w-full h-full blur-xl -z-10">
                                 <source src={item.src} />
                             </video>
                             <video controls autoPlay muted className="w-full h-full z-10">
