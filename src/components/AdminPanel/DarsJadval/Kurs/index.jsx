@@ -179,12 +179,14 @@ const Kurs = () => {
                     Number(item.fakultet_talim_turi_id) ===
                     Number(formik_kurs.values.kurs_talim_turi_id)
             );
+
         setIsDataFakultetFilter(filterF);
 
         // agar Formikda kurs_fakulet_id "" ? true
         if (!formik_kurs.values.kurs_fakultet_id) {
             formik_kurs.values.kurs_fakultet_id = filterF && filterF[0].id;
         }
+        
         //Yonalishni filterlash
         let filterY =
             isDataYonalish &&

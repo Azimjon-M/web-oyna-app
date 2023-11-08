@@ -7,10 +7,10 @@ import { MetroSpinner } from "react-spinners-kit";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { BsImage } from "react-icons/bs";
 
-const Raxbaryat = ({ dataRaxbaryat }) => {
+const Raxbaryat = () => {
     const Url = "http://api.kspi.uz/v1/rahbariyat/rahbariyat/";
 
-    const [isData, setIsData] = useState(dataRaxbaryat);
+    const [isData, setIsData] = useState(null);
     const [isFile, setIsFile] = useState("");
     const [imgErr, setImgErr] = useState(null);
     const [isEdit, setIsEdit] = useState(null);
