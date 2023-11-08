@@ -3,8 +3,8 @@ import Carousel from "../../components/Carousel";
 import Navbar from "../../components/Navbar";
 
 import img1 from "../../assets/videos/rolik1.mp4";
-import img2 from "../../assets/videos/rolik1.mp4";
-import img3 from "../../assets/videos/rolik1.mp4";
+import img2 from "../../assets/videos/rolik2.mp4";
+import img3 from "../../assets/videos/rolik3.mp4";
 
 const Home = () => {
     const newsData = [{ src: img1 }, { src: img2 }, { src: img3 }];

@@ -26,18 +26,12 @@ const Carousel = ({ data, tdelay }) => {
                 modules={[Autoplay, Pagination]}
                 className="mySwiper w-[100%] h-[100%]"
             >
-                {data &&
-                    data.map((item, idx) => (
-                        <SwiperSlide
-                            className="relative w-full h-full flex items-start"
-                            key={idx}
-                        >
-                            <video
-                                controls
-                                autoPlay
-                                muted
-                                className="absolute top-0 left-0 object-cover w-full h-full blur-xl -z-10 border border-red-600"
-                            >
+                {data && data.map((item, idx) => (
+                    <SwiperSlide
+                        className="relative w-full h-full flex items-start"
+                        key={idx}
+                    >
+                            <video controls autoPlay muted className="absolute top-0 left-0 object-cover w-full h-full blur-xl -z-10 border border-red-600">
                                 <source src={item.src} />
                             </video>
                             <video
