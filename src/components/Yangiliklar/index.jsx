@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
-import './styles.css';
+import '../../../src/components/App/style.css';
 import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
 import { MdOutlineKeyboardDoubleArrowRight } from 'react-icons/md'
 import { MdOutlineKeyboardDoubleArrowLeft } from 'react-icons/md'

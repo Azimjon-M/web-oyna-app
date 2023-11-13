@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import Navbar from "../../components/Navbar";
 import QRCode from "qrcode.react";
 import interaktivImg from '../../assets/images/interaktiv.png'
-import davlatRasm from '../../assets/images/davlat.png'; // Boshqa rasm uchun manzil
-import institutRasm from '../../assets/images/institut.jpg'; // Boshqa rasm uchun manzil
 
 const InterActiveHiz = () => {
 
@@ -51,7 +49,7 @@ const InterActiveHiz = () => {
                     <div className='flex justify-center items-center flex-col'>
                         <h3 className='text-3xl my-5'>Talaba o'qish joyidan ma'lumotnoma</h3>
                         <div className='mx-auto w-[150px] h-[150px]'>
-                            <QRCode className='bg-white border border-slate-700 p-5' value={urlSharnomaAmal} />
+                            <QRCode className='bg-white border border-slate-700 p-5' value={urloqishMal} />
                         </div>
                     </div>
                 </div>
