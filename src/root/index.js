@@ -1,10 +1,12 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import BgImage from '../assets/images/bg.png'
 
 const root = () => {
     return (
-        <div>
+        <div className='relative'>
             <Outlet />
+            <img className='h-[100vh] w-auto absolute top-0 left-0 border-4 border-blue-600' src={BgImage} />
         </div>
     )
 }
