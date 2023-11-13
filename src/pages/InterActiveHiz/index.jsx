@@ -20,7 +20,7 @@ const InterActiveHiz = () => {
     }
 
     return (
-        <div>
+        <div className='bg'>
             <Navbar />
             <div className='info h-[70%] mt-28'>
                 <img className='w-[80%] mx-auto' src={interaktivImg} alt='interactive rasmi' />

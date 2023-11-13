@@ -5,7 +5,7 @@ import Navbar from "../../components/Navbar";
 const DarsJadvali = () => {
     
     return (
-        <div className="w-[100vw] h-[100vh]">
+        <div className="w-[100vw] h-[100vh] bg">
             <Navbar/>
             <DarsJadvallari />
         </div>
