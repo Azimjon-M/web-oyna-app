@@ -2,12 +2,12 @@ import React from "react";
 import Carousel from "../../components/Carousel";
 import Navbar from "../../components/Navbar";
 
-import img1 from "../../assets/videos/rolik1.mp4";
-import img2 from "../../assets/videos/rolik2.mp4";
-import img3 from "../../assets/videos/rolik3.mp4";
+import video1 from "../../assets/videos/rolik1.mp4";
+import video2 from "../../assets/videos/rolik2.mp4";
+import video3 from "../../assets/videos/rolik3.mp4";
 
 const Home = () => {
-    const newsData = [{ src: img1 }, { src: img2 }, { src: img3 }];
+    const newsData = [{ src: video1 }, { src: video2 }, { src: video3 }];
 
     return (
         <div className="w-full h-[100vh]">
