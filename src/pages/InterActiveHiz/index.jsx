@@ -26,30 +26,30 @@ const InterActiveHiz = () => {
     const institutXizmatlari = () => {
         setInfoContent(
             <div className='w-[1000px] h-[850px] mx-auto'>
-                <h2 className='text-5xl mb-[80px] text-center'>Institut interaktiv xizmatlari</h2>
+                <h2 className='text-5xl mb-[80px] text-center font-medium'>Institut interaktiv xizmatlari</h2>
                 <div className='flex justify-center items-center flex-wrap'>
                     <div className='flex justify-center items-center flex-col w-[500px] mb-[80px]'>
-                        <h3 className='text-3xl my-5'>Talaba amaliyot shartnoma</h3>
+                        <h3 className='text-3xl font-medium mt-5 mb-[60px]'>Talaba amaliyot shartnoma</h3>
                         <div className='mx-auto w-[150px] h-[150px]'>
-                            <QRCode className='bg-white border border-slate-700 p-5' value={urlSharnomaAmal} />
+                            <QRCode className='bg-white border border-slate-700 p-3' value={urlSharnomaAmal} />
                         </div>
                     </div>
                     <div className='flex justify-center items-center flex-col w-[500px] mb-[80px]'>
-                        <h3 className='text-3xl my-5'>Talaba kontrakt shartnoma</h3>
+                        <h3 className='text-3xl font-medium mt-5 mb-[60px]'>Talaba kontrakt shartnoma</h3>
                         <div className='mx-auto w-[150px] h-[150px]'>
-                            <QRCode className='bg-white border border-slate-700 p-5' value={urlSharnomaKant} />
+                            <QRCode className='bg-white border border-slate-700 p-3' value={urlSharnomaKant} />
                         </div>
                     </div>
                     <div className='flex justify-center items-center flex-col w-[500px]'>
-                        <h3 className='text-3xl my-5'>Talaba turar-joy shartnoma</h3>
+                        <h3 className='text-3xl font-medium mt-5 mb-[60px]'>Talaba turar-joy shartnoma</h3>
                         <div className='mx-auto w-[150px] h-[150px]'>
-                            <QRCode className='bg-white border border-slate-700 p-5' value={urlTurarjoy} />
+                            <QRCode className='bg-white border border-slate-700 p-3' value={urlTurarjoy} />
                         </div>
                     </div>
                     <div className='flex justify-center items-center flex-col w-[500px]'>
-                        <h3 className='text-3xl my-5'>Talaba o'qish joyidan ma'lumotnoma</h3>
+                        <h3 className='text-3xl font-medium mt-5 mb-[60px]'>Talaba o'qish joyidan ma'lumotnoma</h3>
                         <div className='mx-auto w-[150px] h-[150px]'>
-                            <QRCode className='bg-white border border-slate-700 p-5' value={urloqishMal} />
+                            <QRCode className='bg-white border border-slate-700 p-3' value={urloqishMal} />
                         </div>
                     </div>
                 </div>
