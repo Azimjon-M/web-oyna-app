@@ -20,9 +20,50 @@ const Kurs = () => {
     const [isEdit, setIsEdit] = useState(false);
     const [isLoader, setIsLoader] = useState(true);
 
+    const [isT, setIsT] = useState(true);
+    const [isF, setIsF] = useState(false);
+    const [isY, setIsY] = useState(false);
+
     const SignupSchemaKurs = Yup.object().shape({
-        kurs: Yup.number().max(5, "Ko'p").required("Required"),
+        kurs_talim_turi_id: Yup.string().max(5, "Ko'p").required("Required"),
+        kurs_fakultet_id: Yup.string().max(5, "Ko'p").required("Required"),
+        kurs_yonalish_id: Yup.string().max(5, "Ko'p").required("Required"),
+        kurs: Yup.string().max(5, "Ko'p").required("Required"),
     });
+    // Selects Hidden
+    const handleChangeSelect = (value) => {
+        try {
+            switch (value) {
+                case "a":
+                    setIsT(false);
+                    setIsF(true);
+                    setIsY(false);
+                    break;
+                case "b":
+                    setIsT(false);
+                    setIsF(false);
+                    setIsY(true);
+                    break;
+                case "c":
+                    setIsT(false);
+                    setIsF(false);
+                    setIsY(true);
+                    break;
+                case "p":
+                    setIsT(true);
+                    setIsF(false);
+                    setIsY(false);
+                    break;
+                default:
+                    setIsT(true);
+                    setIsF(false);
+                    setIsY(false);
+                    break;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
     //Kurs POST Edit
     const formik_kurs = useFormik({
         initialValues: {
@@ -43,25 +84,10 @@ const Kurs = () => {
                 }
                 //Post
                 else {
-                    // if (values.kurs_talim_turi_id === "") {
-                    //     formik_kurs.values.kurs_talim_turi_id =
-                    //         isDataTalim && `${isDataTalim[0].id}`;
-                    // }
-                    // if (values.kurs_fakultet_id === "") {
-                    //     formik_kurs.values.kurs_fakultet_id =
-                    //         isDataFakultet && `${isDataFakultet[0].id}`;
-                    // }
-                    // if (values.kurs_yonalish_id === "") {
-                    //     formik_kurs.values.kurs_yonalish_id =
-                    //         isDataYonalish && `${isDataYonalish[0].id}`;
-                    // }
-                    // if (values.kurs === "") {
-                    //     formik_kurs.values.kurs_yonalish_id = "1";
-                    // }
-                    // await axios.post(UrlKurs, values);
-                    // formik_kurs.resetForm();
-                    // handleRefresh();
-                    console.log(values);
+                    await axios.post(UrlKurs, values);
+                    formik_kurs.resetForm();
+                    handleRefresh();
+                    handleChangeSelect("p");
                 }
             } catch (error) {
                 console.error(error);
@@ -71,12 +97,10 @@ const Kurs = () => {
     //Edit
     const handleEdit = async (id) => {
         try {
+            handleChangeSelect("p");
             const response = await axios.get(UrlKurs + id + "/");
             const data = response.data;
             formik_kurs.setValues({
-                kurs_talim_turi_id: data.kurs_talim_turi_id,
-                kurs_fakultet_id: data.kurs_fakultet_id,
-                kurs_yonalish_id: data.kurs_yonalish_id,
                 kurs: data.kurs,
             });
             setIsEdit(id);
@@ -164,94 +188,43 @@ const Kurs = () => {
     useEffect(() => {
         handleRefresh();
     }, []);
+
     //LifeCycle and logik selects filter
     useEffect(() => {
-        // agar Formikda kurs_talim_turi_id = ""
-        if (!formik_kurs.values.kurs_talim_turi_id) {
-            formik_kurs.values.kurs_talim_turi_id =
-                isDataTalim && `${isDataTalim[0].id}`;
+        try {
+            // // agar Formikda kurs_talim_turi_id = ""
+            // if (!formik_kurs.values.kurs_talim_turi_id) {
+            //     formik_kurs.values.kurs_talim_turi_id = isDataTalim && `${isDataTalim[0].id}`;
+            // }
+            //Fakultetni filterlash
+            let filterF =
+                isDataFakultet &&
+                isDataFakultet.filter(
+                    (item) =>
+                        Number(item.fakultet_talim_turi_id) ===
+                        Number(formik_kurs.values.kurs_talim_turi_id)
+                );
+            // console.log(filterF);
+            setIsDataFakultetFilter(filterF);
+
+            // // agar Formikda kurs_fakulet_id "" ? true !
+            // if (!formik_kurs.values.kurs_fakultet_id) {
+            //     formik_kurs.values.kurs_fakultet_id = filterF && filterF[0].id;
+            // }
+
+            //Yonalishni filterlash
+            let filterY =
+                isDataYonalish &&
+                isDataYonalish.filter(
+                    (item) =>
+                        Number(item.yonalish_fakultet_id) ===
+                        Number(formik_kurs.values.kurs_fakultet_id)
+                );
+            setIsDataYonalishFilter(filterY);
+        } catch (error) {
+            console.log(error);
         }
-        //Fakultetni filterlash
-        let filterF =
-            isDataFakultet &&
-            isDataFakultet.filter(
-                (item) =>
-                    Number(item.fakultet_talim_turi_id) ===
-                    Number(formik_kurs.values.kurs_talim_turi_id)
-            );
-
-        setIsDataFakultetFilter(filterF);
-
-        // agar Formikda kurs_fakulet_id "" ? true
-        if (!formik_kurs.values.kurs_fakultet_id) {
-            formik_kurs.values.kurs_fakultet_id = filterF && filterF[0].id;
-        }
-        
-        //Yonalishni filterlash
-        let filterY =
-            isDataYonalish &&
-            isDataYonalish.filter(
-                (item) =>
-                    Number(item.yonalish_fakultet_id) ===
-                    Number(formik_kurs.values.kurs_fakultet_id)
-            );
-        setIsDataYonalishFilter(filterY);
-
-        console.log("Effect ");
     }, [formik_kurs.values, isDataTalim, isDataFakultet, isDataYonalish]);
-
-    //Logic Selects
-    // useEffect(() => {
-    //     // Talim
-    //     if (!formik_kurs.values.kurs_talim_turi_id) {
-    //         formik_kurs.values.kurs_talim_turi_id =
-    //             isDataTalim && `${isDataTalim[0].id}`;
-    //     }
-    //     // Fakultet Logik
-    //     if (formik_kurs.values.kurs_talim_turi_id) {
-    //         const filteredDataF =
-    //             isDataFakultet &&
-    //             isDataFakultet.filter(
-    //                 (item) =>
-    //                     item.fakultet_talim_turi_id ===
-    //                     formik_kurs.values.kurs_talim_turi_id
-    //             );
-    //         if (
-    //             JSON.stringify(filteredDataF) !==
-    //             JSON.stringify(isDataFakultetFilter)
-    //             ) {
-    //                 setIsDataFakultetFilter(filteredDataF);
-    //             }
-    //     }
-    //     // Fakultet
-    //     if (!formik_kurs.values.kurs_fakultet_id) {
-    //         formik_kurs.values.kurs_fakultet_id =
-    //             isDataFakultetFilter && `${isDataFakultetFilter[0].id}`;
-    //     }
-    //     // Yonalish Logik
-    //     if (formik_kurs.values.kurs_fakultet_id) {
-    //         const filteredDataY =
-    //             isDataYonalish &&
-    //             isDataYonalish.filter(
-    //                 (item) =>
-    //                     item.yonalish_fakultet_id === formik_kurs.values.kurs_fakultet_id
-    //             );
-    //         if (
-    //             JSON.stringify(filteredDataY) !==
-    //             JSON.stringify(isDataYonalishFilter)
-    //         ) {
-    //             setIsDataYonalishFilter(filteredDataY);
-    //         }
-    //     }
-
-    // }, [
-    //     formik_kurs.values,
-    //     isDataTalim,
-    //     isDataFakultet,
-    //     isDataFakultetFilter,
-    //     isDataYonalish,
-    //     isDataYonalishFilter
-    // ]);
 
     return (
         <div className="flex flex-col items-center">
@@ -280,7 +253,7 @@ const Kurs = () => {
                             ) : (
                                 <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
                                     {isDataKurs &&
-                                        isDataKurs.map((item) => (
+                                        isDataKurs.sort((a, b) => a.id - b.id).map((item) => (
                                             <div
                                                 key={item.id}
                                                 className="flex justify-between items-center border border-gray-400 bg-white px-2"
@@ -335,8 +308,14 @@ const Kurs = () => {
                             >
                                 {/* TalimTur */}
                                 <select
-                                    className="border"
-                                    onChange={formik_kurs.handleChange}
+                                    className={`${isT ? "" : "hidden"} ${
+                                        formik_kurs.errors.kurs_talim_turi_id &&
+                                        "border-red-600"
+                                    } border`}
+                                    onChange={(e) => (
+                                        formik_kurs.handleChange(e),
+                                        handleChangeSelect("a")
+                                    )}
                                     value={
                                         formik_kurs.values.kurs_talim_turi_id ||
                                         ""
@@ -344,6 +323,9 @@ const Kurs = () => {
                                     name="kurs_talim_turi_id"
                                     id="kurs_talim_turi_id"
                                 >
+                                    <option value="" disabled>
+                                        Talim turini tanlang
+                                    </option>
                                     {isDataTalim &&
                                         isDataTalim.map((item) => (
                                             <option
@@ -356,8 +338,14 @@ const Kurs = () => {
                                 </select>
                                 {/* Fakultet */}
                                 <select
-                                    className="border"
-                                    onChange={formik_kurs.handleChange}
+                                    className={`${isF ? "" : "hidden"} ${
+                                        formik_kurs.errors.kurs_fakultet_id &&
+                                        "border-red-600"
+                                    } border`}
+                                    onChange={(e) => (
+                                        formik_kurs.handleChange(e),
+                                        handleChangeSelect("b")
+                                    )}
                                     value={
                                         formik_kurs.values.kurs_fakultet_id ||
                                         ""
@@ -365,6 +353,9 @@ const Kurs = () => {
                                     name="kurs_fakultet_id"
                                     id="kurs_fakultet_id"
                                 >
+                                    <option value="" disabled>
+                                        Fakultetni tanlang
+                                    </option>
                                     {isDataFakultetFilter &&
                                         isDataFakultetFilter.map((item) => (
                                             <option
@@ -377,8 +368,14 @@ const Kurs = () => {
                                 </select>
                                 {/* Yonalish */}
                                 <select
-                                    className="border"
-                                    onChange={formik_kurs.handleChange}
+                                    className={`${isY ? "" : "hidden"} ${
+                                        formik_kurs.errors.kurs_yonalish_id &&
+                                        "border-red-600"
+                                    } border`}
+                                    onChange={(e) => (
+                                        formik_kurs.handleChange(e),
+                                        handleChangeSelect("c")
+                                    )}
                                     value={
                                         formik_kurs.values.kurs_yonalish_id ||
                                         ""
@@ -386,6 +383,9 @@ const Kurs = () => {
                                     name="kurs_yonalish_id"
                                     id="kurs_yonalish_id"
                                 >
+                                    <option value="" disabled>
+                                        Yo'nalishni tanlang
+                                    </option>
                                     {isDataYonalishFilter &&
                                         isDataYonalishFilter.map((item) => (
                                             <option
@@ -411,21 +411,6 @@ const Kurs = () => {
                                     <option value="4">4 - kurs</option>
                                     <option value="5">5 - kurs</option>
                                 </select>
-                                {/* <label className="flex flex-col" htmlFor="kurs">
-                                    Kurs
-                                    <input
-                                        className={`${
-                                            formik_kurs.errors.kurs
-                                                ? "border-red-600"
-                                                : "border-gray-400"
-                                        } border outline-none py-1 px-2`}
-                                        type="text"
-                                        id="kurs"
-                                        name="kurs"
-                                        onChange={formik_kurs.handleChange}
-                                        value={formik_kurs.values.kurs}
-                                    />
-                                </label> */}
                                 <button
                                     className="w-[100px] float-right border-blue-500 bg-blue-500 text-white py-1 px-2 mt-5"
                                     type="submit"

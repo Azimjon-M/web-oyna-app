@@ -188,7 +188,7 @@ const Yonalish = () => {
                             ) : (
                                 <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
                                     {isDataYonalish &&
-                                        isDataYonalish.map((item) => (
+                                        isDataYonalish.sort((a, b) => a.id - b.id).map((item) => (
                                             <div
                                                 key={item.id}
                                                 className="flex justify-between items-center border border-gray-400 bg-white px-2"
