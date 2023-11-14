@@ -164,7 +164,7 @@ const Kurs = () => {
     useEffect(() => {
         handleRefresh();
     }, []);
-    //LifeCycle
+    //LifeCycle and logik selects filter
     useEffect(() => {
         // agar Formikda kurs_talim_turi_id = ""
         if (!formik_kurs.values.kurs_talim_turi_id) {
