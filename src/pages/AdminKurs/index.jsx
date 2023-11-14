@@ -1,11 +1,10 @@
 import React from "react";
-// import Kurs from "../../components/AdminPanel/DarsJadval/Kurs";
+import Kurs from "../../components/AdminPanel/DarsJadval/Kurs";
 
 const AdminKurs = () => {
     return (
             <div>
-                kjokokoko
-            {/* <Kurs /> */}
+                <Kurs />
             </div>
         );
 };

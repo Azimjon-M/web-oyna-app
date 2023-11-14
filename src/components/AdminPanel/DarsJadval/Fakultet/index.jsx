@@ -139,7 +139,7 @@ const Fakultet = () => {
                                         isDataFakultet.map((item) => (
                                             <div
                                                 key={item.id}
-                                                className="flex justify-between items-center border border-gray-400 px-2 py-2"
+                                                className="flex justify-between items-center border border-gray-400 bg-white px-2 py-2"
                                             >
                                                 <div>
                                                     <b>Talim turi:</b>{" "}

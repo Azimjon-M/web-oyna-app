@@ -164,7 +164,7 @@ const Kurs = () => {
     useEffect(() => {
         handleRefresh();
     }, []);
-    //LifeCycle
+    //LifeCycle and logik selects filter
     useEffect(() => {
         // agar Formikda kurs_talim_turi_id = ""
         if (!formik_kurs.values.kurs_talim_turi_id) {
@@ -198,7 +198,7 @@ const Kurs = () => {
         setIsDataYonalishFilter(filterY);
 
         console.log("Effect ");
-    }, [formik_kurs.values, isDataTalim, isDataFakultet]);
+    }, [formik_kurs.values, isDataTalim, isDataFakultet, isDataYonalish]);
 
     //Logic Selects
     // useEffect(() => {
@@ -283,7 +283,7 @@ const Kurs = () => {
                                         isDataKurs.map((item) => (
                                             <div
                                                 key={item.id}
-                                                className="flex justify-between items-center border border-gray-400 px-2"
+                                                className="flex justify-between items-center border border-gray-400 bg-white px-2"
                                             >
                                                 <div>
                                                     <b>Talim tur:</b>
