@@ -195,7 +195,7 @@ const Yangilik = () => {
                                     {isData && isData.map((item) => (
                                         <div
                                             key={item.id}
-                                            className="w-full h-[50px] flex justify-between items-center border border-gray-400 p-1"
+                                            className="w-full h-[50px] flex justify-between items-center border border-gray-400 p-1 bg-white"
                                         >
                                             <div className="flex items-center gap-x-2">
                                                 <span className="w-[60px] h-[40px] inline-block overflow-hidden">
