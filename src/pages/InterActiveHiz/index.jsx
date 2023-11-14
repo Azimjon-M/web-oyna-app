@@ -16,7 +16,7 @@ const InterActiveHiz = () => {
     const davlatXizmatlari = () => {
         setInfoContent(
             <div className='w-[80%] h-[850px] mx-auto'>
-                <h2 className='text-5xl mb-[80px] text-center'>Davlat interaktiv xizmatlari</h2>
+                <h2 className='text-5xl mb-[80px] text-center font-medium'>Davlat interaktiv xizmatlari</h2>
                 <div>
                     <h3 className='text-3xl text-center font-medium mt-5 mb-[60px]'>Davlat interaktiv xizmatlari</h3>
                     <div className='mx-auto w-[150px] h-[150px] items-center'>
