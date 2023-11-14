@@ -16,7 +16,7 @@ const InterActiveHiz = () => {
     const davlatXizmatlari = () => {
         setInfoContent(
             <div className='w-[80%] h-[850px] mx-auto'>
-                <h2 className='text-5xl mb-10 text-center'>Davlat interaktiv xizmatlari</h2>
+                <h2 className='text-5xl mb-[80px] text-center'>Davlat interaktiv xizmatlari</h2>
                 <div className='mx-auto w-[150px] h-[150px] items-center'>
                     <QRCode className='bg-white border border-slate-700 p-5' value={urlMyGov} />
                 </div>
@@ -26,27 +26,27 @@ const InterActiveHiz = () => {
     const institutXizmatlari = () => {
         setInfoContent(
             <div className='w-[1000px] h-[850px] mx-auto'>
-                <h2 className='text-5xl mb-10 text-center'>Institut interaktiv xizmatlari</h2>
+                <h2 className='text-5xl mb-[80px] text-center'>Institut interaktiv xizmatlari</h2>
                 <div className='flex justify-center items-center flex-wrap'>
-                    <div className='flex justify-center items-center flex-col'>
+                    <div className='flex justify-center items-center flex-col w-[500px] mb-[80px]'>
                         <h3 className='text-3xl my-5'>Talaba amaliyot shartnoma</h3>
                         <div className='mx-auto w-[150px] h-[150px]'>
                             <QRCode className='bg-white border border-slate-700 p-5' value={urlSharnomaAmal} />
                         </div>
                     </div>
-                    <div className='flex justify-center items-center flex-col'>
+                    <div className='flex justify-center items-center flex-col w-[500px] mb-[80px]'>
                         <h3 className='text-3xl my-5'>Talaba kontrakt shartnoma</h3>
                         <div className='mx-auto w-[150px] h-[150px]'>
                             <QRCode className='bg-white border border-slate-700 p-5' value={urlSharnomaKant} />
                         </div>
                     </div>
-                    <div className='flex justify-center items-center flex-col'>
+                    <div className='flex justify-center items-center flex-col w-[500px]'>
                         <h3 className='text-3xl my-5'>Talaba turar-joy shartnoma</h3>
                         <div className='mx-auto w-[150px] h-[150px]'>
                             <QRCode className='bg-white border border-slate-700 p-5' value={urlTurarjoy} />
                         </div>
                     </div>
-                    <div className='flex justify-center items-center flex-col'>
+                    <div className='flex justify-center items-center flex-col w-[500px]'>
                         <h3 className='text-3xl my-5'>Talaba o'qish joyidan ma'lumotnoma</h3>
                         <div className='mx-auto w-[150px] h-[150px]'>
                             <QRCode className='bg-white border border-slate-700 p-5' value={urloqishMal} />
