@@ -7,31 +7,9 @@ import {
     Autoplay,
     EffectCoverflow,
     Pagination,
-    Navigation,
 } from "swiper/modules";
 
-import Vid1 from "../../assets/videos/rolik1.mp4";
-import Vid2 from "../../assets/videos/rolik2.mp4";
-import Vid3 from "../../assets/videos/rolik3.mp4";
-
-const VideoCarousel = () => {
-    const videoProperties = [
-        {
-            id: 1,
-            title: "Video 1",
-            src: Vid1,
-        },
-        {
-            id: 2,
-            title: "Video 2",
-            src: Vid2,
-        },
-        {
-            id: 3,
-            title: "Video 3",
-            src: Vid3,
-        },
-    ];
+const VideoCarousel = ({ data, tdelay}) => {
     const videoEl = useRef(null);
 
     const attemptPlay = () => {
@@ -52,34 +30,43 @@ const VideoCarousel = () => {
                 effect={"coverflow"}
                 centeredSlides={true}
                 autoplay={{
-                    delay: 30000,
+                    delay: tdelay,
                     disableOnInteraction: false,
                 }}
                 slidesPerView={"auto"}
                 coverflowEffect={{
-                    rotate: 50,
+                    rotate: 0,
                     stretch: 0,
-                    depth: 100,
+                    depth: 300,
                     modifier: 1,
                     slideShadows: true,
                 }}
                 navigation={true}
-                pagination={true}
-                modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
-                className="mySwiper"
+                pagination={{
+                    clickable: true
+                }}
+                modules={[Autoplay, EffectCoverflow, Pagination]}
+                className="mySwiper w-full h-full"
             >
-                {videoProperties &&
-                    videoProperties.map((videoObj) => (
+                {data &&
+                    data.map((videoObj, idx) => (
                         <SwiperSlide
-                            className="relative w-full h-full flex items-start"
-                            key={videoObj.id}
+                            className="relative w-full h-[1316px!important]"
+                            key={idx}
                         >
+                            <video 
+                                className="object-cover object-center w-full h-[1316px] blur-xl absolute top-0 left-0 -z-10 mx-auto"
+                                playsInline
+                                loop
+                                muted
+                                controls
+                                autoPlay
+                                alt="All the devices"
+                                src={videoObj.src}
+                                ref={videoEl}
+                            />
                             <video
-                                style={{
-                                    maxWidth: "100%",
-                                    width: "800px",
-                                    margin: "0 auto",
-                                }}
+                                className="mx-auto h-auto z-10 flex translate-y-2/4"
                                 playsInline
                                 loop
                                 muted

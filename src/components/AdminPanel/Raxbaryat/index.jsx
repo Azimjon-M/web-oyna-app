@@ -41,8 +41,6 @@ const Raxbaryat = () => {
                     formData.append("fish", values.fish);
                     formData.append("lavozim", values.lavozim);
                     formData.append("rasm", isFile);
-                    console.log(formData);
-                    console.log(values);
                     await axios.put(Url + isEdit + "/", formData);
                     formik.setValues({ fish: "", lavozim: "" });
                     setIsFile("");
@@ -101,7 +99,6 @@ const Raxbaryat = () => {
                 console.log(err);
                 setIsLoading(false)
             })
-            // setIsData(response.data.sort((a, b) => b.id - a.id));
         } catch (error) {
             console.error("Error:", error);
         }
@@ -192,8 +189,8 @@ const Raxbaryat = () => {
                                         <b>Joylangan Rahbarlar</b>
                                     </h1>
                                 </div>
-                                <div className="flex flex-col-reverse gap-y-2 style-owerflow-001 overflow-y-auto p-2">
-                                    {isData && isData.map((item) => (
+                                <div className="flex flex-col gap-y-2 style-owerflow-001 overflow-y-auto p-2">
+                                    {isData && isData.sort((a, b) => a.id - b.id).map((item) => (
                                         <div
                                             key={item.id}
                                             className="w-full h-[50px] flex justify-between items-center border border-gray-400 p-1"
