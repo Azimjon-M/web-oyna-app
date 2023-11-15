@@ -41,8 +41,6 @@ const Raxbaryat = () => {
                     formData.append("fish", values.fish);
                     formData.append("lavozim", values.lavozim);
                     formData.append("rasm", isFile);
-                    console.log(formData);
-                    console.log(values);
                     await axios.put(Url + isEdit + "/", formData);
                     formik.setValues({ fish: "", lavozim: "" });
                     setIsFile("");
