@@ -31,7 +31,7 @@ const Raxbaryat = () => {
                     {loading ? <Loader /> :
                         <div className='mx-3 my-2 text-center'>
                             {
-                                person && person.map((item, idx) => (
+                                person && person.sort((a, b) => a.id - b.id).map((item, idx) => (
                                         <div className='my-4 border border-[#0156B0] text-white rounded-[30px] overflow-hidden bg-[#0156B0] z-0' key={idx}>
                                             <div className="flex">
                                                 <div className='z-10'>
