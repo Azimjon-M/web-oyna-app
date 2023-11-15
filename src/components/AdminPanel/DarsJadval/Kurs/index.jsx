@@ -312,10 +312,11 @@ const Kurs = () => {
                                         formik_kurs.errors.kurs_talim_turi_id &&
                                         "border-red-600"
                                     } border`}
-                                    onChange={(e) => (
-                                        formik_kurs.handleChange(e),
-                                        handleChangeSelect("a")
-                                    )}
+                                    onChange={(e) => {
+                                        formik_kurs.handleChange(e);
+                                        handleChangeSelect("a");
+                                    }
+                                    }
                                     value={
                                         formik_kurs.values.kurs_talim_turi_id ||
                                         ""
@@ -327,14 +328,14 @@ const Kurs = () => {
                                         Talim turini tanlang
                                     </option>
                                     {isDataTalim &&
-                                        isDataTalim.map((item) => (
+                                        isDataTalim.map((item) => 
                                             <option
                                                 key={item.id}
                                                 value={item.id}
                                             >
                                                 {item.talim_turi}
                                             </option>
-                                        ))}
+                                        )}
                                 </select>
                                 {/* Fakultet */}
                                 <select
@@ -342,10 +343,11 @@ const Kurs = () => {
                                         formik_kurs.errors.kurs_fakultet_id &&
                                         "border-red-600"
                                     } border`}
-                                    onChange={(e) => (
-                                        formik_kurs.handleChange(e),
-                                        handleChangeSelect("b")
-                                    )}
+                                    onChange={(e) => {
+                                        formik_kurs.handleChange(e);
+                                        handleChangeSelect("b");
+                                    }
+                                    }
                                     value={
                                         formik_kurs.values.kurs_fakultet_id ||
                                         ""
@@ -372,10 +374,10 @@ const Kurs = () => {
                                         formik_kurs.errors.kurs_yonalish_id &&
                                         "border-red-600"
                                     } border`}
-                                    onChange={(e) => (
-                                        formik_kurs.handleChange(e),
-                                        handleChangeSelect("c")
-                                    )}
+                                    onChange={(e) => {
+                                        formik_kurs.handleChange(e);
+                                        handleChangeSelect("c");
+                                    }}
                                     value={
                                         formik_kurs.values.kurs_yonalish_id ||
                                         ""
