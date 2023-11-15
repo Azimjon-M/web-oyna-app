@@ -7,7 +7,6 @@ import {
     Autoplay,
     EffectCoverflow,
     Pagination,
-    Navigation,
 } from "swiper/modules";
 
 import Vid1 from "../../assets/videos/rolik1.mp4";
@@ -57,15 +56,17 @@ const VideoCarousel = () => {
                 }}
                 slidesPerView={"auto"}
                 coverflowEffect={{
-                    rotate: 50,
+                    rotate: 0,
                     stretch: 0,
-                    depth: 100,
+                    depth: 300,
                     modifier: 1,
                     slideShadows: true,
                 }}
                 navigation={true}
-                pagination={true}
-                modules={[Autoplay, EffectCoverflow, Pagination, Navigation]}
+                pagination={{
+                    clickable: true
+                }}
+                modules={[Autoplay, EffectCoverflow, Pagination]}
                 className="mySwiper"
             >
                 {videoProperties &&
@@ -77,7 +78,6 @@ const VideoCarousel = () => {
                             <video
                                 style={{
                                     maxWidth: "100%",
-                                    width: "800px",
                                     margin: "0 auto",
                                 }}
                                 playsInline
