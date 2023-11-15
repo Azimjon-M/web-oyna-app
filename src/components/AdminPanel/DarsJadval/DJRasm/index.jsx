@@ -19,6 +19,7 @@ const DarsJadvalRasm = () => {
     const [isDataYonalish, setIsDataYonalish] = useState(null);
     const [isDataYonalishFilter, setIsDataYonalishFilter] = useState(null);
     const [isDataKurs, setIsDataKurs] = useState(null);
+    const [isDataDJRasm, setIsDataDJRasm] = useState(null);
     const [isEdit, setIsEdit] = useState(false);
     const [isLoader, setIsLoader] = useState(true);
 
@@ -31,13 +32,14 @@ const DarsJadvalRasm = () => {
     const [imgErr, setImgErr] = useState(null);
     const [isImg, setIsImg] = useState("Rasm");
     const [isFile, setIsFile] = useState("");
+    const [editDel, setEditDel] = useState(false);
 
     const imgTypes = ["jpg", "jpeg", "png", "tiff"];
 
     const SignupSchemaKurs = Yup.object().shape({
-        kurs_talim_turi_id: Yup.string().max(5, "Ko'p").required("Required"),
-        kurs_fakultet_id: Yup.string().max(5, "Ko'p").required("Required"),
-        kurs_yonalish_id: Yup.string().max(5, "Ko'p").required("Required"),
+        turi: Yup.string().max(5, "Ko'p").required("Required"),
+        fakultet: Yup.string().max(5, "Ko'p").required("Required"),
+        yonalish: Yup.string().max(5, "Ko'p").required("Required"),
         kurs: Yup.string().max(5, "Ko'p").required("Required"),
     });
     // Selects Hidden
@@ -85,61 +87,7 @@ const DarsJadvalRasm = () => {
             console.log(error);
         }
     };
-    //Kurs POST Edit
-    const formik_kurs = useFormik({
-        initialValues: {
-            kurs_talim_turi_id: "",
-            kurs_fakultet_id: "",
-            kurs_yonalish_id: "",
-            kurs: "1",
-        },
-        validationSchema: SignupSchemaKurs,
-        onSubmit: async (values) => {
-            try {
-                //Edit
-                if (isEdit) {
-                    const formData = new FormData();
-                    await axios.put(UrlDJRasm + isEdit + "/", values);
-                    formik_kurs.resetForm();
-                    setIsEdit(false);
-                    handleRefresh();
-                }
-                //Post
-                else {
-                    await axios.post(UrlDJRasm, values);
-                    formik_kurs.resetForm();
-                    handleRefresh();
-                    handleChangeSelect("d");
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        },
-    });
-    //Edit
-    const handleEdit = async (id) => {
-        try {
-            handleChangeSelect("d");
-            const response = await axios.get(UrlKurs + id + "/");
-            const data = response.data;
-            formik_kurs.setValues({
-                kurs: data.kurs,
-            });
-            setIsEdit(id);
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
-    //Delet Kurs
-    const handleDeletKurs = async (id) => {
-        try {
-            await axios.delete(UrlKurs + id + "/");
-            handleRefresh();
-        } catch (error) {
-            console.error(error);
-        }
-    };
-    //Refresh
+    //Refresh length
     const handleRefresh = async () => {
         try {
             await axios
@@ -176,14 +124,130 @@ const DarsJadvalRasm = () => {
                 .get(UrlKurs)
                 .then((res) => {
                     setIsDataKurs(res.data);
-                    setIsLoader(false);
+                    // setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
                     setIsLoader(false);
                 });
+            await axios
+                .get(UrlDJRasm)
+                .then((res) => {
+                    setIsDataDJRasm(res.data);
+                    setIsLoader(false);
+                })
+                .catch(err => console.log(err))
         } catch (error) {
             console.error(error);
+        }
+    };
+    //Kurs POST Edit
+    const formik_kurs = useFormik({
+        initialValues: {
+            turi: "",
+            fakultet: "",
+            yonalish: "",
+            kurs: "1",
+        },
+        validationSchema: SignupSchemaKurs,
+        onSubmit: async (values) => {
+            try {
+                //Edit
+                if (isEdit) {
+                    await axios.put(UrlDJRasm + isEdit + "/", values);
+                    formik_kurs.resetForm();
+                    handleRefresh();
+                    setIsEdit(false);
+                }
+                //Post
+                else {
+                    if (!imgErr && isFile.length === 0) {
+                        setImgErr(true);
+                    } else {
+                        const formData = new FormData();
+                        formData.append("turi", values.turi);
+                        formData.append("fakultet", values.fakultet);
+                        formData.append("yonalish", values.yonalish);
+                        formData.append("kurs", values.kurs);
+                        formData.append("rasm", isFile);
+                        
+                        await axios.post(UrlDJRasm, formData);
+
+                        formik_kurs.resetForm();
+                        setIsFile("");
+                        setImgInpText("Rasm tanlanmagan !");
+                        handleRefresh();
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+            }
+            // try {
+            //     if (isEdit) {
+            //         const formData = new FormData();
+            //         formData.append("title", values.title);
+            //         formData.append("body", values.body);
+            //         formData.append("rasm", isFile);
+
+            //         await axios.put(Url + isEdit + "/", formData);
+            //         formik.setValues({ title: "", body: "" });
+            //         setIsFile("");
+            //         setImgInpText("Rasm tanlanmagan !");
+            //         handleRefresh();
+            //         setIsEdit(null);
+            //         setIsTitle("Sarlavha");
+            //         setIsBody("Tafsilot");
+            //         setIsImg("Rasm");
+            //     } else {
+            //         if (!imgErr && isFile.length === 0) {
+            //             setImgErr(true);
+            //         } else {
+            //             const formData = new FormData();
+            //             formData.append("title", values.title);
+            //             formData.append("body", values.body);
+            //             formData.append("rasm", isFile);
+
+            //             await axios.post(Url, formData);
+
+            //             formik.resetForm();
+            //             setIsFile("");
+            //             setImgInpText("Rasm tanlanmagan !");
+            //             handleRefresh();
+            //         }
+            //     }
+            // } catch (error) {
+            //     console.error("Error:", error);
+            // }
+        },
+    });
+    //Edit
+    const handleEdit = async (id) => {
+        try {
+            handleChangeSelect("d");
+            const response = await axios.get(UrlKurs + id + "/");
+            const data = response.data;
+            formik_kurs.setValues({
+                kurs: data.kurs,
+            });
+            setIsEdit(id);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+    //Delet Kurs
+    const handleDelete = async (id) => {
+        try {
+            if (isEdit === id) {
+                setEditDel(true);
+                setTimeout(() => {
+                    setEditDel(false);
+                }, 3000);
+            } else {
+                await axios.delete(UrlDJRasm + id + "/");
+                handleRefresh();
+            }
+        } catch (error) {
+            console.error("Error:", error);
         }
     };
     //GetTalimTur
@@ -214,25 +278,15 @@ const DarsJadvalRasm = () => {
     //LifeCycle and logik selects filter
     useEffect(() => {
         try {
-            // // agar Formikda kurs_talim_turi_id = ""
-            // if (!formik_kurs.values.kurs_talim_turi_id) {
-            //     formik_kurs.values.kurs_talim_turi_id = isDataTalim && `${isDataTalim[0].id}`;
-            // }
             //Fakultetni filterlash
             let filterF =
                 isDataFakultet &&
                 isDataFakultet.filter(
                     (item) =>
                         Number(item.fakultet_talim_turi_id) ===
-                        Number(formik_kurs.values.kurs_talim_turi_id)
+                        Number(formik_kurs.values.turi)
                 );
-            // console.log(filterF);
             setIsDataFakultetFilter(filterF);
-
-            // // agar Formikda kurs_fakulet_id "" ? true !
-            // if (!formik_kurs.values.kurs_fakultet_id) {
-            //     formik_kurs.values.kurs_fakultet_id = filterF && filterF[0].id;
-            // }
 
             //Yonalishni filterlash
             let filterY =
@@ -240,7 +294,7 @@ const DarsJadvalRasm = () => {
                 isDataYonalish.filter(
                     (item) =>
                         Number(item.yonalish_fakultet_id) ===
-                        Number(formik_kurs.values.kurs_fakultet_id)
+                        Number(formik_kurs.values.fakultet)
                 );
             setIsDataYonalishFilter(filterY);
         } catch (error) {
@@ -293,58 +347,65 @@ const DarsJadvalRasm = () => {
                             <div className="border-b border-black px-10 py-2">
                                 <b>Joylashtirilgan ma'lumotlar</b>
                             </div>
-                            {isDataKurs && isDataKurs.length === 0 ? (
+                            {isDataDJRasm && isDataDJRasm.length === 0 ? (
                                 <div className="text-red-600">
                                     Ma'lumotlar joylanmagan !
                                 </div>
                             ) : (
                                 <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
-                                    {isDataKurs &&
-                                        isDataKurs
-                                            .sort((a, b) => a.id - b.id)
-                                            .map((item) => (
-                                                <div
-                                                    key={item.id}
-                                                    className="flex justify-between items-center border border-gray-400 bg-white px-2"
-                                                >
-                                                    <div>
-                                                        <b>Talim tur:</b>
-                                                        {handleGetTalimTur(
-                                                            item.kurs_talim_turi_id
-                                                        )}
-                                                        <br />
-                                                        <b>Fakultet:</b>
-                                                        {handleGetFakultet(
-                                                            item.kurs_fakultet_id
-                                                        )}
-                                                        <br />
-                                                        <b>Yo'nalish:</b>
-                                                        {handleGetYonalish(
-                                                            item.kurs_yonalish_id
-                                                        )}
-                                                        <br />
-                                                        <b>Kurs:</b> {item.kurs}
+                                    {isDataDJRasm && isDataDJRasm.sort((a, b) => a.id - b.id).map((item) => (
+                                        <div
+                                            key={item.id}
+                                            className="w-full h-[200px] flex justify-between items-center border border-gray-400 p-1 bg-white"
+                                        >
+                                            <div className="flex items-center gap-x-2">
+                                                <span className="w-[100px] h-full inline-block overflow-hidden">
+                                                    <img
+                                                        className="w-full h-auto"
+                                                        src={item.rasm}
+                                                        alt="img"
+                                                    />
+                                                </span>
+                                                <div className="flex flex-col relative">
+                                                    <div className="whitespace-nowrap">
+                                                        <b>Talim turi: </b>
+                                                        {handleGetTalimTur(item.turi)}
                                                     </div>
-                                                    <div className="flex gap-x-2">
-                                                        <MdEdit
-                                                            className="text-green-700 cursor-pointer"
-                                                            onClick={() =>
-                                                                handleEdit(
-                                                                    item.id
-                                                                )
-                                                            }
-                                                        />
-                                                        <MdDelete
-                                                            className="text-red-600 cursor-pointer"
-                                                            onClick={() =>
-                                                                handleDeletKurs(
-                                                                    item.id
-                                                                )
-                                                            }
-                                                        />
+                                                    <div className="whitespace-nowrap">
+                                                        <b>Fakulteti: </b>
+                                                        {handleGetFakultet(item.fakultet)}
+                                                    </div>
+                                                    <div className="whitespace-nowrap">
+                                                        <b>Yo'nalishi: </b>
+                                                        {handleGetYonalish(item.yonalish)}
+                                                        
+                                                    </div>
+                                                    <div className="whitespace-nowrap">
+                                                        <b>Kursi: </b>
+                                                        {item.kurs}
                                                     </div>
                                                 </div>
-                                            ))}
+                                            </div>
+                                            <div className="flex justify-end items-center gap-x-3 pe-2">
+                                                <span className="cursor-pointer">
+                                                    <MdEdit
+                                                        title="Tahrirlash"
+                                                        onClick={() => handleEdit(item.id)}
+                                                        className="text-green-700"
+                                                    />
+                                                </span>
+                                                <span className="cursor-pointer">
+                                                    <MdDelete
+                                                        title="O'chirish"
+                                                        onClick={() =>
+                                                            handleDelete(item.id)
+                                                        }
+                                                        className="text-red-600"
+                                                    />
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             )}
                         </div>
@@ -360,7 +421,7 @@ const DarsJadvalRasm = () => {
                                 {/* TalimTur */}
                                 <select
                                     className={`${isT ? "" : "hidden"} ${
-                                        formik_kurs.errors.kurs_talim_turi_id &&
+                                        formik_kurs.errors.turi &&
                                         "border-red-600"
                                     } border`}
                                     onChange={(e) => (
@@ -368,11 +429,11 @@ const DarsJadvalRasm = () => {
                                         handleChangeSelect("a")
                                     )}
                                     value={
-                                        formik_kurs.values.kurs_talim_turi_id ||
+                                        formik_kurs.values.turi ||
                                         ""
                                     }
-                                    name="kurs_talim_turi_id"
-                                    id="kurs_talim_turi_id"
+                                    name="turi"
+                                    id="turi"
                                 >
                                     <option value="" disabled>
                                         Talim turini tanlang
@@ -390,7 +451,7 @@ const DarsJadvalRasm = () => {
                                 {/* Fakultet */}
                                 <select
                                     className={`${isF ? "" : "hidden"} ${
-                                        formik_kurs.errors.kurs_fakultet_id &&
+                                        formik_kurs.errors.fakultet &&
                                         "border-red-600"
                                     } border`}
                                     onChange={(e) => (
@@ -398,11 +459,11 @@ const DarsJadvalRasm = () => {
                                         handleChangeSelect("b")
                                     )}
                                     value={
-                                        formik_kurs.values.kurs_fakultet_id ||
+                                        formik_kurs.values.fakultet ||
                                         ""
                                     }
-                                    name="kurs_fakultet_id"
-                                    id="kurs_fakultet_id"
+                                    name="fakultet"
+                                    id="fakultet"
                                 >
                                     <option value="" disabled>
                                         Fakultetni tanlang
@@ -420,7 +481,7 @@ const DarsJadvalRasm = () => {
                                 {/* Yonalish */}
                                 <select
                                     className={`${isY ? "" : "hidden"} ${
-                                        formik_kurs.errors.kurs_yonalish_id &&
+                                        formik_kurs.errors.yonalish &&
                                         "border-red-600"
                                     } border`}
                                     onChange={(e) => (
@@ -428,11 +489,11 @@ const DarsJadvalRasm = () => {
                                         handleChangeSelect("c")
                                     )}
                                     value={
-                                        formik_kurs.values.kurs_yonalish_id ||
+                                        formik_kurs.values.yonalish ||
                                         ""
                                     }
-                                    name="kurs_yonalish_id"
-                                    id="kurs_yonalish_id"
+                                    name="yonalish"
+                                    id="yonalish"
                                 >
                                     <option value="" disabled>
                                         Yo'nalishni tanlang
