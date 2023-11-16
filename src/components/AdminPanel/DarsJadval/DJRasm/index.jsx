@@ -170,9 +170,8 @@ const DarsJadvalRasm = () => {
                         formData.append("yonalish", values.yonalish);
                         formData.append("kurs", values.kurs);
                         formData.append("rasm", isFile);
-                        console.log(formData);
-                        // await axios.post(UrlDJRasm, formData);
-
+                        await axios.post(UrlDJRasm, formData);
+                        handleChangeSelect('p')
                         formik_kurs.resetForm();
                         setIsFile("");
                         setImgInpText("Rasm tanlanmagan !");
@@ -182,42 +181,6 @@ const DarsJadvalRasm = () => {
             } catch (error) {
                 console.error(error);
             }
-            // try {
-            //     if (isEdit) {
-            //         const formData = new FormData();
-            //         formData.append("title", values.title);
-            //         formData.append("body", values.body);
-            //         formData.append("rasm", isFile);
-
-            //         await axios.put(Url + isEdit + "/", formData);
-            //         formik.setValues({ title: "", body: "" });
-            //         setIsFile("");
-            //         setImgInpText("Rasm tanlanmagan !");
-            //         handleRefresh();
-            //         setIsEdit(null);
-            //         setIsTitle("Sarlavha");
-            //         setIsBody("Tafsilot");
-            //         setIsImg("Rasm");
-            //     } else {
-            //         if (!imgErr && isFile.length === 0) {
-            //             setImgErr(true);
-            //         } else {
-            //             const formData = new FormData();
-            //             formData.append("title", values.title);
-            //             formData.append("body", values.body);
-            //             formData.append("rasm", isFile);
-
-            //             await axios.post(Url, formData);
-
-            //             formik.resetForm();
-            //             setIsFile("");
-            //             setImgInpText("Rasm tanlanmagan !");
-            //             handleRefresh();
-            //         }
-            //     }
-            // } catch (error) {
-            //     console.error("Error:", error);
-            // }
         },
     });
     //Edit
@@ -356,7 +319,7 @@ const DarsJadvalRasm = () => {
                                     {isDataDJRasm && isDataDJRasm.sort((a, b) => a.id - b.id).map((item) => (
                                         <div
                                             key={item.id}
-                                            className="w-full h-[200px] flex justify-between items-center border border-gray-400 p-1 bg-white"
+                                            className="w-full h-[105px] flex justify-between items-center border border-gray-400 p-1 bg-white"
                                         >
                                             <div className="flex items-center gap-x-2">
                                                 <span className="w-[100px] h-full inline-block overflow-hidden">
