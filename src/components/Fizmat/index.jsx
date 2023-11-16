@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Fizmat = () => {
+    const [yunalish, setYunalish] = useState('');
+    const [kurs, setKurs] = useState('');
+    const [jadvleImage, setJadvalImage] = useState('')
+
     return (
         <div className="max-w-7xl mx-auto md:flex pt-20">
             <div className="flex-1">
