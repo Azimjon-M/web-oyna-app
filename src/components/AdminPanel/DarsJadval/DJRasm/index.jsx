@@ -18,21 +18,17 @@ const DarsJadvalRasm = () => {
     const [isDataFakultetFilter, setIsDataFakultetFilter] = useState(null);
     const [isDataYonalish, setIsDataYonalish] = useState(null);
     const [isDataYonalishFilter, setIsDataYonalishFilter] = useState(null);
-    const [isDataKurs, setIsDataKurs] = useState(null);
     const [isDataDJRasm, setIsDataDJRasm] = useState(null);
     const [isEdit, setIsEdit] = useState(false);
     const [isLoader, setIsLoader] = useState(true);
-
     const [isT, setIsT] = useState(true);
     const [isF, setIsF] = useState(false);
     const [isY, setIsY] = useState(false);
-    const [isK, setIsK] = useState(false);
 
     const [imgInpText, setImgInpText] = useState("Rasm Tanlanmagan !");
     const [imgErr, setImgErr] = useState(null);
     const [isImg, setIsImg] = useState("Rasm");
     const [isFile, setIsFile] = useState("");
-    const [editDel, setEditDel] = useState(false);
 
     const imgTypes = ["jpg", "jpeg", "png", "tiff"];
 
@@ -50,37 +46,31 @@ const DarsJadvalRasm = () => {
                     setIsT(false);
                     setIsF(true);
                     setIsY(false);
-                    setIsK(false);
                     break;
                 case "b":
                     setIsT(false);
                     setIsF(false);
                     setIsY(true);
-                    setIsK(false);
                     break;
                 case "c":
                     setIsT(false);
                     setIsF(false);
                     setIsY(true);
-                    setIsK(false);
                     break;
                 case "d":
                     setIsT(false);
                     setIsF(false);
                     setIsY(false);
-                    setIsK(true);
                     break;
                 case "p":
                     setIsT(true);
                     setIsF(false);
                     setIsY(false);
-                    setIsK(false);
                     break;
                 default:
                     setIsT(true);
                     setIsF(false);
                     setIsY(false);
-                    setIsK(false);
                     break;
             }
         } catch (error) {
@@ -121,16 +111,6 @@ const DarsJadvalRasm = () => {
                     setIsLoader(false);
                 });
             await axios
-                .get(UrlKurs)
-                .then((res) => {
-                    setIsDataKurs(res.data);
-                    // setIsLoader(false);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    setIsLoader(false);
-                });
-            await axios
                 .get(UrlDJRasm)
                 .then((res) => {
                     setIsDataDJRasm(res.data);
@@ -157,6 +137,7 @@ const DarsJadvalRasm = () => {
                     await axios.put(UrlDJRasm + isEdit + "/", values);
                     formik_kurs.resetForm();
                     handleRefresh();
+                    setIsImg("Rasm");
                     setIsEdit(false);
                 }
                 //Post
@@ -186,8 +167,9 @@ const DarsJadvalRasm = () => {
     //Edit
     const handleEdit = async (id) => {
         try {
-            handleChangeSelect("d");
             const response = await axios.get(UrlKurs + id + "/");
+            handleChangeSelect("d");
+            setIsImg("Rasmni tahrirlash");
             const data = response.data;
             formik_kurs.setValues({
                 kurs: data.kurs,
@@ -200,15 +182,8 @@ const DarsJadvalRasm = () => {
     //Delet Kurs
     const handleDelete = async (id) => {
         try {
-            if (isEdit === id) {
-                setEditDel(true);
-                setTimeout(() => {
-                    setEditDel(false);
-                }, 3000);
-            } else {
-                await axios.delete(UrlDJRasm + id + "/");
-                handleRefresh();
-            }
+            await axios.delete(UrlDJRasm + id + "/");
+            handleRefresh();
         } catch (error) {
             console.error("Error:", error);
         }
@@ -269,12 +244,11 @@ const DarsJadvalRasm = () => {
         document.getElementById("rasim").click();
     };
 
-    const handleChange = () => {
-        const fayl = document.getElementById("rasim").files[0];
+    const handleChange = (e) => {
+        const fayl = e.target.files[0];
         setImgErr(true);
         setIsFile("");
         setImgInpText("Rasm tanlanmagan !");
-
         if (fayl) {
             for (let i = 0; i < imgTypes.length; i++) {
                 if (fayl.name.split(".").pop().includes(imgTypes[i])) {
@@ -387,10 +361,10 @@ const DarsJadvalRasm = () => {
                                         formik_kurs.errors.turi &&
                                         "border-red-600"
                                     } border`}
-                                    onChange={(e) => (
-                                        formik_kurs.handleChange(e),
-                                        handleChangeSelect("a")
-                                    )}
+                                    onChange={(e) =>{ 
+                                        formik_kurs.handleChange(e);
+                                        handleChangeSelect("a");
+                                    }}
                                     value={
                                         formik_kurs.values.turi ||
                                         ""
@@ -417,10 +391,10 @@ const DarsJadvalRasm = () => {
                                         formik_kurs.errors.fakultet &&
                                         "border-red-600"
                                     } border`}
-                                    onChange={(e) => (
-                                        formik_kurs.handleChange(e),
-                                        handleChangeSelect("b")
-                                    )}
+                                    onChange={(e) => {
+                                        formik_kurs.handleChange(e);
+                                        handleChangeSelect("b");
+                                    }}
                                     value={
                                         formik_kurs.values.fakultet ||
                                         ""
@@ -447,10 +421,10 @@ const DarsJadvalRasm = () => {
                                         formik_kurs.errors.yonalish &&
                                         "border-red-600"
                                     } border`}
-                                    onChange={(e) => (
-                                        formik_kurs.handleChange(e),
-                                        handleChangeSelect("c")
-                                    )}
+                                    onChange={(e) => {
+                                        formik_kurs.handleChange(e);
+                                        handleChangeSelect("c");
+                                    }}
                                     value={
                                         formik_kurs.values.yonalish ||
                                         ""
@@ -533,7 +507,7 @@ const DarsJadvalRasm = () => {
                                         farmatlarda bo'lishi kerak !
                                     </span>
                                     <input
-                                        onChange={() => handleChange()}
+                                        onChange={(e) => handleChange(e)}
                                         id="rasim"
                                         type="file"
                                         hidden="hidden"/>
