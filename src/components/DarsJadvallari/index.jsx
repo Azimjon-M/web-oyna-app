@@ -260,7 +260,6 @@ export const DarsJadvallari = () => {
     };
 
     return (
-
         <div className="flex justify-center mt-10">
             <div className="z-10 w-[100vw] h-[100vh] absolute left-0 top-0 ">
             </div>
