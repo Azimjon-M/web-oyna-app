@@ -5,16 +5,16 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
-import '../../../src/components/App/style.css';
+import './styles.css';
 import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
-import { MdOutlineKeyboardDoubleArrowRight } from 'react-icons/md'
-import { MdOutlineKeyboardDoubleArrowLeft } from 'react-icons/md'
+// import { MdOutlineKeyboardDoubleArrowRight } from 'react-icons/md'
+// import { MdOutlineKeyboardDoubleArrowLeft } from 'react-icons/md'
 
 const Yangiliklar = () => {
     const [loading, setLoading] = useState(true);
     const [news, setNews] = useState(null);
-    const cutTitle = 100;
-    const cutBody = 340;
+    const cutTitle = 200;
+    const cutBody = 500;
     useEffect(() => {
         const loadPost = async () => {
             try {
@@ -67,7 +67,7 @@ const Yangiliklar = () => {
                         {news && news.map((item, idx) => (
                             <SwiperSlide className='w-[800px!important] bg-white flex justify-center rounded-3xl overflow-hidden mx-[100px]' key={idx}>
                                 <div>
-                                    <img className='block w-[800px] h-[900px] rounded-3xl object-cover' src={item.rasm} alt="yangilik img" />
+                                    <img className='block w-[800px] h-[1000px] rounded-3xl object-cover' src={item.rasm} alt="yangilik img" />
                                 </div>
                                 <div>
                                 <h1 className='text-3xl text-center px-5 py-5'>{item.title.length > cutTitle ? item.title.slice(0, cutTitle) + "...": item.title}</h1>
@@ -76,10 +76,10 @@ const Yangiliklar = () => {
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                    <div className='w-[800px] bg-blue-700 flex justify-between items-center mx-auto rounded-2xl p-5 mt-10'>
+                    {/* <div className='w-[800px] bg-blue-700 flex justify-between items-center mx-auto rounded-2xl p-5 mt-10'>
                     <button className='swiper-button-prev text-white text-8xl'><MdOutlineKeyboardDoubleArrowLeft /></button>
                     <button className='swiper-button-next text-white text-8xl'><MdOutlineKeyboardDoubleArrowRight /></button>
-                    </div>
+                    </div> */}
                     </div>
                 )
             }

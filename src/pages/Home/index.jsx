@@ -15,7 +15,7 @@ const Home = () => {
                 <Navbar />
             </div>
             <div className="w-full h-[calc(80vh-220px)]">
-                <Carousel data={newsData} tdelay="2500" />
+                <Carousel data={newsData} tdelay="30000" />
             </div>
             <div className="w-full h-[20vh] relative">
                 <Carousel data={newsData} tdelay="3000" />
