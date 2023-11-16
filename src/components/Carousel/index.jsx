@@ -1,11 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import {
     Autoplay,
-    EffectCoverflow,
     Pagination,
 } from "swiper/modules";
 
@@ -34,18 +32,11 @@ const VideoCarousel = ({ data, tdelay}) => {
                     disableOnInteraction: false,
                 }}
                 slidesPerView={"auto"}
-                coverflowEffect={{
-                    rotate: 0,
-                    stretch: 0,
-                    depth: 300,
-                    modifier: 1,
-                    slideShadows: true,
-                }}
                 navigation={true}
                 pagination={{
                     clickable: true
                 }}
-                modules={[Autoplay, EffectCoverflow, Pagination]}
+                modules={[Autoplay, Pagination]}
                 className="mySwiper w-full h-full"
             >
                 {data &&
