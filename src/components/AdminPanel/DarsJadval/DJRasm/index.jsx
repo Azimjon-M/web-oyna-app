@@ -170,8 +170,8 @@ const DarsJadvalRasm = () => {
                         formData.append("yonalish", values.yonalish);
                         formData.append("kurs", values.kurs);
                         formData.append("rasm", isFile);
-                        
-                        await axios.post(UrlDJRasm, formData);
+                        console.log(formData);
+                        // await axios.post(UrlDJRasm, formData);
 
                         formik_kurs.resetForm();
                         setIsFile("");
