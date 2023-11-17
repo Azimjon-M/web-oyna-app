@@ -6,6 +6,7 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
 
 const Kurs = () => {
+
     const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
     const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
     const UrlYonalish = "http://api.kspi.uz/v1/jadval/yonalish/";
