@@ -38,7 +38,7 @@ const Raxbaryat = () => {
                                                     <img className="w-[340px] h-[245px]" src={item.rasm} alt="" />
                                                 </div>
                                                 <div className="relative flex justify-center items-center">
-                                                    <img className='w-[500px] h-[245px] translate-x-[-30px] z-20' src={cardBg} alt="" />
+                                                    <img className='w-[700px] h-[245px] translate-x-[-30px] z-20' src={cardBg} alt="" />
                                                     <div className="absolute top-[50%] left-5 translate-y-[-50%] z-50">
                                                         <h5 className="font-bold text-[28px] text-start">{item.fish}</h5>
                                                         <h4 className="font-bold text-[28px] text-start">{item.lavozim}</h4>

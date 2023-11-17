@@ -7,8 +7,6 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import './styles.css';
 import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
-// import { MdOutlineKeyboardDoubleArrowRight } from 'react-icons/md'
-// import { MdOutlineKeyboardDoubleArrowLeft } from 'react-icons/md'
 
 const Yangiliklar = () => {
     const [loading, setLoading] = useState(true);
@@ -76,10 +74,6 @@ const Yangiliklar = () => {
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                    {/* <div className='w-[800px] bg-blue-700 flex justify-between items-center mx-auto rounded-2xl p-5 mt-10'>
-                    <button className='swiper-button-prev text-white text-8xl'><MdOutlineKeyboardDoubleArrowLeft /></button>
-                    <button className='swiper-button-next text-white text-8xl'><MdOutlineKeyboardDoubleArrowRight /></button>
-                    </div> */}
                     </div>
                 )
             }

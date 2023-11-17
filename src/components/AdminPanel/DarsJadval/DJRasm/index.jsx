@@ -5,8 +5,11 @@ import { useFormik } from "formik";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
 import { BsImage } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
+// import ErrorPage from '../../../../components/Error';
 
 const DarsJadvalRasm = () => {
+    const navigate = useNavigate();
     const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
     const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
     const UrlYonalish = "http://api.kspi.uz/v1/jadval/yonalish/";
@@ -74,7 +77,7 @@ const DarsJadvalRasm = () => {
                     break;
             }
         } catch (error) {
-            console.log(error);
+            navigate('/info-kios-error', { state: { error } });
         }
     };
     //Refresh length
@@ -84,31 +87,26 @@ const DarsJadvalRasm = () => {
                 .get(UrlTalim)
                 .then((res) => {
                     setIsDataTalim(res.data);
-                    // setIsLoader(false);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    // navigate('/info-kios-error', { state: { err } });
                     setIsLoader(false);
                 });
             await axios
                 .get(UrlFakultet)
                 .then((res) => {
                     setIsDataFakultet(res.data);
-                    // setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
             await axios
                 .get(UrlYonalish)
                 .then((res) => {
                     setIsDataYonalish(res.data);
-                    // setIsLoader(false);
                 })
                 .catch((err) => {
-                    console.log(err);
-                    setIsLoader(false);
+                    // navigate('/info-kios-error', { state: { err } });
                 });
             await axios
                 .get(UrlDJRasm)
@@ -116,9 +114,9 @@ const DarsJadvalRasm = () => {
                     setIsDataDJRasm(res.data);
                     setIsLoader(false);
                 })
-                .catch(err => console.log(err))
+                // .catch(err => {navigate('/info-kios-error', { state: { err } });})
         } catch (error) {
-            console.error(error);
+            // navigate('/info-kios-error', { state: { error } });
         }
     };
     //Kurs POST Edit
@@ -160,7 +158,7 @@ const DarsJadvalRasm = () => {
                     }
                 }
             } catch (error) {
-                console.error(error);
+                navigate('/info-kios-error', { state: { error } });
             }
         },
     });
@@ -176,7 +174,9 @@ const DarsJadvalRasm = () => {
             });
             setIsEdit(id);
         } catch (error) {
-            console.error("Error:", error);
+            console.log(error);
+            console.log(error.request.status);
+            navigate('/info-kios-error', { state: { error } });
         }
     };
     //Delet Kurs
@@ -185,7 +185,7 @@ const DarsJadvalRasm = () => {
             await axios.delete(UrlDJRasm + id + "/");
             handleRefresh();
         } catch (error) {
-            console.error("Error:", error);
+            navigate('/info-kios-error', { state: { error } });
         }
     };
     //GetTalimTur
@@ -215,29 +215,25 @@ const DarsJadvalRasm = () => {
 
     //LifeCycle and logik selects filter
     useEffect(() => {
-        try {
-            //Fakultetni filterlash
-            let filterF =
-                isDataFakultet &&
-                isDataFakultet.filter(
-                    (item) =>
-                        Number(item.fakultet_talim_turi_id) ===
-                        Number(formik_kurs.values.turi)
-                );
-            setIsDataFakultetFilter(filterF);
+        //Fakultetni filterlash
+        let filterF =
+            isDataFakultet &&
+            isDataFakultet.filter(
+                (item) =>
+                    Number(item.fakultet_talim_turi_id) ===
+                    Number(formik_kurs.values.turi)
+            );
+        setIsDataFakultetFilter(filterF);
 
-            //Yonalishni filterlash
-            let filterY =
-                isDataYonalish &&
-                isDataYonalish.filter(
-                    (item) =>
-                        Number(item.yonalish_fakultet_id) ===
-                        Number(formik_kurs.values.fakultet)
-                );
-            setIsDataYonalishFilter(filterY);
-        } catch (error) {
-            console.log(error);
-        }
+        //Yonalishni filterlash
+        let filterY =
+            isDataYonalish &&
+            isDataYonalish.filter(
+                (item) =>
+                    Number(item.yonalish_fakultet_id) ===
+                    Number(formik_kurs.values.fakultet)
+            );
+        setIsDataYonalishFilter(filterY);
     }, [formik_kurs.values, isDataTalim, isDataFakultet, isDataYonalish]);
 
     const handleClick = () => {

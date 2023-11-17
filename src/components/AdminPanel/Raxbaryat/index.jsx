@@ -54,17 +54,17 @@ const Raxbaryat = () => {
                     if (!imgErr && isFile.length === 0) {
                         setImgErr(true);
                     } else {
+                        setIsLoading(true)
                         const formData = new FormData();
                         formData.append("fish", values.fish);
                         formData.append("lavozim", values.lavozim);
                         formData.append("rasm", isFile);
-
-                        await axios.post(Url, formData);
-
                         formik.resetForm();
                         setIsFile("");
                         setImgInpText("Rasm tanlanmagan !");
+                        await axios.post(Url, formData);
                         handleRefresh();
+                        setIsLoading(false)
                     }
                 }
             } catch (error) {
