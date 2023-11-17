@@ -55,6 +55,7 @@ const Yangilik = () => {
                     if (!imgErr && isFile.length === 0) {
                         setImgErr(true);
                     } else {
+                        setIsLoading(true)
                         const formData = new FormData();
                         formData.append("title", values.title);
                         formData.append("body", values.body);
@@ -66,6 +67,7 @@ const Yangilik = () => {
                         setIsFile("");
                         setImgInpText("Rasm tanlanmagan !");
                         handleRefresh();
+                        setIsLoading(false)
                     }
                 }
             } catch (error) {
@@ -100,7 +102,6 @@ const Yangilik = () => {
                 console.log(err);
                 setIsLoading(false)
             })
-            // setIsData(response.data.sort((a, b) => b.id - a.id));
         } catch (error) {
             console.error("Error:", error);
         }
