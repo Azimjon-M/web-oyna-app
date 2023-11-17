@@ -89,28 +89,24 @@ const DarsJadvalRasm = () => {
                     setIsDataTalim(res.data);
                 })
                 .catch((err) => {
-                    navigate('/info-kios-error', { state: { err } });
+                    // navigate('/info-kios-error', { state: { err } });
                     setIsLoader(false);
                 });
             await axios
                 .get(UrlFakultet)
                 .then((res) => {
                     setIsDataFakultet(res.data);
-                    // setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
             await axios
                 .get(UrlYonalish)
                 .then((res) => {
                     setIsDataYonalish(res.data);
-                    // setIsLoader(false);
                 })
                 .catch((err) => {
-                    navigate('/info-kios-error', { state: { err } });
-                    setIsLoader(false);
+                    // navigate('/info-kios-error', { state: { err } });
                 });
             await axios
                 .get(UrlDJRasm)
@@ -118,9 +114,9 @@ const DarsJadvalRasm = () => {
                     setIsDataDJRasm(res.data);
                     setIsLoader(false);
                 })
-                .catch(err => {navigate('/info-kios-error', { state: { err } });})
+                // .catch(err => {navigate('/info-kios-error', { state: { err } });})
         } catch (error) {
-            navigate('/info-kios-error', { state: { error } });
+            // navigate('/info-kios-error', { state: { error } });
         }
     };
     //Kurs POST Edit
