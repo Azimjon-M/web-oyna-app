@@ -1,20 +1,33 @@
 import { async } from "q";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Kurs from "../AdminPanel/DarsJadval/Kurs";
 
 const Fizmat = () => {
     const [yunalish, setYunalish] = useState('');
     const [kurs, setKurs] = useState('');
-    const [jadvleImage, setJadvalImage] = useState('')
+    const [jadvalImage, setJadvalImage] = useState('')
+    const urlTur = 'http://api.kspi.uz/v1/jadval/talim_turi/';
+    const urlPost = 'http://api.kspi.uz/v1/jadval/jadval/';
+
+    useEffect(() => {
+
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(yunalish, kurs, jadvleImage);
+        try {
+            const res = await axios.post(urlPost, {yunalish, kurs, jadvalImage})
+            console.log(res.data);
+        } catch (error) {
+            console.log(error.response);
+        }
     }
 
 
     return (
         <div className="max-w-7xl mx-auto md:flex pt-20">
+           
             <div className="flex-1">
                 <div className="md:flex p-3 shadow-md rounded-xl gap-4 mb-4">
                     <figure className=""><img className="w-full md:max-w-[8rem] md:h-40 rounded-xl" src="https://imgupscaler.com/images/samples/animal-after.webp" alt="Album"/></figure>
