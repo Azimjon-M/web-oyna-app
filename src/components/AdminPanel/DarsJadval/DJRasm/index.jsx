@@ -178,6 +178,8 @@ const DarsJadvalRasm = () => {
             });
             setIsEdit(id);
         } catch (error) {
+            console.log(error);
+            console.log(error.request.status);
             navigate('/info-kios-error', { state: { error } });
         }
     };
@@ -217,29 +219,25 @@ const DarsJadvalRasm = () => {
 
     //LifeCycle and logik selects filter
     useEffect(() => {
-        try {
-            //Fakultetni filterlash
-            let filterF =
-                isDataFakultet &&
-                isDataFakultet.filter(
-                    (item) =>
-                        Number(item.fakultet_talim_turi_id) ===
-                        Number(formik_kurs.values.turi)
-                );
-            setIsDataFakultetFilter(filterF);
+        //Fakultetni filterlash
+        let filterF =
+            isDataFakultet &&
+            isDataFakultet.filter(
+                (item) =>
+                    Number(item.fakultet_talim_turi_id) ===
+                    Number(formik_kurs.values.turi)
+            );
+        setIsDataFakultetFilter(filterF);
 
-            //Yonalishni filterlash
-            let filterY =
-                isDataYonalish &&
-                isDataYonalish.filter(
-                    (item) =>
-                        Number(item.yonalish_fakultet_id) ===
-                        Number(formik_kurs.values.fakultet)
-                );
-            setIsDataYonalishFilter(filterY);
-        } catch (error) {
-            // navigate('/info-kios-error', { state: { error } });
-        }
+        //Yonalishni filterlash
+        let filterY =
+            isDataYonalish &&
+            isDataYonalish.filter(
+                (item) =>
+                    Number(item.yonalish_fakultet_id) ===
+                    Number(formik_kurs.values.fakultet)
+            );
+        setIsDataYonalishFilter(filterY);
     }, [formik_kurs.values, isDataTalim, isDataFakultet, isDataYonalish]);
 
     const handleClick = () => {
