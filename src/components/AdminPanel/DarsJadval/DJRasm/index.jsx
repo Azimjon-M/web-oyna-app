@@ -5,8 +5,11 @@ import { useFormik } from "formik";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
 import { BsImage } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
+// import ErrorPage from '../../../../components/Error';
 
 const DarsJadvalRasm = () => {
+    const navigate = useNavigate();
     const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
     const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
     const UrlYonalish = "http://api.kspi.uz/v1/jadval/yonalish/";
@@ -74,7 +77,7 @@ const DarsJadvalRasm = () => {
                     break;
             }
         } catch (error) {
-            console.log(error);
+            navigate('/info-kios-error', { state: { error } });
         }
     };
     //Refresh length
@@ -84,10 +87,9 @@ const DarsJadvalRasm = () => {
                 .get(UrlTalim)
                 .then((res) => {
                     setIsDataTalim(res.data);
-                    // setIsLoader(false);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    navigate('/info-kios-error', { state: { err } });
                     setIsLoader(false);
                 });
             await axios
@@ -107,7 +109,7 @@ const DarsJadvalRasm = () => {
                     // setIsLoader(false);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    navigate('/info-kios-error', { state: { err } });
                     setIsLoader(false);
                 });
             await axios
@@ -116,9 +118,9 @@ const DarsJadvalRasm = () => {
                     setIsDataDJRasm(res.data);
                     setIsLoader(false);
                 })
-                .catch(err => console.log(err))
+                .catch(err => {navigate('/info-kios-error', { state: { err } });})
         } catch (error) {
-            console.error(error);
+            navigate('/info-kios-error', { state: { error } });
         }
     };
     //Kurs POST Edit
@@ -160,7 +162,7 @@ const DarsJadvalRasm = () => {
                     }
                 }
             } catch (error) {
-                console.error(error);
+                navigate('/info-kios-error', { state: { error } });
             }
         },
     });
@@ -176,7 +178,7 @@ const DarsJadvalRasm = () => {
             });
             setIsEdit(id);
         } catch (error) {
-            console.error("Error:", error);
+            navigate('/info-kios-error', { state: { error } });
         }
     };
     //Delet Kurs
@@ -185,7 +187,7 @@ const DarsJadvalRasm = () => {
             await axios.delete(UrlDJRasm + id + "/");
             handleRefresh();
         } catch (error) {
-            console.error("Error:", error);
+            navigate('/info-kios-error', { state: { error } });
         }
     };
     //GetTalimTur
@@ -236,7 +238,7 @@ const DarsJadvalRasm = () => {
                 );
             setIsDataYonalishFilter(filterY);
         } catch (error) {
-            console.log(error);
+            // navigate('/info-kios-error', { state: { error } });
         }
     }, [formik_kurs.values, isDataTalim, isDataFakultet, isDataYonalish]);
 
