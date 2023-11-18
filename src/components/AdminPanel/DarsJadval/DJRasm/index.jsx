@@ -165,6 +165,7 @@ const DarsJadvalRasm = () => {
             }
         },
     });
+    
     //Edit
     const handleEdit = async (id) => {
         console.log(id);

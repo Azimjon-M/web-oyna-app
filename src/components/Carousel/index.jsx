@@ -50,7 +50,6 @@ const VideoCarousel = ({ data, tdelay}) => {
                                 playsInline
                                 loop
                                 muted
-                                controls
                                 autoPlay
                                 alt="All the devices"
                                 src={videoObj.src}
@@ -61,7 +60,6 @@ const VideoCarousel = ({ data, tdelay}) => {
                                 playsInline
                                 loop
                                 muted
-                                controls
                                 autoPlay
                                 alt="All the devices"
                                 src={videoObj.src}

@@ -16,7 +16,7 @@ const Error = ({ error }) => {
 
 export default Error;
 
- <section class="page_404">
+<section class="page_404">
     <div class="container">
         <div class="row"> 
                 <div class="col-sm-12 ">
