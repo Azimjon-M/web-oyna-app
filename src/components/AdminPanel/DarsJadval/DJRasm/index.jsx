@@ -13,7 +13,7 @@ const DarsJadvalRasm = () => {
     const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
     const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
     const UrlYonalish = "http://api.kspi.uz/v1/jadval/yonalish/";
-    const UrlKurs = "http://api.kspi.uz/v1/jadval/kurs/";
+    // const UrlKurs = "http://api.kspi.uz/v1/jadval/kurs/";
     const UrlDJRasm = "http://api.kspi.uz/v1/jadval/jadval/";
 
     const [isDataTalim, setIsDataTalim] = useState(null);
@@ -116,6 +116,7 @@ const DarsJadvalRasm = () => {
                 })
                 // .catch(err => {navigate('/info-kios-error', { state: { err } });})
         } catch (error) {
+            console.log(error);
             // navigate('/info-kios-error', { state: { error } });
         }
     };
@@ -129,14 +130,15 @@ const DarsJadvalRasm = () => {
         },
         validationSchema: SignupSchemaKurs,
         onSubmit: async (values) => {
+            console.log('ISHLAMOQDAMAN');
             try {
                 //Edit
                 if (isEdit) {
-                    await axios.put(UrlDJRasm + isEdit + "/", values);
                     formik_kurs.resetForm();
-                    handleRefresh();
                     setIsImg("Rasm");
                     setIsEdit(false);
+                    await axios.put(UrlDJRasm + isEdit + "/", values);
+                    handleRefresh();
                 }
                 //Post
                 else {
@@ -158,28 +160,33 @@ const DarsJadvalRasm = () => {
                     }
                 }
             } catch (error) {
-                navigate('/info-kios-error', { state: { error } });
+                console.log(error);
+                // navigate('/info-kios-error', { state: { error } });
             }
         },
     });
     //Edit
     const handleEdit = async (id) => {
+        console.log(id);
         try {
-            const response = await axios.get(UrlKurs + id + "/");
+            const response = await axios.get(UrlDJRasm + id + "/");
             handleChangeSelect("d");
             setIsImg("Rasmni tahrirlash");
             const data = response.data;
+            console.log(data);
             formik_kurs.setValues({
+                turi: data.turi,
+                fakultet: data.fakultet,
+                yonalish: data.yonalish,
                 kurs: data.kurs,
             });
             setIsEdit(id);
         } catch (error) {
             console.log(error);
-            console.log(error.request.status);
-            navigate('/info-kios-error', { state: { error } });
+            // navigate('/info-kios-error', { state: { error } });
         }
     };
-    //Delet Kurs
+    //Delet Dars Jadval Rasmi
     const handleDelete = async (id) => {
         try {
             await axios.delete(UrlDJRasm + id + "/");
@@ -272,7 +279,7 @@ const DarsJadvalRasm = () => {
                 <>
                     {/* Kurs */}
                     <h1 className="text-[20px] mt-6 mb-3">
-                        <b>Kurs:</b>
+                        <b>Dars Jadval Rasmi:</b>
                     </h1>
                     <div className="w-[1000px] h-[400px] flex justify-center gap-x-2">
                         <div className="w-[50%] h-full flex flex-col gap-y-2">
@@ -306,11 +313,11 @@ const DarsJadvalRasm = () => {
                                                     </div>
                                                     <div className="whitespace-nowrap">
                                                         <b>Fakulteti: </b>
-                                                        {handleGetFakultet(item.fakultet)}
+                                                        {handleGetFakultet(item.fakultet).length > 30 ? handleGetFakultet(item.fakultet).slice(0, 30)+'...' : handleGetFakultet(item.fakultet)}
                                                     </div>
                                                     <div className="whitespace-nowrap">
                                                         <b>Yo'nalishi: </b>
-                                                        {handleGetYonalish(item.yonalish)}
+                                                        {handleGetYonalish(item.yonalish).length > 30 ? handleGetYonalish(item.yonalish).slice(0, 30)+'...' : handleGetYonalish(item.yonalish)}
                                                         
                                                     </div>
                                                     <div className="whitespace-nowrap">
