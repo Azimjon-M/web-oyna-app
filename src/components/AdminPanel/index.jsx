@@ -8,6 +8,9 @@ const AdminPanel = () => {
             <Link to="/panel-admins-login/managment-yangilik">
                 <button className="btn btn-lg border-sky-600 border text-sky-700 hover:text-white hover:bg-sky-700 rounded-lg w-full text-xl font-bold uppercase mb-5 shadow-lg">Yangiliklar paneli</button>
             </Link>
+            <Link to="/panel-admins-login/managment-raxbaryat">
+                <button className="btn btn-lg border-sky-600 border text-sky-700 hover:text-white hover:bg-sky-700 rounded-lg w-full text-xl font-bold uppercase mb-5 shadow-lg">Rahbariyat</button>
+            </Link>
             <Link to="/panel-admins-login/managment-taliom-tur">
                 <button className="btn btn-lg border-sky-600 border text-sky-700 hover:text-white hover:bg-sky-700 rounded-lg w-full text-xl font-bold uppercase mb-5 shadow-lg">Talim turi</button>
             </Link>
@@ -23,9 +26,6 @@ const AdminPanel = () => {
             <Link to="/panel-admins-login/managment-dars-jadval-rasm">
                 <button className="btn btn-lg border-sky-600 border text-sky-700 hover:text-white hover:bg-sky-700 rounded-lg w-full text-xl font-bold uppercase mb-5 shadow-lg">Dars jadvali rasmi</button>
             </Link>
-            <Link to="/panel-admins-login/managment-raxbaryat">
-                <button className="btn btn-lg border-sky-600 border text-sky-700 hover:text-white hover:bg-sky-700 rounded-lg w-full text-xl font-bold uppercase mb-5 shadow-lg">Rahbariyat</button>
-           </Link>
         </div>
     );
 };
