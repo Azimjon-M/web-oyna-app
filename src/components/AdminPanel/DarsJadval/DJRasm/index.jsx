@@ -165,6 +165,7 @@ const DarsJadvalRasm = () => {
             }
         },
     });
+    
     //Edit
     const handleEdit = async (id) => {
         console.log(id);
@@ -178,7 +179,7 @@ const DarsJadvalRasm = () => {
                 turi: data.turi,
                 fakultet: data.fakultet,
                 yonalish: data.yonalish,
-                kurs: data.kurs,
+                kurs: data.kurs, 
             });
             setIsEdit(id);
         } catch (error) {
