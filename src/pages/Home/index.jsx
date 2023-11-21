@@ -9,7 +9,7 @@ import video3 from "../../assets/videos/rolik3.mp4";
 
 const Home = () => {
     const newsData = [{ src: video1 }, { src: video2 }, { src: video3 }];
-
+    // Meliboev Azimjon
     return (
         <div className="w-full h-[100vh]">
             <div className="h-[220px]">
