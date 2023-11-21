@@ -16,7 +16,7 @@ const Yangiliklar = () => {
     useEffect(() => {
         const loadPost = async () => {
             try {
-                await axios.get("http://api.kspi.uz/v1/yangilik/yangilik/").then(res => {
+                await axios.get("https://api.kspi.uz/v1/yangilik/yangilik/").then(res => {
                     setNews(res.data);
                     setLoading(false);
                 }).catch(err => {

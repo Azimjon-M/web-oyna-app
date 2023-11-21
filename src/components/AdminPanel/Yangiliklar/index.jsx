@@ -8,7 +8,7 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { BsImage } from "react-icons/bs";
 
 const Yangilik = () => {
-    const Url = "http://api.kspi.uz/v1/yangilik/yangilik/";
+    const Url = "https://api.kspi.uz/v1/yangilik/yangilik/";
 
     const [isData, setIsData] = useState(null);
     const [isFile, setIsFile] = useState("");

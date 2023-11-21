@@ -7,10 +7,10 @@ import { MetroSpinner } from "react-spinners-kit";
 
 const Fizmat = () => {
 
-    const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
-    const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
-    const UrlYonalish = "http://api.kspi.uz/v1/jadval/yonalish/";
-    const UrlKurs = "http://api.kspi.uz/v1/jadval/kurs/";
+    const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
+    const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
+    const UrlYonalish = "https://api.kspi.uz/v1/jadval/yonalish/";
+    const UrlKurs = "https://api.kspi.uz/v1/jadval/kurs/";
 
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);
