@@ -9,6 +9,7 @@ import video3 from "../../assets/videos/rolik3.mp4";
 
 const Home = () => {
     const newsData = [{ src: video1 }, { src: video2 }, { src: video3 }];
+    const newsDataR = [{ src: video3 }, { src: video2 }, { src: video1 }];
     // Meliboev Azimjon
     return (
         <div className="w-full h-[100vh]">
@@ -19,7 +20,7 @@ const Home = () => {
                 <Carousel data={newsData} tdelay="30000" />
             </div>
             <div className="w-full h-[20vh] relative overflow-hidden">
-                <CarouselReklama data={newsData} tdelay="10000" />
+                <CarouselReklama data={newsDataR} tdelay="10000" />
                 <span className="absolute bottom-0 right-0 text-[16px] z-20 bg-[#ddeaff] text-red-600 font-bold px-4">
                     Biz bilan bog'lanish uchun: +998905702793
                 </span>
