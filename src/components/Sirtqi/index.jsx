@@ -6,7 +6,7 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
 import { BsImage } from "react-icons/bs";
 
-const Kechki = () => {
+const Sirtqi = () => {
     const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
     const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
     const UrlYonalish = "https://api.kspi.uz/v1/jadval/yonalish/";
@@ -120,7 +120,7 @@ const Kechki = () => {
             .get(UrlTalim)
             .then((res) => {
                 setIsDataTalim(
-                    res.data.filter((item) => item.talim_turi === "Kechki")
+                    res.data.filter((item) => item.talim_turi === "Sirtqi")
                 );
             })
             .catch((err) => {
@@ -177,19 +177,16 @@ const Kechki = () => {
     }, [isDataTalim, isDataFakultet]);
      //Logic Selects Fakultet
     useEffect(() => {
-        // if (isDataTalim) {
-        //     setIsDataYonalish(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(isDataTalim[0].id)))
-        // }
         if (isDataFakultetFilter) {
             setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(formik.values.fakultet)))
         }
     }, [isDataFakultetFilter ,isDataTalim, isDataYonalish, formik.values.fakultet]);
     // Logik Get data
     useEffect(() => {
-    if (isDataTalim) {
-        setIsDataDJRasmFilter(isDataDJRasm && isDataDJRasm.filter(item => Number(item.turi) === Number(isDataTalim[0].id)))
-    }
-}, [isDataTalim, isDataDJRasm])
+        if (isDataTalim) {
+            setIsDataDJRasmFilter(isDataDJRasm && isDataDJRasm.filter(item => Number(item.turi) === Number(isDataTalim[0].id)))
+        }
+    }, [isDataTalim, isDataDJRasm])
 
     const handleClick = () => {
         document.getElementById("rasim").click();
@@ -213,7 +210,6 @@ const Kechki = () => {
             }
         }
     };
-
     return (
         <div className="flex flex-col items-center">
             {isLoader ? (
@@ -227,7 +223,7 @@ const Kechki = () => {
                 <>
                     {/* Yo'nalish */}
                     <h1 className="text-[24px] mt-6 mb-3">
-                        <b>KECHKI</b>
+                        <b>SIRTQI</b>
                     </h1>
                     <div className="w-[1000px] h-[600px] flex gap-x-2 border-b border-black">
                         <div className="w-[50%] flex flex-col gap-y-2">
@@ -451,4 +447,4 @@ const Kechki = () => {
     );
 };
 
-export default Kechki;
+export default Sirtqi;

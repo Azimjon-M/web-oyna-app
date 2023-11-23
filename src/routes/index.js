@@ -20,7 +20,7 @@ import RusTili from '../pages/RusTili';
 import Tarix from '../pages/Tarix';
 import MakTal from '../pages/MakTal';
 import Kechki from '../pages/Kechki';
-import Sirtqi from '../pages/Sirqi';
+import Sirtqi from '../pages/Sirtqi';
 import AdminYangilik from '../pages/AdminYangilik';
 import AdminTalimTur from '../pages/AdminTalimTuri';
 import AdminFakultet from '../pages/AdminFakultet';
