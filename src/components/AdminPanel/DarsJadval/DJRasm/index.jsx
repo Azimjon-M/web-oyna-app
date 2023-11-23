@@ -130,7 +130,6 @@ const DarsJadvalRasm = () => {
         },
         validationSchema: SignupSchemaKurs,
         onSubmit: async (values) => {
-            console.log('ISHLAMOQDAMAN');
             try {
                 //Edit
                 if (isEdit) {
