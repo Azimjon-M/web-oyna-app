@@ -6,9 +6,9 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
 
 const Yonalish = () => {
-    const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
-    const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
-    const UrlYonalish = "http://api.kspi.uz/v1/jadval/yonalish/";
+    const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
+    const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
+    const UrlYonalish = "https://api.kspi.uz/v1/jadval/yonalish/";
 
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);

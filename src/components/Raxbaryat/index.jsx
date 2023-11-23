@@ -4,12 +4,12 @@ import Loader from '../../components/Loader';
 import cardBg from '../../assets/images/card-bg.png'
 
 const Raxbaryat = () => {
-    const [loading, setLoading] = useState(true);
     const [person, setPerson] = useState(null);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const loadPost = async () => {
             try {
-                await axios.get("http://api.kspi.uz/v1/rahbariyat/rahbariyat/").then(res => {
+                await axios.get("https://api.kspi.uz/v1/rahbariyat/rahbariyat/").then(res => {
                     setPerson(res.data);
                     setLoading(false);
                 }).catch(err => {

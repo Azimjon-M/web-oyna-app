@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
     
 const Form = () => {
 
-    const API_link = 'http://api.kspi.uz/v1/yangilik/yangilik/'
+    const API_link = 'https://api.kspi.uz/v1/yangilik/yangilik/'
     const API_token = '_HCnxPew6Lken00smp3bJOPBuQc3-HbA'
     let a = []
 

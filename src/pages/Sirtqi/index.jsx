@@ -1,5 +1,5 @@
 import React from "react";
-import SirtqiComp from "../../components/Sirqi";
+import SirtqiComp from "../../components/Sirtqi";
 
 const Sirtqi = () => {
     return <div><SirtqiComp /></div>;

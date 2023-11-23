@@ -6,8 +6,8 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
 
 const Fakultet = () => {
-    const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
-    const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
+    const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
+    const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
 
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);

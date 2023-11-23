@@ -8,7 +8,7 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { BsImage } from "react-icons/bs";
 
 const Raxbaryat = () => {
-    const Url = "http://api.kspi.uz/v1/rahbariyat/rahbariyat/";
+    const Url = "https://api.kspi.uz/v1/rahbariyat/rahbariyat/";
 
     const [isData, setIsData] = useState(null);
     const [isFile, setIsFile] = useState("");

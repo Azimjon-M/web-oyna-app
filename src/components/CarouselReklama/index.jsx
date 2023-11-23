@@ -7,7 +7,7 @@ import {
     Pagination,
 } from "swiper/modules";
 
-const VideoCarousel = ({ data, tdelay}) => {
+const VideoCarouselReclama = ({ data, tdelay}) => {
     const videoEl = useRef(null);
 
     const attemptPlay = () => {
@@ -38,32 +38,21 @@ const VideoCarousel = ({ data, tdelay}) => {
                     clickable: true
                 }}
                 modules={[Autoplay, Pagination]}
-                className="mySwiper w-full h-full"
+                className="mySwiper object-cover"
             >
                 {data &&
-                    data.map((item, idx) => (
+                    data.map((videoObj, idx) => (
                         <SwiperSlide
-                            className='w-full h-full'
+                            className='h-full w-full'
                             key={idx}
                         >
-                            <video 
-                                className='object-cover object-center w-full h-[1316px] blur-3xl absolute top-0 left-0 -z-10 mx-auto'
-                                playsInline
-                                loop
-                                muted
-                                autoPlay
-                                alt="All the devices"
-                                src={item.src}
-                                ref={videoEl}
-                            />
                             <video
-                                className='translate-y-[50%]'
                                 playsInline
                                 loop
                                 muted
                                 autoPlay
                                 alt="All the devices"
-                                src={item.src}
+                                src={videoObj.src}
                                 ref={videoEl}
                             />
                         </SwiperSlide>
@@ -73,4 +62,4 @@ const VideoCarousel = ({ data, tdelay}) => {
     );
 };
 
-export default VideoCarousel;
+export default VideoCarouselReclama;

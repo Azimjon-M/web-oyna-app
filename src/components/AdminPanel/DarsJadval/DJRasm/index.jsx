@@ -10,11 +10,11 @@ import { useNavigate } from 'react-router-dom';
 
 const DarsJadvalRasm = () => {
     const navigate = useNavigate();
-    const UrlTalim = "http://api.kspi.uz/v1/jadval/talim_turi/";
-    const UrlFakultet = "http://api.kspi.uz/v1/jadval/fakultet/";
-    const UrlYonalish = "http://api.kspi.uz/v1/jadval/yonalish/";
-    // const UrlKurs = "http://api.kspi.uz/v1/jadval/kurs/";
-    const UrlDJRasm = "http://api.kspi.uz/v1/jadval/jadval/";
+    const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
+    const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
+    const UrlYonalish = "https://api.kspi.uz/v1/jadval/yonalish/";
+    // const UrlKurs = "https://api.kspi.uz/v1/jadval/kurs/";
+    const UrlDJRasm = "https://api.kspi.uz/v1/jadval/jadval/";
 
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);
@@ -130,7 +130,6 @@ const DarsJadvalRasm = () => {
         },
         validationSchema: SignupSchemaKurs,
         onSubmit: async (values) => {
-            console.log('ISHLAMOQDAMAN');
             try {
                 //Edit
                 if (isEdit) {
