@@ -14,10 +14,10 @@ const Fizmat = () => {
 
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);
-    const [isDataFakultetFilter, setIsDataFakultetFilter] = useState(null);
     const [isDataYonalish, setIsDataYonalish] = useState(null);
     const [isDataYonalishFilter, setIsDataYonalishFilter] = useState(null);
     const [isDataDJRasm, setIsDataDJRasm] = useState(null);
+    const [isDataDJRasmFilter, setIsDataDJRasmFilter] = useState(null);
 
     const [isEdit, setIsEdit] = useState(false);
 
@@ -63,7 +63,7 @@ const Fizmat = () => {
                     handleRefresh();
                     setIsLoader(true);
                 }
-                //Post                
+                //Post
                 else {
                     if (!imgErr && isFile.length === 0) {
                         setImgErr(true);
@@ -85,7 +85,6 @@ const Fizmat = () => {
                 }
             } catch (error) {
                 console.log(error);
-                // navigate('/info-kios-error', { state: { error } });
             }
         },
     });
@@ -149,13 +148,6 @@ const Fizmat = () => {
             setIsLoader(false);
         }).catch(err => console.log(err))
     };
-    //GetFakultet
-    const handleGetFakultet = (id) => {
-        const foundFakultet =
-            isDataFakultet &&
-            isDataFakultet.find((item) =>  Number(item.id) === Number(id));
-        return foundFakultet ? foundFakultet.fakultet : "(noaniq)";
-    };
     //GetYonalish
     const handleGetYonalish = (id) => {
         const foundYonalish =
@@ -171,20 +163,21 @@ const Fizmat = () => {
     //Logic Selects Fakultet
     useEffect(() => {
         if (isDataTalim) {
-            setIsDataFakultetFilter(isDataFakultet && isDataFakultet.filter(item => Number(item.fakultet_talim_turi_id) === Number(isDataTalim[0].id)))
-            console.log();
+            setIsDataFakultet(isDataFakultet && isDataFakultet.filter(item => Number(item.fakultet_talim_turi_id) === Number(isDataTalim[0].id)))
         }
     }, [isDataTalim, isDataFakultet]);
-    console.log(isDataFakultet[1].id);
     //Logic Selects Fakultet
     useEffect(() => {
-        // if (isDataTalim) {
-        //     setIsDataYonalish(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(isDataTalim[0].id)))
-        // }
-        if (isDataFakultetFilter) {
-            setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(formik.values.fakultet)))
+        if (isDataFakultet) {
+            setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(isDataFakultet[1].id)))
         }
-    }, [isDataFakultetFilter, isDataTalim, isDataYonalish, formik.values.fakultet]);
+    }, [isDataTalim, isDataFakultet, isDataYonalish]);
+    // Logik Get data
+    useEffect(() => {
+        if (isDataTalim) {
+            setIsDataDJRasmFilter(isDataDJRasm && isDataDJRasm.filter(item => Number(item.turi) === Number(isDataTalim[0].id)))
+        }
+    }, [isDataTalim, isDataDJRasm])
 
     const handleClick = () => {
         document.getElementById("rasim").click();
@@ -236,8 +229,8 @@ const Fizmat = () => {
                                 </div>
                             ) : (
                                 <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
-                                    {isDataDJRasm &&
-                                        isDataDJRasm
+                                    {isDataDJRasmFilter &&
+                                        isDataDJRasmFilter
                                             .sort((a, b) => a.id - b.id)
                                             .map((item) => (
                                                 <div
@@ -396,7 +389,7 @@ const Fizmat = () => {
                                 >
                                     Jo'natish
                                 </button>
-                            </form>
+                            </form>;
                         </div>
                     </div>
                 </>
