@@ -14,11 +14,11 @@ const Fizmat = () => {
 
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);
+    const [isDataFakultetFilter, setIsDataFakultetFilter] = useState(null);
     const [isDataYonalish, setIsDataYonalish] = useState(null);
     const [isDataYonalishFilter, setIsDataYonalishFilter] = useState(null);
     const [isDataDJRasm, setIsDataDJRasm] = useState(null);
     const [isDataDJRasmFilter, setIsDataDJRasmFilter] = useState(null);
-
     const [isEdit, setIsEdit] = useState(false);
 
     const [isLoader, setIsLoader] = useState(true);
@@ -31,14 +31,12 @@ const Fizmat = () => {
     const imgTypes = ["jpg", "jpeg", "png", "tiff"];
 
     const SignupSchemaYonalish = Yup.object().shape({
-        fakultet: Yup.string().min(1, "Judaham kam!").required("Required"),
         yonalish: Yup.string().min(1, "Judaham kam!").required("Required"),
         kurs: Yup.string().min(1, "Judaham kam!").required("Required"),
     });
     //Yonalish POST
     const formik = useFormik({
         initialValues: {
-            fakultet: "",
             yonalish: "",
             kurs: "",
         },
@@ -51,7 +49,7 @@ const Fizmat = () => {
                     setIsEdit(false);
                     const formData = new FormData();
                     formData.append("turi", isDataTalim[0].id);
-                    formData.append("fakultet", values.fakultet);
+                    formData.append("fakultet", isDataFakultet[0].id);
                     formData.append("yonalish", values.yonalish);
                     formData.append("kurs", values.kurs);
                     formData.append("rasm", isFile);
@@ -78,8 +76,7 @@ const Fizmat = () => {
                         formik.resetForm();
                         setIsFile("");
                         setImgInpText("Rasm tanlanmagan !");
-                        // await axios.post(UrlDJRasm, formData);
-                        console.log(values);
+                        await axios.post(UrlDJRasm, formData);
                         handleRefresh();
                         setIsLoader(false)
                     }
@@ -95,7 +92,6 @@ const Fizmat = () => {
             const response = await axios.get(UrlDJRasm + id + "/");
             const data = response.data;
             formik.setValues({
-                fakultet: data.fakultet,
                 yonalish: data.yonalish,
                 kurs: data.kurs,
             });
@@ -124,7 +120,6 @@ const Fizmat = () => {
             })
             .catch((err) => {
                 console.log(err);
-                setIsLoader(false);
             });
         await axios
             .get(UrlFakultet)
@@ -133,7 +128,6 @@ const Fizmat = () => {
             })
             .catch((err) => {
                 console.log(err);
-                setIsLoader(false);
             });
         await axios
             .get(UrlYonalish)
@@ -142,12 +136,12 @@ const Fizmat = () => {
             })
             .catch((err) => {
                 console.log(err);
-                setIsLoader(false);
             });
         await axios.get(UrlDJRasm).then((res) => {
             setIsDataDJRasm(res.data);
             setIsLoader(false);
         }).catch(err => console.log(err))
+        setIsLoader(false)
     };
     //GetYonalish
     const handleGetYonalish = (id) => {
@@ -161,15 +155,19 @@ const Fizmat = () => {
         handleRefresh();
     }, []);
 
-    //Logic Selects Fakultet
+    //Logic Selects Talim
     useEffect(() => {
         if (isDataTalim) {
-            setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_talim_turi_id) === Number(isDataTalim[0].id)))
+            setIsDataFakultetFilter(isDataFakultet && isDataFakultet.filter(item => Number(item.fakultet_talim_turi_id) === Number(isDataTalim[0].id)))
         }
-        if (isDataFakultet) {
-            setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_talim_turi_id) === Number(isDataFakultet[0].id)))
+    }, [isDataTalim, isDataFakultet]);
+    //Logic Selects Fakultet
+    useEffect(() => {
+        if (isDataFakultetFilter) {
+            setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => (Number(item.yonalish_fakultet_id) === Number(isDataFakultetFilter[0].id) && (Number(item.yonalish_talim_turi_id) === Number(isDataTalim[0].id)))))
         }
-    }, [isDataTalim, isDataYonalish, isDataFakultet]);
+    }, [isDataTalim, isDataYonalish, isDataFakultetFilter]);
+
     // Logik Get data
     useEffect(() => {
         if (isDataTalim) {
