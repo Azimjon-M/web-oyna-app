@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import adminImg from '../../assets/images/admins.png' 
 
 import {MdBlock} from 'react-icons/md'
 
@@ -80,16 +81,21 @@ const LoginAdmin = ({ data }) => {
     })
 
     return (
-        <div className='w-full h-[100vh] flex justify-center bg-black pt-32'>
-            <div className='w-auto text-center'>
-                <h1 className='text-white text-[35px]'>
-                    ADMIN PANELGA KIRISH
-                </h1>
-                <form className='flex flex-col gap-y-4' onSubmit={formik.handleSubmit} autoComplete='on'>
-                    <label className='text-white text-start' htmlFor="id">
+        <div className=' bg-[#D5F7E6] h-screen'>
+            <div className='max-w-7xl mx-auto grid md:grid-cols-2 pt-40'>
+                <div>
+                    <figure>
+                        <image src={adminImg} alt="Admin image" />
+                    </figure>
+                </div>
+                <form className='w-full bg-white max-w-md gap-y-4 shadow-lg p-10' onSubmit={formik.handleSubmit} autoComplete='on'>
+                    <h1 className='text-3xl font-bold text-slate-500 text-center'>
+                        Kirish
+                    </h1>
+                    <label className=' text-start' htmlFor="id">
                         ID
                         <input 
-                            className='w-full border-2 border-white bg-black text-[20px] py-2 px-4 focus:outline-none focus:border-red-600 focus:bg-white focus:text-black'
+                            className='w-full border-2 bg-black text-md py-2 px-4 focus:outline-none focus:border-[#57E6A8] focus:shadow-lg rounded-lg focus:bg-white focus:text-black'
                             type="text" 
                             id='id' 
                             name='id'
@@ -98,8 +104,8 @@ const LoginAdmin = ({ data }) => {
                             autoComplete='off'
                         />
                     </label>
-                    <label className='text-white text-start' htmlFor="password">
-                        PAROL
+                    <label className=' text-start' htmlFor="password">
+                        Parol
                         <input 
                             className='w-full border-2 border-white bg-black text-[20px] py-2 px-4 focus:outline-none focus:border-red-600 focus:bg-white focus:text-black'
                             type="password" 
@@ -111,7 +117,7 @@ const LoginAdmin = ({ data }) => {
                         />
                     </label>
                     <button 
-                        className='w-full text-white font-semibold  border-2 border-white mt-5 px-4 py-3 active:bg-white active:text-red-600 active:border-red-600 select-none' 
+                        className='w-full font-semibold  border-2 mt-5 px-4 py-3 active:bg-white active:text-red-600 active:border-red-600 select-none' 
                         type='submit'
                     >
                         Kirish
