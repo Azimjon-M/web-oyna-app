@@ -71,14 +71,15 @@ const Fizmat = () => {
                         setIsLoader(true)
                         const formData = new FormData();
                         formData.append("turi", isDataTalim[0].id);
-                        formData.append("fakultet", values.fakultet);
+                        formData.append("fakultet", isDataFakultet[0].id);
                         formData.append("yonalish", values.yonalish);
                         formData.append("kurs", values.kurs);
                         formData.append("rasm", isFile);
                         formik.resetForm();
                         setIsFile("");
                         setImgInpText("Rasm tanlanmagan !");
-                        await axios.post(UrlDJRasm, formData);
+                        // await axios.post(UrlDJRasm, formData);
+                        console.log(values);
                         handleRefresh();
                         setIsLoader(false)
                     }
@@ -163,15 +164,12 @@ const Fizmat = () => {
     //Logic Selects Fakultet
     useEffect(() => {
         if (isDataTalim) {
-            setIsDataFakultet(isDataFakultet && isDataFakultet.filter(item => Number(item.fakultet_talim_turi_id) === Number(isDataTalim[0].id)))
+            setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_talim_turi_id) === Number(isDataTalim[0].id)))
         }
-    }, [isDataTalim, isDataFakultet]);
-    //Logic Selects Fakultet
-    useEffect(() => {
         if (isDataFakultet) {
-            setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(isDataFakultet[1].id)))
+            setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_talim_turi_id) === Number(isDataFakultet[0].id)))
         }
-    }, [isDataTalim, isDataFakultet, isDataYonalish]);
+    }, [isDataTalim, isDataYonalish, isDataFakultet]);
     // Logik Get data
     useEffect(() => {
         if (isDataTalim) {
