@@ -23,7 +23,7 @@ const MakTal = () => {
 
     const [isLoader, setIsLoader] = useState(true);
 
-    const [imgInpText, setImgInpText] = useState("Rasm  !");
+    const [imgInpText, setImgInpText] = useState("Rasm Tanlanmagan!");
     const [imgErr, setImgErr] = useState(null);
     const [isImg, setIsImg] = useState("Rasm");
     const [isFile, setIsFile] = useState("");
@@ -352,7 +352,7 @@ const MakTal = () => {
                                             <button
                                                 onClick={() => handleClick()}
                                                 type="button"
-                                                className="flex h-full items-center gap-x-2 bg-green-300 hover:bg-green-500 active:bg-green-300 mr-5 px-4"
+                                                className="flex h-full items-center gap-x-2 bg-green-300 hover:bg-green-500 active:bg-green-300 mr-1 px-4"
                                             >
                                                 <BsImage /> Tanlash
                                             </button>
