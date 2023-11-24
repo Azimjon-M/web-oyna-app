@@ -1,350 +1,271 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import QRCode from "qrcode.react";
+import { MetroSpinner } from "react-spinners-kit";
 
 export const DarsJadvallari = () => {
-    
-    const [selectFakutet, setSelectFakutet] = useState(null);
-    const [selectedYonalish, setSelectedYonalish] = useState(null);
-    const [selectedKurs, setSelectedKurs] = useState(null);
-    const [selectedImgSRC, setSelectedImgSRC] = useState(null);
+    const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
+    const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
+    const UrlYonalish = "https://api.kspi.uz/v1/jadval/yonalish/";
+    const UrlKurs = "https://api.kspi.uz/v1/jadval/kurs/";
+    const UrlDJRasm = "https://api.kspi.uz/v1/jadval/jadval/";
+    // Full Dataes
+    const [isDataTalim, setIsDataTalim] = useState(null);
+    const [isDataFakultet, setIsDataFakultet] = useState(null);
+    const [isDataYonalish, setIsDataYonalish] = useState(null);
+    const [isDataKurs, setIsDataKurs] = useState(null);
+    const [isDataDJRasm, setIsDataDJRasm] = useState(null);
+    // Fitered Dataes
+    const [isDataFakultetFilter, setIsDataFakultetFilter] = useState(null);
+    const [isDataYonalishFilter, setIsDataYonalishFilter] = useState(null);
+    const [isDataKursFilter, setIsDataKursFilter] = useState(null);
+    const [isDataDJRasmFilter, setIsDataDJRasmFilter] = useState([]);
 
-    const data = {
-            "Fizika Matematika": {
-                "Matematika va Informatika": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Matematika o'qitish meto'dikasi": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Fizika va Astranomiya": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Fizika va Astranomiya o'qitish meto'dikasi": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-            },
-            "Pedagogika": {
-                "Pedagogika va psixologiya": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Psixalogiya (amaliy psixologiya)": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Maxsus pedagogika (logopediyaa)": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Defectologiya (surdopedagogika)": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Defectologiya (oligofrenopedagogika)": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Defectologiya (logopediya)": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-            },
-            "Tarix": {
-                "Tarix": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Tarix o'qitish metodikasi": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Milliy g'oya ma'naviyat asoslari va huquq ta'limi": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-            },
-            "Milliy hunarmandchilik va amaliy san'at": {
-                "Musiqa ta'limi": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Tasviriy san'at va muhandislik grafikasi": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Texnologik ta'lim": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-            },
-            "Rus tili va adabiyoti": {
-                "Ona tili va adabiyoti (rus tili va asdabiyoti)": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "O'zga tilli guruhlarda rus tili": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Ona tili va adabiyoti (rus tili va adabiyoti (o'zga tilli guruhlarda))": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-            },
-            "Tabiiy fanlar": {
-                "Kimyo": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Kimyo o'qitish metodikasi": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Biologiya": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Biologiya o'qitish metodikasi": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['132'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Geografiya va iqtisodiy bilim asoslari": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['132'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Geografiya o'qitish metodikasi": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['132'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-            },
-            "Horijiy tillar": {
-                "Horijiy til va adabiyoti (ingliz tili)": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['132'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Maktabgach va boshlang'ich ta'limda horijiy til (ingliz tili)": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['132'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-            },
-            "O'zbek tili va adabiyoti": {
-                "O'zbek tili va adabiyoti": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['132'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                }
-            },
-            "Maktabgacha ta'lim": {
-                "Maktabgacha ta'lim": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['132'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Maktabgacha ta'lim psixologiyasi va pedagogikasi": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['132'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Maktab menejmenti": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['132'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-            },
-            "Boshlang'ich ta'lim": {
-                "Boshlang'ich ta'lim": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['132'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-                "Boshlang'ich ta'lim va sport tarbiyaviy ish": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['132'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-            },
-            "Jismoniy madanyat": {
-                "Jismoniy madanyat": {
-                    "1 - kurs": ['../../assets/images/darsJadvali/'],
-                    "2 - kurs": ['../../assets/images/darsJadvali/'],
-                    "3 - kurs": ['../../assets/images/darsJadvali/'],
-                    "4 - kurs": ['../../assets/images/darsJadvali/'],
-                },
-            },
+    // Selected dataes
+    const [isDataTalimSelected, setIsDataTalimSelected] = useState("");
+    const [isDataFakultetSelected, setIsDataFakultetSelected] = useState("");
+    const [isDataYonalishSelected, setIsDataYonalishSelected] = useState("");
+    const [isDataKursSelected, setIsDataKursSelected] = useState("");
+
+    const [isLoader, setIsLoader] = useState(true);
+    const [isModal, setIsModal] = useState(false);
+
+
+    //Refresh
+    const handleRefresh = async () => {
+        await axios
+            .get(UrlTalim)
+            .then((res) => {
+                setIsDataTalim(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsLoader(false);
+            });
+        await axios
+            .get(UrlFakultet)
+            .then((res) => {
+                setIsDataFakultet(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsLoader(false);
+            });
+        await axios
+            .get(UrlYonalish)
+            .then((res) => {
+                setIsDataYonalish(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsLoader(false);
+            });
+        await axios
+            .get(UrlKurs)
+            .then((res) => {
+                setIsDataKurs(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsLoader(false);
+            });
+        await axios
+            .get(UrlDJRasm)
+            .then((res) => {
+                setIsDataDJRasm(res.data);
+                setIsLoader(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsLoader(false);
+            });
     };
 
-    const handleFakultetClick = (objectKey) => {
-        setSelectFakutet(objectKey);
-        setSelectedYonalish(null);
-        setSelectedKurs(null);
-        setSelectedImgSRC(null);
-    };
+    useEffect(() => {
+        handleRefresh();
+    }, []);
+    //Logik Talim = "" && = [0].id
+    useEffect(() => {
+        if (isDataTalim) {
+            setIsDataTalimSelected(isDataTalim[0].id);
+        }
+    }, [isDataTalim]);
+    // Fakultet filtered by TalTurID
+    useEffect(() => {
+        if (isDataFakultet) {
+            setIsDataFakultetFilter(
+                isDataFakultet &&
+                    isDataFakultet.filter(
+                        (item) =>
+                            Number(item.fakultet_talim_turi_id) ===
+                            Number(isDataTalimSelected)
+                    )
+            );
+        }
+    }, [isDataTalimSelected, isDataFakultet]);
+    // Yonalsih filtered by TalTurID FakultetID
+    useEffect(() => {
+        if (isDataYonalish) {
+            setIsDataYonalishFilter(
+                isDataYonalish &&
+                    isDataYonalish.filter(
+                        (item) =>
+                            Number(item.yonalish_talim_turi_id) ===
+                                Number(isDataTalimSelected) &&
+                            Number(item.yonalish_fakultet_id) ===
+                                Number(isDataFakultetSelected)
+                    )
+            );
+        }
+    }, [isDataYonalish, isDataFakultetSelected, isDataTalimSelected]);
+    // Kurs filtered by TalTurID FakultetID YonalishID
+    useEffect(() => {
+        if (isDataKurs) {
+            setIsDataKursFilter(
+                isDataKurs &&
+                    isDataKurs.filter(
+                        (item) =>
+                            Number(item.kurs_talim_turi_id) ===
+                                Number(isDataTalimSelected) &&
+                            Number(item.kurs_fakultet_id) ===
+                                Number(isDataFakultetSelected) &&
+                            Number(item.kurs_yonalish_id) ===
+                                Number(isDataYonalishSelected)
+                    )
+            );
+        }
+    }, [
+        isDataYonalish,
+        isDataFakultetSelected,
+        isDataTalimSelected,
+        isDataKurs,
+        isDataYonalishSelected,
+    ]);
+    // Rasm filtered by TalTurID FakultetID YonalishID KursID
+    useEffect(() => {
+        if (isDataDJRasm) {
+            setIsDataDJRasmFilter(
+                isDataDJRasm &&
+                    isDataDJRasm.filter(
+                        (item) =>
+                            Number(item.turi) ===
+                                Number(isDataTalimSelected) &&
+                            Number(item.fakultet) ===
+                                Number(isDataFakultetSelected) &&
+                            Number(item.yonalish) ===
+                                Number(isDataYonalishSelected) &&
+                            Number(item.kurs) ===
+                                Number(isDataKursSelected)
+                    )
+            );
+        }
+    }, [
+        isDataYonalish,
+        isDataFakultetSelected,
+        isDataTalimSelected,
+        isDataKurs,
+        isDataYonalishSelected,
+        isDataDJRasm,
+        isDataKursSelected
+    ]);
 
-    const handleYonalishClick = (nestedObjectKey) => {
-        setSelectedYonalish(nestedObjectKey);
-        setSelectedKurs(null);
-        setSelectedImgSRC(null);
+    const handleChange = (e) => {
+        setIsDataTalimSelected(e.target.value);
     };
-
-    const handleKursClick = (KursKey) => {
-        setSelectedKurs(KursKey);
-        setSelectedImgSRC(null);
+    const handleFakultetClick = (e) => {
+        setIsDataFakultetSelected(e);
     };
-
-    const handleImgSRCClick = (ImgSRC) => {
-        setSelectedImgSRC(ImgSRC);
+    const handleYonalishClick = (e) => {
+        setIsDataYonalishSelected(e);
     };
-
+    console.log(isDataDJRasmFilter);
+    const handleKursClick = (e) => {
+        setIsDataKursSelected(e);
+        setIsModal(true);
+    };
+    const handleModalClose = () => {
+        setIsModal(false)
+    }
     return (
-        <div className="flex justify-center mt-10">
-            <div className="z-10 w-[100vw] h-[100vh] absolute left-0 top-0 ">
-            </div>
-            <div className="z-50">
-                <div className="flex flex-col items-center">
-
-                    <div className="text-center">
-                        <h1 className="text-[40px] font-bold">
-                            Dars jadvali:
-                        </h1>
+        <div className="flex flex-col items-center w-full h-[calc(100%-320px)]">
+            {isLoader ? (
+                <div className="w-full h-full flex justify-center items-center">
+                    <div className="spinner">
+                        <MetroSpinner size={80} color="black" />
                     </div>
-
-                    <div className="w-[800px] flex flex-wrap justify-center items-center">
-                        {data && Object.keys(data).map((objectKey) => (
-                            <button className="m-3 bg-yellow-400 py-3 px-8 text-[20px] font-bold text-white rounded-md" key={objectKey} onClick={() => handleFakultetClick(objectKey)}>
-                                {objectKey}
-                            </button>
-                        ))}
+                </div>
+            ) : (
+                <div className="w-full h-full py-10">
+                    <div className={`${isModal ? "w-full h-full absolute top-0 left-0 bg-[#000000a6] flex flex-col justify-center items-center gap-y-10" : "hidden"} `}>
+                        <div className="w-[800px] text-end h-auto">
+                            <button className="btn btn-error rounded-full text-[40px] text-white" onClick={() => handleModalClose()}>X</button>
+                        </div>
+                        <div className="w-[800px] h-[800px] flex justify-center items-center">
+                            <img id="imgDJR" className="max-w-full max-h-full" src={isDataDJRasmFilter.length > 0 ? isDataDJRasmFilter[0].rasm : ""} alt="Dars jadval rasmi" />
+                        </div>
+                        <div className="w-[800px] h-auto flex justify-end">
+                            <QRCode className='bg-white border-4 border-slate-700 p-3' value={isDataDJRasmFilter.length > 0 ? isDataDJRasmFilter[0].rasm : ""} />
+                        </div>
                     </div>
-
-                    {selectFakutet && (
-                        <div className="w-[900px]">
-                            <div className="text-center">
-                                <h2 className="text-[30px] font-bold">{selectFakutet} fakultet yo'nalishlari:</h2>
-                            </div>
-                            <div className="flex flex-wrap justify-center items-center">
-                                {data && Object.keys(data[selectFakutet]).map((nestedObjectKey) => (
+                    <div className="w-full flex justify-end px-10">
+                        <select
+                            onChange={handleChange}
+                            defaultValue={isDataTalim && isDataTalim[0].id}
+                            name="talim_tur"
+                            className="select select-primary w-full max-w-xs"
+                        >
+                            {isDataTalim &&
+                                isDataTalim.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.talim_turi}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
+                    <div className="w-full flex flex-col items-center">
+                        <div className="w-[900px] flex flex-wrap justify-center items-center">
+                            {isDataFakultetFilter &&
+                                isDataFakultetFilter.map((item) => (
                                     <button
-                                    className="m-3 bg-blue-500 py-3 px-8 text-[20px] font-bold text-white rounded-md"
-                                    key={nestedObjectKey}
-                                    onClick={() => handleYonalishClick(nestedObjectKey)}
+                                        className="m-3 bg-yellow-400 py-3 px-8 text-[20px] font-bold text-white rounded-md"
+                                        key={item.id}
+                                        onClick={() =>
+                                            handleFakultetClick(item.id)
+                                        }
                                     >
-                                        {nestedObjectKey}
+                                        {item.fakultet}
                                     </button>
                                 ))}
-                            </div>
                         </div>
-                    )}
-
-                    {selectedYonalish && (
-                        <div>
-                            <div className="text-center">
-                                <h3 className="text-[30px] font-bold">{selectedYonalish}:</h3>
-                            </div>
-                            <div className="flex flex-wrap justify-center items-center">
-                                {data && Object.keys(data[selectFakutet][selectedYonalish]).map(
-                                    (KursKey) => (
-                                        <button 
-                                            className="m-3 bg-green-600 py-3 px-8 text-[20px] font-bold text-white rounded-md"
-                                            key={KursKey} 
-                                            onClick={() => handleKursClick(KursKey)}
-                                        >
-                                            {KursKey}
-                                        </button>
-                                    )
-                                    )}
-                            </div>
+                        <div className="flex flex-wrap justify-center items-center">
+                            {isDataYonalishFilter &&
+                                isDataYonalishFilter.map((item) => (
+                                    <button
+                                        className="m-3 bg-blue-500 py-3 px-8 text-[20px] font-bold text-white rounded-md"
+                                        key={item.id}
+                                        onClick={() =>
+                                            handleYonalishClick(item.id)
+                                        }
+                                    >
+                                        {item.yonalish}
+                                    </button>
+                                ))}
                         </div>
-                    )}
-                    <div className="flex flex-wrap justify-center items-center">
-                        {selectedKurs && (
-                            <div>
-                                {/* <h4>Selected Kurs: {selectedKurs}</h4> */}
-                                {data && data[selectFakutet][selectedYonalish][selectedKurs].map(
-                                    (ImgSRC, index) => (
-                                        <button 
-                                            className="text-[30px]"
-                                            key={index} onClick={() => handleImgSRCClick(ImgSRC)}>
-                                            {ImgSRC}
-                                        </button>
-                                    )
-                                    )}
-                            </div>
-                        )}
+                        <div className="flex flex-wrap justify-center items-center">
+                            {isDataKursFilter &&
+                                isDataKursFilter.map((item) => (
+                                    <button
+                                        className="m-3 bg-green-500 py-3 px-8 text-[20px] font-bold text-white rounded-md"
+                                        key={item.id}
+                                        onClick={() => handleKursClick(item.kurs)}
+                                    >
+                                        {item.kurs}
+                                    </button>
+                                ))}
+                        </div>
                     </div>
-                    <br />
-                    {selectedImgSRC && (
-                        <div>
-                            {/* <h5>Selected ImgSRC:</h5> */}
-                            <a href={selectedImgSRC}>{selectedImgSRC}</a>
-                        </div>
-                    )}
-                    
                 </div>
-            </div>
+            )}
         </div>
-    )
-}
+    );
+};
