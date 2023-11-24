@@ -75,7 +75,7 @@ const Fizmat = () => {
                         formData.append("rasm", isFile);
                         formik.resetForm();
                         setIsFile("");
-                        setImgInpText("Rasm tanlanmagan !");
+                        setImgInpText("Rasm  !");
                         await axios.post(UrlDJRasm, formData);
                         handleRefresh();
                         setIsLoader(false)
@@ -185,7 +185,7 @@ const Fizmat = () => {
         const fayl = e.target.files[0];
         setImgErr(true);
         setIsFile("");
-        setImgInpText("Rasm tanlanmagan !");
+        setImgInpText("Rasm  !");
         if (fayl) {
             for (let i = 0; i < imgTypes.length; i++) {
                 if (fayl.name.split(".").pop().includes(imgTypes[i])) {
@@ -202,9 +202,9 @@ const Fizmat = () => {
     };
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="max-w-6xl mx-auto pt-10">
             {isLoader ? (
-                <div className="h-[100vh] flex justify-center items-center ">
+                <div className="h-full flex justify-center pt-60">
                     <div className="spinner">
                         <h1>Yuklanmoqda...</h1>
                         <MetroSpinner size={80} color="black" />
@@ -213,39 +213,36 @@ const Fizmat = () => {
             ) : (
                 <>
                     {/* Yo'nalish */}
-                    <h1 className="text-[24px] mt-6 mb-3">
-                        <b>Fizika-matematika fakulteti</b>
-                    </h1>
-                    <div className="w-[1000px] h-[600px] flex gap-x-2 border-b border-black">
-                        <div className="w-[50%] flex flex-col gap-y-2">
+                    <div className=" grid grid-cols-2">
+                        <div className="max-h-[750px] p-5">
                             {/* Get Data */}
-                            <div className="border-b border-black px-10 py-2">
-                                <b>Joylashtirilgan ma'lumotlar</b>
-                            </div>
+                            <h1 className="text-xl font-bold text-stone-500 text-center pb-3">
+                                Dars jadvallari
+                            </h1>
                             {isDataDJRasm && isDataDJRasm.length === 0 ? (
                                 <div className="text-red-600">
                                     Ma'lumotlar joylanmagan !
                                 </div>
                             ) : (
-                                <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
+                                <div className="h-full flex flex-col overflow-y-auto p-5 pt-0">
                                     {isDataDJRasmFilter &&
                                         isDataDJRasmFilter
                                             .sort((a, b) => a.id - b.id)
                                             .map((item) => (
                                                 <div
                                                     key={item.id}
-                                                    className="w-full h-[150px] card card-side bg-base-100 shadow-xl border border-blue-600"
+                                                    className="card card-side bg-base-100 shadow-xl p-2 mb-4"
                                                 >
-                                                    <figure className="w-[150px] h-full relative">
+                                                    <figure className="">
                                                         <img
-                                                            className="w-full h-full absolute top-0 left-0"
+                                                            className="w-28 h-full rounded-xl"
                                                             src={item.rasm}
                                                             alt="Movie"
                                                         />
                                                     </figure>
-                                                    <div className="w-full p-2">
-                                                        <p>
-                                                            Yo'nalishi:{" "}
+                                                    <div className="card-body p-2 pl-4">
+                                                    <h2 className="text-xl font-bold text-slate-600">Yo'nalish: <span className="text-ms font-medium text-slate-500">
+                                                            {" "}
                                                             {handleGetYonalish(
                                                                 item.yonalish
                                                             ).length > 37
@@ -258,16 +255,16 @@ const Fizmat = () => {
                                                                 : handleGetYonalish(
                                                                     item.yonalish
                                                                 )}
-                                                        </p>
-                                                        <p>
-                                                            Kursi: {item.kurs}
-                                                        </p>
+                                                        </span> </h2>
+                                                        <h2 className="text-xl font-bold text-slate-600">Yo'nalish: <span className="text-ms font-medium text-slate-500">
+                                                            {item.kurs}
+                                                        </span> </h2>
                                                         <div className="card-actions justify-end mt-2">
                                                             <button
                                                                 onClick={() =>
                                                                     handleEdit(item.id)
                                                                 }
-                                                                className="btn btn-outline btn-accent"
+                                                                className="btn-outline border py-1 px-6 rounded-md btn-accent"
                                                             >
                                                                 <MdEdit />
                                                             </button>
@@ -275,7 +272,7 @@ const Fizmat = () => {
                                                                 onClick={() =>
                                                                     handleDelet(item.id)
                                                                 }
-                                                                className="btn btn-outline btn-error"
+                                                                className="btn-outline border py-1 px-6 rounded-md btn-error"
                                                             >
                                                                 <MdDelete />
                                                             </button>
@@ -286,109 +283,114 @@ const Fizmat = () => {
                                 </div>
                             )}
                         </div>
-                        <div className="w-[50%]">
-                            <div className="px-10 py-2 border-b border-black">
-                                <b>Ma'lumotlar joylashtirish</b>
-                            </div>
-                            {/* Post Data */}
-                            <form
-                                className="w-full px-10 mt-10"
-                                onSubmit={formik.handleSubmit}
-                            >
-                                {/* Yo'nalish */}
-                                <select
-                                    className={`${formik.errors.yonalish ? "select-error" : " select-primary"} w-full select max-w-xs`}
-                                    onChange={formik.handleChange}
-                                    value={
-                                        formik.values.yonalish || ""
-                                    }
-                                    name="yonalish"
-                                    id="yonalish"
+                        <div className="p-5">
+                            <h1 className="text-xl font-bold text-stone-500 text-center pb-3">
+                                Dars jadvalini yuklash
+                            </h1>
+                            <div>
+                                {/* Post Data */}
+                                <form
+                                    className="max-w-sm mx-auto shadow-md p-10"
+                                    onSubmit={formik.handleSubmit}
                                 >
-                                    <option disabled value="">
-                                        Yo'nalishni tanlang
-                                    </option>
-                                    {isDataYonalishFilter &&
-                                        isDataYonalishFilter.map((item) => (
-                                            <option
-                                                key={item.id}
-                                                value={item.id}
-                                            >
-                                                {item.yonalish}
-                                            </option>
-                                        ))}
-                                </select>
-                                {/* Kurs */}
-                                <select
-                                    className={`${formik.errors.kurs ? "select-error" : " select-primary"} w-full select max-w-xs`}
-                                    onChange={formik.handleChange}
-                                    value={formik.values.kurs || ""}
-                                    name="kurs"
-                                    id="kurs"
-                                >
-                                    <option value="" disabled>Kursni tanlang</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
+                                    {/* Yo'nalish */}
+                                    <label htmlFor="yonalish"className="text-md font-bold pl-2 text-slate-500" >Yo'nalish</label>
+                                    <select
+                                        className={`${formik.errors.yonalish ? "select-error w-full max-w-sm shadow-lg mb-4" : "select w-full max-w-sm shadow-lg mb-4"} w-full select max-w-xs`}
+                                        onChange={formik.handleChange}
+                                        value={
+                                            formik.values.yonalish || ""
+                                        }
+                                        name="yonalish"
+                                        id="yonalish"
+                                    >
+                                        <option disabled value="">
+                                            Yo'nalishni tanlang
+                                        </option>
+                                        {isDataYonalishFilter &&
+                                            isDataYonalishFilter.map((item) => (
+                                                <option
+                                                    key={item.id}
+                                                    value={item.id}
+                                                >
+                                                    {item.yonalish}
+                                                </option>
+                                            ))}
+                                    </select>
+                                    {/* Kurs */}
+                                    <label htmlFor="yonalish"className="text-md font-bold pl-2 text-slate-500" >Kurs</label>
+                                    <select
+                                        className={`${formik.errors.kurs ? "select-error w-full max-w-sm shadow-lg mb-4" : "select w-full max-w-sm shadow-lg mb-4"} w-full select max-w-xs`}
+                                        onChange={formik.handleChange}
+                                        value={formik.values.kurs || ""}
+                                        name="kurs"
+                                        id="kurs"
+                                    >
+                                        <option value="" disabled>Kursni tanlang</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
 
-                                <div className="flex flex-col items-start">
-                                    <div className="flex items-center">
-                                        {isImg}:{" "}
-                                        {isImg === "Rasmni tahrirlash" && (
-                                            <div className="inline-block italic text-[12px] text-red-600 ms-5">
-                                                Agar o'zgartirilmasa o'z holida
-                                                qoladi !Rasm
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div
-                                        className={`${imgErr
-                                                ? "border-red-600"
-                                                : "border-gray-400"
-                                            } flex items-center border`}
-                                    >
-                                        <button
-                                            onClick={() => handleClick()}
-                                            type="button"
-                                            className="h-[30px] flex items-center gap-x-2 bg-green-300 hover:bg-green-500 active:bg-green-300 px-4"
+                                    <div className="flex flex-col items-start text-md font-bold pl-2 text-slate-500">
+                                        <div className="flex items-center">
+                                            {isImg}:{" "}
+                                            {isImg === "Rasmni tahrirlash" && (
+                                                <div className="inline-block italic text-[12px] text-red-600 ms-5">
+                                                    Agar o'zgartirilmasa o'z holida
+                                                    qoladi !Rasm
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div
+                                            className={`${imgErr
+                                                    ? "border-red-600"
+                                                    : "border-gray-400"
+                                                } flex items-center border file-input file-input-bordered w-full max-w-sm`}
                                         >
-                                            <BsImage /> Tanlash
-                                        </button>
+                                            <button
+                                                onClick={() => handleClick()}
+                                                type="button"
+                                                className="flex h-full items-center gap-x-2 bg-green-300 hover:bg-green-500 active:bg-green-300 mr-5 px-4"
+                                            >
+                                                <BsImage /> Tanlash
+                                            </button>
+                                            <span
+                                                className={`${imgErr ? "text-red-600" : ""
+                                                    } border-s-gray-400`}
+                                                id="inp-text"
+                                            >
+                                                {imgInpText}
+                                            </span>
+                                        </div>
                                         <span
-                                            className={`${imgErr ? "text-red-600" : ""
-                                                } h-[30px] px-2 border border-s-gray-400`}
-                                            id="inp-text"
+                                            className={`${imgErr
+                                                    ? "translate-y-0 opacity-100 h-auto mt-4"
+                                                    : "-translate-y-5 opacity-0 h-0"
+                                                } bg-red-500 text-white text-[14px] px-2 transition-all -z-20`}
                                         >
-                                            {imgInpText}
+                                            Rasim{" "}
+                                            {imgTypes &&
+                                                imgTypes.map((i) => i + ", ")}{" "}
+                                            farmatlarda bo'lishi kerak !
                                         </span>
+
+                                        <input
+                                            onChange={(e) => handleChange(e)}
+                                            id="rasim"
+                                            type="file"
+                                            hidden="hidden"
+                                        />
                                     </div>
-                                    <span
-                                        className={`${imgErr
-                                                ? "translate-y-0 opacity-100 h-auto mt-4"
-                                                : "-translate-y-5 opacity-0 h-0"
-                                            } bg-red-500 text-white text-[14px] px-2 transition-all -z-20`}
+                                    <button
+                                        className="btn bg-sky-600 hover:bg-sky-700 shadow-lg text-white w-full mt-8"
+                                        type="submit"
                                     >
-                                        Rasim{" "}
-                                        {imgTypes &&
-                                            imgTypes.map((i) => i + ", ")}{" "}
-                                        farmatlarda bo'lishi kerak !
-                                    </span>
-                                    <input
-                                        onChange={(e) => handleChange(e)}
-                                        id="rasim"
-                                        type="file"
-                                        hidden="hidden"
-                                    />
-                                </div>
-                                <button
-                                    className="w-[100px] float-right border-blue-500 bg-blue-500 text-white py-1 px-2 mt-5"
-                                    type="submit"
-                                >
-                                    Jo'natish
-                                </button>
-                            </form>
+                                        Jo'natish
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </>
