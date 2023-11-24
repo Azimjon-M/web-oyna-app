@@ -23,7 +23,7 @@ const MakTal = () => {
 
     const [isLoader, setIsLoader] = useState(true);
 
-    const [imgInpText, setImgInpText] = useState("Rasm Tanlanmagan !");
+    const [imgInpText, setImgInpText] = useState("Rasm  !");
     const [imgErr, setImgErr] = useState(null);
     const [isImg, setIsImg] = useState("Rasm");
     const [isFile, setIsFile] = useState("");
@@ -49,12 +49,12 @@ const MakTal = () => {
                     setIsEdit(false);
                     const formData = new FormData();
                     formData.append("turi", isDataTalim[0].id);
-                    formData.append("fakultet", isDataFakultet[0].id);
+                    formData.append("fakultet", isDataFakultetFilter[0].id);
                     formData.append("yonalish", values.yonalish);
                     formData.append("kurs", values.kurs);
                     formData.append("rasm", isFile);
                     setIsImg("Rasm");
-                    setImgInpText("Rasm tanlanmagan !");
+                    setImgInpText("Rasm  !");
                     setIsFile("");
                     formik.resetForm();
                     await axios.put(UrlDJRasm + isEdit + "/", formData);
@@ -69,13 +69,13 @@ const MakTal = () => {
                         setIsLoader(true)
                         const formData = new FormData();
                         formData.append("turi", isDataTalim[0].id);
-                        formData.append("fakultet", isDataFakultet[0].id);
+                        formData.append("fakultet", isDataFakultetFilter[0].id);
                         formData.append("yonalish", values.yonalish);
                         formData.append("kurs", values.kurs);
                         formData.append("rasm", isFile);
                         formik.resetForm();
                         setIsFile("");
-                        setImgInpText("Rasm tanlanmagan !");
+                        setImgInpText("Rasm  !");
                         await axios.post(UrlDJRasm, formData);
                         handleRefresh();
                         setIsLoader(false)
@@ -171,9 +171,12 @@ const MakTal = () => {
     // Logik Get data
     useEffect(() => {
         if (isDataTalim) {
-            setIsDataDJRasmFilter(isDataDJRasm && isDataDJRasm.filter(item => Number(item.turi) === Number(isDataTalim[0].id)))
+            setIsDataDJRasmFilter(isDataDJRasm && isDataDJRasm.filter(item => (Number(item.turi) === Number(isDataTalim[0].id)) && (Number(item.fakultet) === Number(isDataFakultetFilter[0].id))))
         }
-    }, [isDataTalim, isDataDJRasm])
+    }, [isDataTalim, isDataDJRasm, isDataFakultetFilter])
+    console.log(isDataDJRasm);
+
+    console.log(isDataFakultetFilter);
 
     const handleClick = () => {
         document.getElementById("rasim").click();
@@ -182,7 +185,7 @@ const MakTal = () => {
         const fayl = e.target.files[0];
         setImgErr(true);
         setIsFile("");
-        setImgInpText("Rasm tanlanmagan !");
+        setImgInpText("Rasm  !");
         if (fayl) {
             for (let i = 0; i < imgTypes.length; i++) {
                 if (fayl.name.split(".").pop().includes(imgTypes[i])) {
@@ -214,7 +217,7 @@ const MakTal = () => {
                         <div className="max-h-[750px] p-5">
                             {/* Get Data */}
                             <h1 className="text-xl font-bold text-stone-500 text-center pb-3">
-                                Joylashtirilgan ma'lumotlar
+                                Dars jadvallari
                             </h1>
                             {isDataDJRasm && isDataDJRasm.length === 0 ? (
                                 <div className="text-red-600">
@@ -232,14 +235,14 @@ const MakTal = () => {
                                                 >
                                                     <figure className="">
                                                         <img
-                                                            className="w-32 h-full rounded-xl"
+                                                            className="w-28 h-full rounded-xl"
                                                             src={item.rasm}
                                                             alt="Movie"
                                                         />
                                                     </figure>
                                                     <div className="card-body p-2 pl-4">
-                                                        <p>
-                                                            Yo'nalishi:{" "}
+                                                    <h2 className="text-xl font-bold text-slate-600">Yo'nalish: <span className="text-ms font-medium text-slate-500">
+                                                            {" "}
                                                             {handleGetYonalish(
                                                                 item.yonalish
                                                             ).length > 37
@@ -252,16 +255,16 @@ const MakTal = () => {
                                                                 : handleGetYonalish(
                                                                     item.yonalish
                                                                 )}
-                                                        </p>
-                                                        <p>
-                                                            Kursi: {item.kurs}
-                                                        </p>
+                                                        </span> </h2>
+                                                        <h2 className="text-xl font-bold text-slate-600">Yo'nalish: <span className="text-ms font-medium text-slate-500">
+                                                            {item.kurs}
+                                                        </span> </h2>
                                                         <div className="card-actions justify-end mt-2">
                                                             <button
                                                                 onClick={() =>
                                                                     handleEdit(item.id)
                                                                 }
-                                                                className="btn btn-outline btn-accent"
+                                                                className="btn-outline border py-1 px-6 rounded-md btn-accent"
                                                             >
                                                                 <MdEdit />
                                                             </button>
@@ -269,7 +272,7 @@ const MakTal = () => {
                                                                 onClick={() =>
                                                                     handleDelet(item.id)
                                                                 }
-                                                                className="btn btn-outline btn-error"
+                                                                className="btn-outline border py-1 px-6 rounded-md btn-error"
                                                             >
                                                                 <MdDelete />
                                                             </button>
@@ -282,17 +285,18 @@ const MakTal = () => {
                         </div>
                         <div className="p-5">
                             <h1 className="text-xl font-bold text-stone-500 text-center pb-3">
-                                Ma'lumotlar joylashtirish
+                                Dars jadvalini yuklash
                             </h1>
-                            <div className="max-w-sm mx-auto shadow-md p-10">
+                            <div>
                                 {/* Post Data */}
                                 <form
-                                    className="w-full px-10 mt-10"
+                                    className="max-w-sm mx-auto shadow-md p-10"
                                     onSubmit={formik.handleSubmit}
                                 >
                                     {/* Yo'nalish */}
+                                    <label htmlFor="yonalish"className="text-md font-bold pl-2 text-slate-500" >Yo'nalish</label>
                                     <select
-                                        className={`${formik.errors.yonalish ? "select-error" : " select-primary"} w-full select max-w-xs`}
+                                        className={`${formik.errors.yonalish ? "select-error w-full max-w-sm shadow-lg mb-4" : "select w-full max-w-sm shadow-lg mb-4"} w-full select max-w-xs`}
                                         onChange={formik.handleChange}
                                         value={
                                             formik.values.yonalish || ""
@@ -314,8 +318,9 @@ const MakTal = () => {
                                             ))}
                                     </select>
                                     {/* Kurs */}
+                                    <label htmlFor="yonalish"className="text-md font-bold pl-2 text-slate-500" >Kurs</label>
                                     <select
-                                        className={`${formik.errors.kurs ? "select-error" : " select-primary"} w-full select max-w-xs`}
+                                        className={`${formik.errors.kurs ? "select-error w-full max-w-sm shadow-lg mb-4" : "select w-full max-w-sm shadow-lg mb-4"} w-full select max-w-xs`}
                                         onChange={formik.handleChange}
                                         value={formik.values.kurs || ""}
                                         name="kurs"
@@ -328,7 +333,7 @@ const MakTal = () => {
                                         <option value="4">4</option>
                                     </select>
 
-                                    <div className="flex flex-col items-start">
+                                    <div className="flex flex-col items-start text-md font-bold pl-2 text-slate-500">
                                         <div className="flex items-center">
                                             {isImg}:{" "}
                                             {isImg === "Rasmni tahrirlash" && (
@@ -342,18 +347,18 @@ const MakTal = () => {
                                             className={`${imgErr
                                                     ? "border-red-600"
                                                     : "border-gray-400"
-                                                } flex items-center border`}
+                                                } flex items-center border file-input file-input-bordered w-full max-w-sm`}
                                         >
                                             <button
                                                 onClick={() => handleClick()}
                                                 type="button"
-                                                className="h-[30px] flex items-center gap-x-2 bg-green-300 hover:bg-green-500 active:bg-green-300 px-4"
+                                                className="flex h-full items-center gap-x-2 bg-green-300 hover:bg-green-500 active:bg-green-300 mr-5 px-4"
                                             >
                                                 <BsImage /> Tanlash
                                             </button>
                                             <span
                                                 className={`${imgErr ? "text-red-600" : ""
-                                                    } h-[30px] px-2 border border-s-gray-400`}
+                                                    } border-s-gray-400`}
                                                 id="inp-text"
                                             >
                                                 {imgInpText}
@@ -370,6 +375,7 @@ const MakTal = () => {
                                                 imgTypes.map((i) => i + ", ")}{" "}
                                             farmatlarda bo'lishi kerak !
                                         </span>
+
                                         <input
                                             onChange={(e) => handleChange(e)}
                                             id="rasim"
@@ -378,12 +384,12 @@ const MakTal = () => {
                                         />
                                     </div>
                                     <button
-                                        className="w-[100px] float-right border-blue-500 bg-blue-500 text-white py-1 px-2 mt-5"
+                                        className="btn bg-sky-600 hover:bg-sky-700 shadow-lg text-white w-full mt-8"
                                         type="submit"
                                     >
                                         Jo'natish
                                     </button>
-                                </form>;
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -394,58 +400,3 @@ const MakTal = () => {
 };
 
 export default MakTal;
-
-
-
-
-
-
-
-//         return (
-//             <div className="max-w-6xl mx-auto grid grid-cols-2 pt-10">
-//             <div className="overflow-y-auto max-h-[750px] p-5">
-//                 {darsJad && darsJad.map((item) => {
-//                     const {id, rasm, kurs, yonalish} = item
-//                     return (
-//                         <div key={id} className="card card-side bg-base-100 shadow-xl p-2 mb-5">
-//                             <figure><img className="w-32 h-full rounded-xl" src={rasm} alt="Movie"/></figure>
-//                             <div className="card-body p-2 pl-4">
-//                                 <h2 className="text-xl font-bold text-slate-600">Yo'nalish: <span className="text-ms font-medium text-slate-500">{yonalish}</span> </h2>
-//                                 <h2 className="text-xl font-bold text-slate-600">Kurs: <span className="text-ms font-medium text-slate-500">{kurs}</span> </h2>
-//                                 <div className="card-actions justify-end mt-5">
-//                                     <button className="btn btn-sm btn-accent">Edit</button>
-//                                     <button className="btn btn-sm btn-error">Delete</button>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     )
-//                 })}
-//             </div>
-//             <div>
-//                 <form onSubmit={handleSubmit} className="max-w-sm mx-auto shadow-md p-10" encType="multipart/form-data">
-//                     <h1 className="text-xl font-bold text-slate-500 text-center mb-5">Dars jadvalini kiriting</h1>
-//                     <label htmlFor="yonalish"className="text-md font-bold pl-2 text-slate-500" >Yo'nalish</label>
-//                     <select onChange={(e) => setYonalish(e.target.value)} id="yonalish" className="select w-full max-w-sm shadow-lg mb-4" defaultValue="Yo'nalishni tanlang">
-//                         <option value="Yo'nalishni tanlang" disabled>Yo'nalishni tanlang</option>
-//                         {yonalItems && yonalItems.map((yonalItem) => {
-//                             const {id, yonalish} = yonalItem
-//                             return <option key={id} value={id}>{yonalish}</option>
-//                         })}
-//                     </select>
-//                     <label htmlFor="kurs"className="text-md font-bold pl-2 text-slate-500" >Kurs</label>
-//                     <select onChange={(e) => setKurs(e.target.value)} id="kurs" className="select w-full max-w-sm  shadow-lg mb-4" defaultValue="kursniTanlang">
-//                         <option value="kursniTanlang" disabled>Kursni tanlang</option>
-//                         <option value="1">1</option>
-//                         <option value="2">2</option>
-//                         <option value="3">3</option>
-//                         <option value="4">4</option>
-//                     </select>
-//                     <label htmlFor="kurs"className="text-md font-bold pl-2 text-slate-500" >Dars jadvalini joylang</label>
-//                     <input onChange={(e) => setJadvalImg(e.target.files[0])} type="file" className="file-input file-input-bordered w-full max-w-sm" />
-//                     <button type="submit" className="btn bg-sky-600 hover:bg-sky-700 shadow-lg text-white w-full mt-8">Yuborish</button>
-//                 </form>
-//             </div>
-//         </div>
-//     );
-// };
-
