@@ -175,7 +175,7 @@ const Kechki = () => {
             setIsDataFakultetFilter(isDataFakultet && isDataFakultet.filter(item => Number(item.fakultet_talim_turi_id) === Number(isDataTalim[0].id)))
         }
     }, [isDataTalim, isDataFakultet]);
-     //Logic Selects Fakultet
+    //Logic Selects Fakultet
     useEffect(() => {
         // if (isDataTalim) {
         //     setIsDataYonalish(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(isDataTalim[0].id)))
@@ -183,13 +183,13 @@ const Kechki = () => {
         if (isDataFakultetFilter) {
             setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(formik.values.fakultet)))
         }
-    }, [isDataFakultetFilter ,isDataTalim, isDataYonalish, formik.values.fakultet]);
+    }, [isDataFakultetFilter, isDataTalim, isDataYonalish, formik.values.fakultet]);
     // Logik Get data
     useEffect(() => {
-    if (isDataTalim) {
-        setIsDataDJRasmFilter(isDataDJRasm && isDataDJRasm.filter(item => Number(item.turi) === Number(isDataTalim[0].id)))
-    }
-}, [isDataTalim, isDataDJRasm])
+        if (isDataTalim) {
+            setIsDataDJRasmFilter(isDataDJRasm && isDataDJRasm.filter(item => Number(item.turi) === Number(isDataTalim[0].id)))
+        }
+    }, [isDataTalim, isDataDJRasm])
 
     const handleClick = () => {
         document.getElementById("rasim").click();
@@ -263,29 +263,29 @@ const Kechki = () => {
                                                                 item.fakultet
                                                             ).length > 40
                                                                 ? handleGetFakultet(
-                                                                      item.fakultet
-                                                                  ).slice(
-                                                                      0,
-                                                                      40
-                                                                  ) + "..."
+                                                                    item.fakultet
+                                                                ).slice(
+                                                                    0,
+                                                                    40
+                                                                ) + "..."
                                                                 : handleGetFakultet(
-                                                                      item.fakultet
-                                                                  )}
+                                                                    item.fakultet
+                                                                )}
                                                         </h2>
                                                         <p>
                                                             Yo'nalishi:{" "}
                                                             {handleGetYonalish(
                                                                 item.yonalish
-                                                            ).length >37
+                                                            ).length > 37
                                                                 ? handleGetYonalish(
-                                                                      item.yonalish
-                                                                  ).slice(
-                                                                      0,
+                                                                    item.yonalish
+                                                                ).slice(
+                                                                    0,
                                                                     37
-                                                                  ) + "..."
+                                                                ) + "..."
                                                                 : handleGetYonalish(
-                                                                      item.yonalish
-                                                                  )}
+                                                                    item.yonalish
+                                                                )}
                                                         </p>
                                                         <p>
                                                             Kursi: {item.kurs}
@@ -395,11 +395,10 @@ const Kechki = () => {
                                         )}
                                     </div>
                                     <div
-                                        className={`${
-                                            imgErr
+                                        className={`${imgErr
                                                 ? "border-red-600"
                                                 : "border-gray-400"
-                                        } flex items-center border`}
+                                            } flex items-center border`}
                                     >
                                         <button
                                             onClick={() => handleClick()}
@@ -409,20 +408,18 @@ const Kechki = () => {
                                             <BsImage /> Tanlash
                                         </button>
                                         <span
-                                            className={`${
-                                                imgErr ? "text-red-600" : ""
-                                            } h-[30px] px-2 border border-s-gray-400`}
+                                            className={`${imgErr ? "text-red-600" : ""
+                                                } h-[30px] px-2 border border-s-gray-400`}
                                             id="inp-text"
                                         >
                                             {imgInpText}
                                         </span>
                                     </div>
                                     <span
-                                        className={`${
-                                            imgErr
+                                        className={`${imgErr
                                                 ? "translate-y-0 opacity-100 h-auto mt-4"
                                                 : "-translate-y-5 opacity-0 h-0"
-                                        } bg-red-500 text-white text-[14px] px-2 transition-all -z-20`}
+                                            } bg-red-500 text-white text-[14px] px-2 transition-all -z-20`}
                                     >
                                         Rasim{" "}
                                         {imgTypes &&

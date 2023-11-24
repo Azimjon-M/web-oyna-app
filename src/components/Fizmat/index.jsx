@@ -18,7 +18,7 @@ const Fizmat = () => {
     const [isDataYonalish, setIsDataYonalish] = useState(null);
     const [isDataYonalishFilter, setIsDataYonalishFilter] = useState(null);
     const [isDataDJRasm, setIsDataDJRasm] = useState(null);
-
+    const [isDataDJRasmFilter, setIsDataDJRasmFilter] = useState(null);
     const [isEdit, setIsEdit] = useState(false);
 
     const [isLoader, setIsLoader] = useState(true);
@@ -31,14 +31,12 @@ const Fizmat = () => {
     const imgTypes = ["jpg", "jpeg", "png", "tiff"];
 
     const SignupSchemaYonalish = Yup.object().shape({
-        fakultet: Yup.string().min(1, "Judaham kam!").required("Required"),
         yonalish: Yup.string().min(1, "Judaham kam!").required("Required"),
         kurs: Yup.string().min(1, "Judaham kam!").required("Required"),
     });
     //Yonalish POST
     const formik = useFormik({
         initialValues: {
-            fakultet: "",
             yonalish: "",
             kurs: "",
         },
@@ -51,7 +49,7 @@ const Fizmat = () => {
                     setIsEdit(false);
                     const formData = new FormData();
                     formData.append("turi", isDataTalim[0].id);
-                    formData.append("fakultet", values.fakultet);
+                    formData.append("fakultet", isDataFakultet[0].id);
                     formData.append("yonalish", values.yonalish);
                     formData.append("kurs", values.kurs);
                     formData.append("rasm", isFile);
@@ -63,7 +61,7 @@ const Fizmat = () => {
                     handleRefresh();
                     setIsLoader(true);
                 }
-                //Post                
+                //Post
                 else {
                     if (!imgErr && isFile.length === 0) {
                         setImgErr(true);
@@ -71,7 +69,7 @@ const Fizmat = () => {
                         setIsLoader(true)
                         const formData = new FormData();
                         formData.append("turi", isDataTalim[0].id);
-                        formData.append("fakultet", values.fakultet);
+                        formData.append("fakultet", isDataFakultet[0].id);
                         formData.append("yonalish", values.yonalish);
                         formData.append("kurs", values.kurs);
                         formData.append("rasm", isFile);
@@ -85,7 +83,6 @@ const Fizmat = () => {
                 }
             } catch (error) {
                 console.log(error);
-                // navigate('/info-kios-error', { state: { error } });
             }
         },
     });
@@ -95,7 +92,6 @@ const Fizmat = () => {
             const response = await axios.get(UrlDJRasm + id + "/");
             const data = response.data;
             formik.setValues({
-                fakultet: data.fakultet,
                 yonalish: data.yonalish,
                 kurs: data.kurs,
             });
@@ -124,7 +120,6 @@ const Fizmat = () => {
             })
             .catch((err) => {
                 console.log(err);
-                setIsLoader(false);
             });
         await axios
             .get(UrlFakultet)
@@ -133,7 +128,6 @@ const Fizmat = () => {
             })
             .catch((err) => {
                 console.log(err);
-                setIsLoader(false);
             });
         await axios
             .get(UrlYonalish)
@@ -142,19 +136,12 @@ const Fizmat = () => {
             })
             .catch((err) => {
                 console.log(err);
-                setIsLoader(false);
             });
         await axios.get(UrlDJRasm).then((res) => {
             setIsDataDJRasm(res.data);
             setIsLoader(false);
         }).catch(err => console.log(err))
-    };
-    //GetFakultet
-    const handleGetFakultet = (id) => {
-        const foundFakultet =
-            isDataFakultet &&
-            isDataFakultet.find((item) =>  Number(item.id) === Number(id));
-        return foundFakultet ? foundFakultet.fakultet : "(noaniq)";
+        setIsLoader(false)
     };
     //GetYonalish
     const handleGetYonalish = (id) => {
@@ -168,23 +155,25 @@ const Fizmat = () => {
         handleRefresh();
     }, []);
 
-    //Logic Selects Fakultet
+    //Logic Selects Talim
     useEffect(() => {
         if (isDataTalim) {
             setIsDataFakultetFilter(isDataFakultet && isDataFakultet.filter(item => Number(item.fakultet_talim_turi_id) === Number(isDataTalim[0].id)))
-            console.log();
         }
     }, [isDataTalim, isDataFakultet]);
-    console.log(isDataFakultet[1].id);
     //Logic Selects Fakultet
     useEffect(() => {
-        // if (isDataTalim) {
-        //     setIsDataYonalish(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(isDataTalim[0].id)))
-        // }
         if (isDataFakultetFilter) {
-            setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(formik.values.fakultet)))
+            setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => (Number(item.yonalish_fakultet_id) === Number(isDataFakultetFilter[0].id) && (Number(item.yonalish_talim_turi_id) === Number(isDataTalim[0].id)))))
         }
-    }, [isDataFakultetFilter, isDataTalim, isDataYonalish, formik.values.fakultet]);
+    }, [isDataTalim, isDataYonalish, isDataFakultetFilter]);
+
+    // Logik Get data
+    useEffect(() => {
+        if (isDataTalim) {
+            setIsDataDJRasmFilter(isDataDJRasm && isDataDJRasm.filter(item => Number(item.turi) === Number(isDataTalim[0].id)))
+        }
+    }, [isDataTalim, isDataDJRasm])
 
     const handleClick = () => {
         document.getElementById("rasim").click();
@@ -236,8 +225,8 @@ const Fizmat = () => {
                                 </div>
                             ) : (
                                 <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
-                                    {isDataDJRasm &&
-                                        isDataDJRasm
+                                    {isDataDJRasmFilter &&
+                                        isDataDJRasmFilter
                                             .sort((a, b) => a.id - b.id)
                                             .map((item) => (
                                                 <div
@@ -396,7 +385,7 @@ const Fizmat = () => {
                                 >
                                     Jo'natish
                                 </button>
-                            </form>
+                            </form>;
                         </div>
                     </div>
                 </>
