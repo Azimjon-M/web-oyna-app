@@ -12,51 +12,54 @@ const MakTal = () => {
         const [talimTur, setTalimTur] = useState("");
         const [fakultet, setFakultet] = useState("");
         const [yonalItems, setYonalItems] = useState("")
-        const [darsJad, setDarsJad] = useState("")
+        const [darsJad, setDarsJad] = useState([])
 
         const [yonalish, setYonalish] = useState("");
         const [kurs, setKurs] = useState('');
         const [jadvalImg, setJadvalImg] = useState(null);
         
-        const fetchData = async () => {
-            try {
-                // Talim turi
-                await axios(urlTalimTur)
-                .then(res => setTalimTur((res.data).filter((item) => item.talim_turi === "Kunduzgi").map((tur) => tur.id)))
-                .catch((error) => error.respnse);
-
-                // Fakultet
-                await axios(urlFakultet)
-                .then(res => setFakultet((res.data).filter((item) => item.fakultet === "Maktabgacha ta'lim").map(fakultet => fakultet.id)))
-                .catch((error) => error.respnse);
-
-                //Yo'nalish
-                await axios(urlYonalish)
-                .then(res => setYonalItems((res.data).filter((item) => item.yonalish_fakultet_id === "93")))
-                .catch((error) => error.respnse);
-
-                // Dars Jadvali
-                await axios(urlDarsJad)
-                .then(res => setDarsJad((res.data).filter((item) => item.fakultet === "93")))
-                .catch((error) => error.respnse);
-            } catch(error) {
-                console.log(error.respnse);
-            }
-        };
-             
         useEffect(() => {
-            fetchData();
-        }, []);
+            const fetchData = async () => {
+                try {
+                    // Talim turi
+                    await axios(urlTalimTur)
+                    .then(res => setTalimTur((res.data).filter((item) => item.talim_turi === "Kunduzgi").map((tur) => tur.id)))
+                    .catch((error) => error.respnse);
+    
+                    // Fakultet
+                    await axios(urlFakultet)
+                    .then(res => setFakultet((res.data).filter((item) => item.fakultet === "Maktabgacha ta'lim").map(fakultet => fakultet.id)))
+                    .catch((error) => error.respnse);
+    
+                    //Yo'nalish
+                    await axios(urlYonalish)
+                    .then(res => setYonalItems((res.data).filter((item) => item.yonalish_fakultet_id === "93")))
+                    .catch((error) => error.respnse);
+    
+                    // Dars Jadvali
+                    await axios(urlDarsJad)
+                    .then(res => setDarsJad((res.data).filter((item) => item.fakultet === "93")))
+                    .catch((error) => error.respnse);
+                } catch(error) {
+                    console.log(error.respnse);
+                }
+            }; 
+            fetchData()
+        }, [])
+             
+        // useEffect(() => {
+        //     fetchData();
+        // }, []);
 
         console.log(darsJad);
-
+        
         const formData = new FormData();
-            formData.append('turi', talimTur);
-            formData.append('fakultet', fakultet);
-            formData.append('yonalish', yonalish);
-            formData.append('kurs', kurs);
-            formData.append('rasm', jadvalImg);
-
+        formData.append('turi', talimTur);
+        formData.append('fakultet', fakultet);
+        formData.append('yonalish', yonalish);
+        formData.append('kurs', kurs);
+        formData.append('rasm', jadvalImg);
+        
         const handleSubmit = async (e) => {
             e.preventDefault()
             try {
@@ -69,7 +72,15 @@ const MakTal = () => {
             }
         }
 
-                    
+        const handleDelete = async (e) => {
+            e.preventDefault()
+            try{
+                const res = await axios.delete(urlDarsJad, )
+            } catch(error) {
+                console.log(error.response);
+            }
+        }
+      
         return (
             <div className="max-w-6xl mx-auto grid grid-cols-2 pt-10">
             <div className="overflow-y-auto max-h-[750px] p-5">
