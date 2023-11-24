@@ -204,7 +204,7 @@ const MakTal = () => {
     return (
         <div className="max-w-6xl mx-auto pt-10">
             {isLoader ? (
-                <div className="h-[100vh] flex justify-center items-center ">
+                <div className="h-full flex justify-center pt-60">
                     <div className="spinner">
                         <h1>Yuklanmoqda...</h1>
                         <MetroSpinner size={80} color="black" />
