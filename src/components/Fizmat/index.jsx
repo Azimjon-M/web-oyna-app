@@ -388,7 +388,7 @@ const Fizmat = () => {
                                 >
                                     Jo'natish
                                 </button>
-                            </form>;
+                            </form>
                         </div>
                     </div>
                 </>
