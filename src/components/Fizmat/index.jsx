@@ -23,7 +23,7 @@ const Fizmat = () => {
 
     const [isLoader, setIsLoader] = useState(true);
 
-    const [imgInpText, setImgInpText] = useState("Rasm Tanlanmagan !");
+    const [imgInpText, setImgInpText] = useState("Rasm Tanlanmagan!");
     const [imgErr, setImgErr] = useState(null);
     const [isImg, setIsImg] = useState("Rasm");
     const [isFile, setIsFile] = useState("");
@@ -54,7 +54,7 @@ const Fizmat = () => {
                     formData.append("kurs", values.kurs);
                     formData.append("rasm", isFile);
                     setIsImg("Rasm");
-                    setImgInpText("Rasm tanlanmagan !");
+                    setImgInpText("Rasm  !");
                     setIsFile("");
                     formik.resetForm();
                     await axios.put(UrlDJRasm + isEdit + "/", formData);
@@ -352,7 +352,7 @@ const Fizmat = () => {
                                             <button
                                                 onClick={() => handleClick()}
                                                 type="button"
-                                                className="flex h-full items-center gap-x-2 bg-green-300 hover:bg-green-500 active:bg-green-300 mr-5 px-4"
+                                                className="flex h-full items-center gap-x-2 bg-green-300 hover:bg-green-500 active:bg-green-300 mr-1 px-4"
                                             >
                                                 <BsImage /> Tanlash
                                             </button>
