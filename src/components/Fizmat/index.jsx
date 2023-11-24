@@ -49,7 +49,7 @@ const Fizmat = () => {
                     setIsEdit(false);
                     const formData = new FormData();
                     formData.append("turi", isDataTalim[0].id);
-                    formData.append("fakultet", isDataFakultet[0].id);
+                    formData.append("fakultet", isDataFakultetFilter[0].id);
                     formData.append("yonalish", values.yonalish);
                     formData.append("kurs", values.kurs);
                     formData.append("rasm", isFile);
@@ -69,7 +69,7 @@ const Fizmat = () => {
                         setIsLoader(true)
                         const formData = new FormData();
                         formData.append("turi", isDataTalim[0].id);
-                        formData.append("fakultet", isDataFakultet[0].id);
+                        formData.append("fakultet", isDataFakultetFilter[0].id);
                         formData.append("yonalish", values.yonalish);
                         formData.append("kurs", values.kurs);
                         formData.append("rasm", isFile);
@@ -171,9 +171,12 @@ const Fizmat = () => {
     // Logik Get data
     useEffect(() => {
         if (isDataTalim) {
-            setIsDataDJRasmFilter(isDataDJRasm && isDataDJRasm.filter(item => Number(item.turi) === Number(isDataTalim[0].id)))
+            setIsDataDJRasmFilter(isDataDJRasm && isDataDJRasm.filter(item => (Number(item.turi) === Number(isDataTalim[0].id)) && (Number(item.fakultet) === Number(isDataFakultetFilter[0].id))))
         }
-    }, [isDataTalim, isDataDJRasm])
+    }, [isDataTalim, isDataDJRasm, isDataFakultetFilter])
+    console.log(isDataDJRasm);
+
+    console.log(isDataFakultetFilter);
 
     const handleClick = () => {
         document.getElementById("rasim").click();
@@ -385,7 +388,7 @@ const Fizmat = () => {
                                 >
                                     Jo'natish
                                 </button>
-                            </form>;
+                            </form>
                         </div>
                     </div>
                 </>
