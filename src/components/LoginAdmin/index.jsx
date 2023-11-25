@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import adminImg from '../../assets/images/admins.png' 
-
-import {MdBlock} from 'react-icons/md'
+import adminImg from '../../assets/images/adminImg.png'
 
 const LoginAdmin = ({ data }) => {
 
@@ -81,21 +79,21 @@ const LoginAdmin = ({ data }) => {
     })
 
     return (
-        <div className=' bg-[#D5F7E6] h-screen'>
-            <div className='max-w-7xl mx-auto grid md:grid-cols-2 pt-40'>
+        <div className=' bg-[#F9FAFB] h-screen'>
+            <div className='max-w-7xl mx-auto grid md:grid-cols-2 items-center justify-items-center grid-rows-1 pt-40'>
                 <div>
                     <figure>
-                        <image src={adminImg} alt="Admin image" />
+                        <img src={adminImg} alt="Admin img"/>
                     </figure>
                 </div>
-                <form className='w-full bg-white max-w-md gap-y-4 shadow-lg p-10' onSubmit={formik.handleSubmit} autoComplete='on'>
-                    <h1 className='text-3xl font-bold text-slate-500 text-center'>
+                <form className='w-full max-h-[100rem] bg-white max-w-md gap-y-4 shadow-lg rounded-lg p-10' onSubmit={formik.handleSubmit} autoComplete='on'>
+                    <h1 className='text-3xl font-bold text-slate-500 text-center mb-1'>
                         Kirish
                     </h1>
-                    <label className=' text-start' htmlFor="id">
+                    <label className='text-md font-bold pl-2 text-slate-500' htmlFor="id">
                         ID
                         <input 
-                            className='w-full border-2 bg-black text-md py-2 px-4 focus:outline-none focus:border-[#57E6A8] focus:shadow-lg rounded-lg focus:bg-white focus:text-black'
+                            className='w-full border text-md mb-4 py-3 px-4 focus:outline-none focus:border-[#57E6A8] shadow-sm focus:shadow-lg rounded-lg focus:bg-state-300 focus:text-black'
                             type="text" 
                             id='id' 
                             name='id'
@@ -104,10 +102,10 @@ const LoginAdmin = ({ data }) => {
                             autoComplete='off'
                         />
                     </label>
-                    <label className=' text-start' htmlFor="password">
+                    <label className='text-md font-bold pl-2 text-slate-500' htmlFor="password">
                         Parol
                         <input 
-                            className='w-full border-2 border-white bg-black text-[20px] py-2 px-4 focus:outline-none focus:border-red-600 focus:bg-white focus:text-black'
+                            className='w-full border text-md py-3 px-4 focus:outline-none focus:border-[#57E6A8] shadow-sm focus:shadow-lg rounded-lg focus:bg-state-300 focus:text-black'
                             type="password" 
                             id='password'
                             name='password'
@@ -117,13 +115,13 @@ const LoginAdmin = ({ data }) => {
                         />
                     </label>
                     <button 
-                        className='w-full font-semibold  border-2 mt-5 px-4 py-3 active:bg-white active:text-red-600 active:border-red-600 select-none' 
+                        className='btn bg-sky-600 hover:bg-sky-700 shadow-lg text-white w-full mt-8 select-none' 
                         type='submit'
                     >
                         Kirish
                     </button>
                     <div className={`${isError ? 'translate-y-0 opacity-1' : 'opacity-0 -translate-y-5'} bg-red-600 border-blue-400 text-white py-3 transition-all flex justify-center items-center gap-x-2`}>
-                        <MdBlock className='text-[18px]' /><b>ID YOKI PAROL HATO BO'LISHI MUMKIN !</b><MdBlock className='text-[18px]' />
+                        <b>ID yoki Parol xato</b>
                     </div>
                 </form>
             </div>
