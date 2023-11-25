@@ -194,10 +194,10 @@ export const DarsJadvallari = () => {
                             <button className="btn btn-error rounded-full text-[40px] text-white" onClick={() => handleModalClose()}>X</button>
                         </div>
                         <div className="w-[800px] h-[800px] flex justify-center items-center">
-                            <img id="imgDJR" className="max-w-full max-h-full" src={isDataDJRasmFilter.length > 0 ? isDataDJRasmFilter[0].rasm : ""} alt="Dars jadval rasmi" />
+                            <img id="imgDJR" className="max-w-full max-h-full" src={isDataDJRasmFilter.length > 0 ? isDataDJRasmFilter[0].rasm : ""} alt="Dars jadval rasmi joylashtirilmagan!" />
                         </div>
                         <div className="w-[800px] h-auto flex justify-end">
-                            <QRCode className='bg-white border-4 border-slate-700 p-3' value={isDataDJRasmFilter.length > 0 ? isDataDJRasmFilter[0].rasm : ""} />
+                            <QRCode className={`${isDataDJRasmFilter.length > 0 ? '' : "hidden"} bg-white border-4 border-slate-700 p-3`} value={isDataDJRasmFilter.length > 0 ? isDataDJRasmFilter[0].rasm : ""} />
                         </div>
                     </div>
                     <div className="w-full flex justify-end px-10">
