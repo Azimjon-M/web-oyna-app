@@ -73,27 +73,23 @@ const Fakultet = () => {
     };
     //Refresh
     const handleRefresh = async () => {
-        try {
-            await axios
-                .get(UrlFakultet)
-                .then((res) => {
-                    setIsDataFakultet(res.data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-            await axios
-                .get(UrlTalim)
-                .then((res) => {
-                    setIsDataTalim(res.data);
-                    setIsLoader(false);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        } catch (error) {
-            console.error(error);
-        }
+        await axios
+            .get(UrlFakultet)
+            .then((res) => {
+                setIsDataFakultet(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        await axios
+            .get(UrlTalim)
+            .then((res) => {
+                setIsDataTalim(res.data);
+                setIsLoader(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
     //Logic fakultet_TalimTur_id = TalimTur.id
     const getTalimTuri = (id) => {
@@ -133,38 +129,42 @@ const Fakultet = () => {
                             ) : (
                                 <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
                                     {isDataFakultet &&
-                                        isDataFakultet.sort((a, b) => a.id - b.id).map((item) => (
-                                            <div
-                                                key={item.id}
-                                                className="flex justify-between items-center border border-gray-400 bg-white px-2 py-2"
-                                            >
-                                                <div>
-                                                    <b>Talim turi:</b>{" "}
-                                                    {getTalimTuri(
-                                                        item.fakultet_talim_turi_id
-                                                    )}
-                                                    <br />
-                                                    <b>Fakultet:</b>{" "}
-                                                    {item.fakultet}
+                                        isDataFakultet
+                                            .sort((a, b) => a.id - b.id)
+                                            .map((item) => (
+                                                <div
+                                                    key={item.id}
+                                                    className="flex justify-between items-center border border-gray-400 bg-white px-2 py-2"
+                                                >
+                                                    <div>
+                                                        <b>Talim turi:</b>{" "}
+                                                        {getTalimTuri(
+                                                            item.fakultet_talim_turi_id
+                                                        )}
+                                                        <br />
+                                                        <b>Fakultet:</b>{" "}
+                                                        {item.fakultet}
+                                                    </div>
+                                                    <div className="flex gap-x-2">
+                                                        <MdEdit
+                                                            className="text-green-700 cursor-pointer"
+                                                            onClick={() =>
+                                                                handleEdit(
+                                                                    item.id
+                                                                )
+                                                            }
+                                                        />
+                                                        <MdDelete
+                                                            className="text-red-600 cursor-pointer"
+                                                            onClick={() =>
+                                                                handleDeletFakultet(
+                                                                    item.id
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
-                                                <div className="flex gap-x-2">
-                                                    <MdEdit
-                                                        className="text-green-700 cursor-pointer"
-                                                        onClick={() =>
-                                                            handleEdit(item.id)
-                                                        }
-                                                    />
-                                                    <MdDelete
-                                                        className="text-red-600 cursor-pointer"
-                                                        onClick={() =>
-                                                            handleDeletFakultet(
-                                                                item.id
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                        ))}
+                                            ))}
                                 </div>
                             )}
                         </div>

@@ -5,10 +5,8 @@ import { useFormik } from "formik";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
 import { BsImage } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
 
 const DarsJadvalRasm = () => {
-    const navigate = useNavigate();
     const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
     const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
     const UrlYonalish = "https://api.kspi.uz/v1/jadval/yonalish/";
@@ -153,13 +151,11 @@ const DarsJadvalRasm = () => {
 
     //Edit
     const handleEdit = async (id) => {
-        console.log(id);
         try {
             const response = await axios.get(UrlDJRasm + id + "/");
             handleChangeSelect("d");
             setIsImg("Rasmni tahrirlash");
             const data = response.data;
-            console.log(data);
             formik_kurs.setValues({
                 turi: data.turi,
                 fakultet: data.fakultet,
@@ -177,7 +173,7 @@ const DarsJadvalRasm = () => {
             await axios.delete(UrlDJRasm + id + "/");
             handleRefresh();
         } catch (error) {
-            navigate("/info-kios-error", { state: { error } });
+            console.log(error);
         }
     };
     //GetTalimTur
