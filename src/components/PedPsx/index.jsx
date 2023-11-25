@@ -141,7 +141,6 @@ const PedPsx = () => {
             setIsDataDJRasm(res.data);
             setIsLoader(false);
         }).catch(err => console.log(err))
-        setIsLoader(false)
     };
     //GetYonalish
     const handleGetYonalish = (id) => {
@@ -174,9 +173,6 @@ const PedPsx = () => {
             setIsDataDJRasmFilter(isDataDJRasm && isDataDJRasm.filter(item => (Number(item.turi) === Number(isDataTalim[0].id)) && (Number(item.fakultet) === Number(isDataFakultetFilter[0].id))))
         }
     }, [isDataTalim, isDataDJRasm, isDataFakultetFilter])
-    console.log(isDataDJRasm);
-
-    console.log(isDataFakultetFilter);
 
     const handleClick = () => {
         document.getElementById("rasim").click();
@@ -241,7 +237,7 @@ const PedPsx = () => {
                                                         />
                                                     </figure>
                                                     <div className="card-body p-2 pl-4">
-                                                    <h2 className="text-xl font-bold text-slate-600">Yo'nalish: <span className="text-ms font-medium text-slate-500">
+                                                        <h2 className="text-xl font-bold text-slate-600">Yo'nalish: <span className="text-ms font-medium text-slate-500">
                                                             {" "}
                                                             {handleGetYonalish(
                                                                 item.yonalish
@@ -294,7 +290,7 @@ const PedPsx = () => {
                                     onSubmit={formik.handleSubmit}
                                 >
                                     {/* Yo'nalish */}
-                                    <label htmlFor="yonalish"className="text-md font-bold pl-2 text-slate-500" >Yo'nalish</label>
+                                    <label htmlFor="yonalish" className="text-md font-bold pl-2 text-slate-500" >Yo'nalish</label>
                                     <select
                                         className={`${formik.errors.yonalish ? "select-error w-full max-w-sm shadow-lg mb-4" : "select w-full max-w-sm shadow-lg mb-4"} w-full select max-w-xs`}
                                         onChange={formik.handleChange}
@@ -318,7 +314,7 @@ const PedPsx = () => {
                                             ))}
                                     </select>
                                     {/* Kurs */}
-                                    <label htmlFor="yonalish"className="text-md font-bold pl-2 text-slate-500" >Kurs</label>
+                                    <label htmlFor="yonalish" className="text-md font-bold pl-2 text-slate-500" >Kurs</label>
                                     <select
                                         className={`${formik.errors.kurs ? "select-error w-full max-w-sm shadow-lg mb-4" : "select w-full max-w-sm shadow-lg mb-4"} w-full select max-w-xs`}
                                         onChange={formik.handleChange}
@@ -345,8 +341,8 @@ const PedPsx = () => {
                                         </div>
                                         <div
                                             className={`${imgErr
-                                                    ? "border-red-600"
-                                                    : "border-gray-400"
+                                                ? "border-red-600"
+                                                : "border-gray-400"
                                                 } flex items-center border file-input file-input-bordered w-full max-w-sm`}
                                         >
                                             <button
@@ -366,8 +362,8 @@ const PedPsx = () => {
                                         </div>
                                         <span
                                             className={`${imgErr
-                                                    ? "translate-y-0 opacity-100 h-auto mt-4"
-                                                    : "-translate-y-5 opacity-0 h-0"
+                                                ? "translate-y-0 opacity-100 h-auto mt-4"
+                                                : "-translate-y-5 opacity-0 h-0"
                                                 } bg-red-500 text-white text-[14px] px-2 transition-all -z-20`}
                                         >
                                             Rasim{" "}

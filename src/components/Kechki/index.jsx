@@ -177,9 +177,6 @@ const Kechki = () => {
     }, [isDataTalim, isDataFakultet]);
     //Logic Selects Fakultet
     useEffect(() => {
-        // if (isDataTalim) {
-        //     setIsDataYonalish(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(isDataTalim[0].id)))
-        // }
         if (isDataFakultetFilter) {
             setIsDataYonalishFilter(isDataYonalish && isDataYonalish.filter(item => Number(item.yonalish_fakultet_id) === Number(formik.values.fakultet)))
         }

@@ -69,10 +69,9 @@ const TalimTur = () => {
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
         } catch (error) {
-            console.error("Error:", error);
+            console.error(error);
         }
     };
 

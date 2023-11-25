@@ -40,7 +40,6 @@ export const DarsJadvallari = () => {
             })
             .catch((err) => {
                 console.log(err);
-                setIsLoader(false);
             });
         await axios
             .get(UrlFakultet)
@@ -49,7 +48,6 @@ export const DarsJadvallari = () => {
             })
             .catch((err) => {
                 console.log(err);
-                setIsLoader(false);
             });
         await axios
             .get(UrlYonalish)
@@ -58,7 +56,6 @@ export const DarsJadvallari = () => {
             })
             .catch((err) => {
                 console.log(err);
-                setIsLoader(false);
             });
         await axios
             .get(UrlKurs)
@@ -67,7 +64,6 @@ export const DarsJadvallari = () => {
             })
             .catch((err) => {
                 console.log(err);
-                setIsLoader(false);
             });
         await axios
             .get(UrlDJRasm)
@@ -77,7 +73,6 @@ export const DarsJadvallari = () => {
             })
             .catch((err) => {
                 console.log(err);
-                setIsLoader(false);
             });
     };
 
@@ -178,7 +173,6 @@ export const DarsJadvallari = () => {
     const handleYonalishClick = (e) => {
         setIsDataYonalishSelected(e);
     };
-    console.log(isDataDJRasmFilter);
     const handleKursClick = (e) => {
         setIsDataKursSelected(e);
         setIsModal(true);
