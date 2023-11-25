@@ -125,17 +125,14 @@ const Kurs = () => {
                 .get(UrlTalim)
                 .then((res) => {
                     setIsDataTalim(res.data);
-                    // setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
             await axios
                 .get(UrlFakultet)
                 .then((res) => {
                     setIsDataFakultet(res.data);
-                    // setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -145,11 +142,9 @@ const Kurs = () => {
                 .get(UrlYonalish)
                 .then((res) => {
                     setIsDataYonalish(res.data);
-                    // setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
             await axios
                 .get(UrlKurs)
@@ -159,7 +154,6 @@ const Kurs = () => {
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
         } catch (error) {
             console.error(error);

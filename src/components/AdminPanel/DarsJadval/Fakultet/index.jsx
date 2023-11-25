@@ -78,11 +78,9 @@ const Fakultet = () => {
                 .get(UrlFakultet)
                 .then((res) => {
                     setIsDataFakultet(res.data);
-                    setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
             await axios
                 .get(UrlTalim)
@@ -92,7 +90,6 @@ const Fakultet = () => {
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
         } catch (error) {
             console.error(error);
@@ -185,8 +182,6 @@ const Fakultet = () => {
                                         isEdit ? "hidden" : "inline-block"
                                     } border`}
                                     onChange={formik_fakultet.handleChange}
-                                    // formik.getFieldProps('yourFieldName')
-                                    // {...formik_fakultet.getFieldProps(setTest)}
                                     value={
                                         formik_fakultet.values
                                             .fakultet_talim_turi_id
