@@ -6,7 +6,7 @@ import logo from "../../assets/icons/logo.png";
 
 import qish from '../../assets/images/winterNav.png';
 import bahor from '../../assets/images/springNav.png';
-import yoz from '../../assets/images/winterNav.png';
+import yoz from '../../assets/images/yoz.png';
 import kuz from '../../assets/images/autumnNav.png';
 import { useSelector } from 'react-redux';
 
@@ -33,7 +33,7 @@ const Navbar = () => {
     const date = useSelector(state => state.reducerData.state);
     
     return (
-        <div className={`${date === 'kuz' && 'text-white'} w-full h-[320px] relative left-0 z-50 text-[35px] px-10 py-16`}>
+        <div className={`${(date === 'kuz' || date === 'yoz' || date === 'bahor') && 'text-white'} w-full h-[320px] relative left-0 z-50 text-[35px] px-10 py-16`}>
             <div className='w-full h-full absolute top-0 left-0 -z-10 overflow-hidden'>
                 {
                     date === "bahor" ? 
