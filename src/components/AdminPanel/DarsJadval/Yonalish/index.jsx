@@ -70,7 +70,7 @@ const Yonalish = () => {
             });
             setIsEdit(id);
         } catch (error) {
-            console.error("Error:", error);
+            console.error(error);
         }
     };
     //Delet Yonalish
@@ -89,21 +89,17 @@ const Yonalish = () => {
                 .get(UrlFakultet)
                 .then((res) => {
                     setIsDataFakultet(res.data);
-                    setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
             await axios
                 .get(UrlTalim)
                 .then((res) => {
                     setIsDataTalim(res.data);
-                    setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
             await axios
                 .get(UrlYonalish)
@@ -113,7 +109,6 @@ const Yonalish = () => {
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
         } catch (error) {
             console.error(error);
