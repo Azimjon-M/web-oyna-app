@@ -30,7 +30,6 @@ export const DarsJadvallari = () => {
     const [isLoader, setIsLoader] = useState(true);
     const [isModal, setIsModal] = useState(false);
 
-
     //Refresh
     const handleRefresh = async () => {
         await axios
@@ -189,7 +188,7 @@ export const DarsJadvallari = () => {
                     </div>
                 </div>
             ) : (
-                <div className="w-full h-full py-10">
+                <div className="w-full h-full flex flex-col gap-y-20 py-20">
                     <div className={`${isModal ? "w-full h-full absolute top-0 left-0 bg-[#000000a6] flex flex-col justify-center items-center gap-y-10" : "hidden"} `}>
                         <div className="w-[800px] text-end h-auto">
                             <button className="btn btn-error rounded-full text-[40px] text-white" onClick={() => handleModalClose()}>X</button>
@@ -216,7 +215,7 @@ export const DarsJadvallari = () => {
                                 ))}
                         </select>
                     </div>
-                    <div className="w-full flex flex-col items-center">
+                    <div className="w-full flex flex-col gap-y-20 items-center">
                         <div className="w-[900px] flex flex-wrap justify-center items-center">
                             {isDataFakultetFilter &&
                                 isDataFakultetFilter.map((item) => (
