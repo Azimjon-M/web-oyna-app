@@ -6,7 +6,6 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
 
 const Kurs = () => {
-
     const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
     const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
     const UrlYonalish = "https://api.kspi.uz/v1/jadval/yonalish/";
@@ -125,31 +124,25 @@ const Kurs = () => {
                 .get(UrlTalim)
                 .then((res) => {
                     setIsDataTalim(res.data);
-                    // setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
             await axios
                 .get(UrlFakultet)
                 .then((res) => {
                     setIsDataFakultet(res.data);
-                    // setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
             await axios
                 .get(UrlYonalish)
                 .then((res) => {
                     setIsDataYonalish(res.data);
-                    // setIsLoader(false);
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
             await axios
                 .get(UrlKurs)
@@ -159,7 +152,6 @@ const Kurs = () => {
                 })
                 .catch((err) => {
                     console.log(err);
-                    setIsLoader(false);
                 });
         } catch (error) {
             console.error(error);
@@ -193,10 +185,6 @@ const Kurs = () => {
     //LifeCycle and logik selects filter
     useEffect(() => {
         try {
-            // // agar Formikda kurs_talim_turi_id = ""
-            // if (!formik_kurs.values.kurs_talim_turi_id) {
-            //     formik_kurs.values.kurs_talim_turi_id = isDataTalim && `${isDataTalim[0].id}`;
-            // }
             //Fakultetni filterlash
             let filterF =
                 isDataFakultet &&
@@ -205,13 +193,7 @@ const Kurs = () => {
                         Number(item.fakultet_talim_turi_id) ===
                         Number(formik_kurs.values.kurs_talim_turi_id)
                 );
-            // console.log(filterF);
             setIsDataFakultetFilter(filterF);
-
-            // // agar Formikda kurs_fakulet_id "" ? true !
-            // if (!formik_kurs.values.kurs_fakultet_id) {
-            //     formik_kurs.values.kurs_fakultet_id = filterF && filterF[0].id;
-            // }
 
             //Yonalishni filterlash
             let filterY =
@@ -254,47 +236,51 @@ const Kurs = () => {
                             ) : (
                                 <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
                                     {isDataKurs &&
-                                        isDataKurs.sort((a, b) => a.id - b.id).map((item) => (
-                                            <div
-                                                key={item.id}
-                                                className="flex justify-between items-center border border-gray-400 bg-white px-2"
-                                            >
-                                                <div>
-                                                    <b>Talim tur:</b>
-                                                    {handleGetTalimTur(
-                                                        item.kurs_talim_turi_id
-                                                    )}
-                                                    <br />
-                                                    <b>Fakultet:</b>
-                                                    {handleGetFakultet(
-                                                        item.kurs_fakultet_id
-                                                    )}
-                                                    <br />
-                                                    <b>Yo'nalish:</b>
-                                                    {handleGetYonalish(
-                                                        item.kurs_yonalish_id
-                                                    )}
-                                                    <br />
-                                                    <b>Kurs:</b> {item.kurs}
+                                        isDataKurs
+                                            .sort((a, b) => a.id - b.id)
+                                            .map((item) => (
+                                                <div
+                                                    key={item.id}
+                                                    className="flex justify-between items-center border border-gray-400 bg-white px-2"
+                                                >
+                                                    <div>
+                                                        <b>Talim tur:</b>
+                                                        {handleGetTalimTur(
+                                                            item.kurs_talim_turi_id
+                                                        )}
+                                                        <br />
+                                                        <b>Fakultet:</b>
+                                                        {handleGetFakultet(
+                                                            item.kurs_fakultet_id
+                                                        )}
+                                                        <br />
+                                                        <b>Yo'nalish:</b>
+                                                        {handleGetYonalish(
+                                                            item.kurs_yonalish_id
+                                                        )}
+                                                        <br />
+                                                        <b>Kurs:</b> {item.kurs}
+                                                    </div>
+                                                    <div className="flex gap-x-2">
+                                                        <MdEdit
+                                                            className="text-green-700 cursor-pointer"
+                                                            onClick={() =>
+                                                                handleEdit(
+                                                                    item.id
+                                                                )
+                                                            }
+                                                        />
+                                                        <MdDelete
+                                                            className="text-red-600 cursor-pointer"
+                                                            onClick={() =>
+                                                                handleDeletKurs(
+                                                                    item.id
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
-                                                <div className="flex gap-x-2">
-                                                    <MdEdit
-                                                        className="text-green-700 cursor-pointer"
-                                                        onClick={() =>
-                                                            handleEdit(item.id)
-                                                        }
-                                                    />
-                                                    <MdDelete
-                                                        className="text-red-600 cursor-pointer"
-                                                        onClick={() =>
-                                                            handleDeletKurs(
-                                                                item.id
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                        ))}
+                                            ))}
                                 </div>
                             )}
                         </div>
@@ -316,8 +302,7 @@ const Kurs = () => {
                                     onChange={(e) => {
                                         formik_kurs.handleChange(e);
                                         handleChangeSelect("a");
-                                    }
-                                    }
+                                    }}
                                     value={
                                         formik_kurs.values.kurs_talim_turi_id ||
                                         ""
@@ -329,14 +314,14 @@ const Kurs = () => {
                                         Talim turini tanlang
                                     </option>
                                     {isDataTalim &&
-                                        isDataTalim.map((item) => 
+                                        isDataTalim.map((item) => (
                                             <option
                                                 key={item.id}
                                                 value={item.id}
                                             >
                                                 {item.talim_turi}
                                             </option>
-                                        )}
+                                        ))}
                                 </select>
                                 {/* Fakultet */}
                                 <select
@@ -347,8 +332,7 @@ const Kurs = () => {
                                     onChange={(e) => {
                                         formik_kurs.handleChange(e);
                                         handleChangeSelect("b");
-                                    }
-                                    }
+                                    }}
                                     value={
                                         formik_kurs.values.kurs_fakultet_id ||
                                         ""

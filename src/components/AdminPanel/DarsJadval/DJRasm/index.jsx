@@ -5,15 +5,11 @@ import { useFormik } from "formik";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
 import { BsImage } from "react-icons/bs";
-import { useNavigate } from 'react-router-dom';
-// import ErrorPage from '../../../../components/Error';
 
 const DarsJadvalRasm = () => {
-    const navigate = useNavigate();
     const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
     const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
     const UrlYonalish = "https://api.kspi.uz/v1/jadval/yonalish/";
-    // const UrlKurs = "https://api.kspi.uz/v1/jadval/kurs/";
     const UrlDJRasm = "https://api.kspi.uz/v1/jadval/jadval/";
 
     const [isDataTalim, setIsDataTalim] = useState(null);
@@ -77,48 +73,37 @@ const DarsJadvalRasm = () => {
                     break;
             }
         } catch (error) {
-            navigate('/info-kios-error', { state: { error } });
+            console.log(error);
         }
     };
     //Refresh length
     const handleRefresh = async () => {
-        try {
-            await axios
-                .get(UrlTalim)
-                .then((res) => {
-                    setIsDataTalim(res.data);
-                })
-                .catch((err) => {
-                    // navigate('/info-kios-error', { state: { err } });
-                    setIsLoader(false);
-                });
-            await axios
-                .get(UrlFakultet)
-                .then((res) => {
-                    setIsDataFakultet(res.data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-            await axios
-                .get(UrlYonalish)
-                .then((res) => {
-                    setIsDataYonalish(res.data);
-                })
-                .catch((err) => {
-                    // navigate('/info-kios-error', { state: { err } });
-                });
-            await axios
-                .get(UrlDJRasm)
-                .then((res) => {
-                    setIsDataDJRasm(res.data);
-                    setIsLoader(false);
-                })
-                // .catch(err => {navigate('/info-kios-error', { state: { err } });})
-        } catch (error) {
-            console.log(error);
-            // navigate('/info-kios-error', { state: { error } });
-        }
+        await axios
+            .get(UrlTalim)
+            .then((res) => {
+                setIsDataTalim(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        await axios
+            .get(UrlFakultet)
+            .then((res) => {
+                setIsDataFakultet(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        await axios
+            .get(UrlYonalish)
+            .then((res) => {
+                setIsDataYonalish(res.data);
+            })
+            .catch((err) => {});
+        await axios.get(UrlDJRasm).then((res) => {
+            setIsDataDJRasm(res.data);
+            setIsLoader(false);
+        });
     };
     //Kurs POST Edit
     const formik_kurs = useFormik({
@@ -151,7 +136,7 @@ const DarsJadvalRasm = () => {
                         formData.append("kurs", values.kurs);
                         formData.append("rasm", isFile);
                         await axios.post(UrlDJRasm, formData);
-                        handleChangeSelect('p')
+                        handleChangeSelect("p");
                         formik_kurs.resetForm();
                         setIsFile("");
                         setImgInpText("Rasm tanlanmagan !");
@@ -160,30 +145,26 @@ const DarsJadvalRasm = () => {
                 }
             } catch (error) {
                 console.log(error);
-                // navigate('/info-kios-error', { state: { error } });
             }
         },
     });
-    
+
     //Edit
     const handleEdit = async (id) => {
-        console.log(id);
         try {
             const response = await axios.get(UrlDJRasm + id + "/");
             handleChangeSelect("d");
             setIsImg("Rasmni tahrirlash");
             const data = response.data;
-            console.log(data);
             formik_kurs.setValues({
                 turi: data.turi,
                 fakultet: data.fakultet,
                 yonalish: data.yonalish,
-                kurs: data.kurs, 
+                kurs: data.kurs,
             });
             setIsEdit(id);
         } catch (error) {
             console.log(error);
-            // navigate('/info-kios-error', { state: { error } });
         }
     };
     //Delet Dars Jadval Rasmi
@@ -192,7 +173,7 @@ const DarsJadvalRasm = () => {
             await axios.delete(UrlDJRasm + id + "/");
             handleRefresh();
         } catch (error) {
-            navigate('/info-kios-error', { state: { error } });
+            console.log(error);
         }
     };
     //GetTalimTur
@@ -293,59 +274,97 @@ const DarsJadvalRasm = () => {
                                 </div>
                             ) : (
                                 <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
-                                    {isDataDJRasm && isDataDJRasm.sort((a, b) => a.id - b.id).map((item) => (
-                                        <div
-                                            key={item.id}
-                                            className="w-full h-[105px] flex justify-between items-center border border-gray-400 p-1 bg-white"
-                                        >
-                                            <div className="flex items-center gap-x-2">
-                                                <span className="w-[100px] h-full inline-block overflow-hidden">
-                                                    <img
-                                                        className="w-full h-auto"
-                                                        src={item.rasm}
-                                                        alt="img"
-                                                    />
-                                                </span>
-                                                <div className="flex flex-col relative">
-                                                    <div className="whitespace-nowrap">
-                                                        <b>Talim turi: </b>
-                                                        {handleGetTalimTur(item.turi)}
+                                    {isDataDJRasm &&
+                                        isDataDJRasm
+                                            .sort((a, b) => a.id - b.id)
+                                            .map((item) => (
+                                                <div
+                                                    key={item.id}
+                                                    className="w-full h-[105px] flex justify-between items-center border border-gray-400 p-1 bg-white"
+                                                >
+                                                    <div className="flex items-center gap-x-2">
+                                                        <span className="w-[100px] h-full inline-block overflow-hidden">
+                                                            <img
+                                                                className="w-full h-auto"
+                                                                src={item.rasm}
+                                                                alt="img"
+                                                            />
+                                                        </span>
+                                                        <div className="flex flex-col relative">
+                                                            <div className="whitespace-nowrap">
+                                                                <b>
+                                                                    Talim turi:{" "}
+                                                                </b>
+                                                                {handleGetTalimTur(
+                                                                    item.turi
+                                                                )}
+                                                            </div>
+                                                            <div className="whitespace-nowrap">
+                                                                <b>
+                                                                    Fakulteti:{" "}
+                                                                </b>
+                                                                {handleGetFakultet(
+                                                                    item.fakultet
+                                                                ).length > 30
+                                                                    ? handleGetFakultet(
+                                                                            item.fakultet
+                                                                        ).slice(
+                                                                            0,
+                                                                            30
+                                                                        ) + "..."
+                                                                    : handleGetFakultet(
+                                                                            item.fakultet
+                                                                        )}
+                                                            </div>
+                                                            <div className="whitespace-nowrap">
+                                                                <b>
+                                                                    Yo'nalishi:{" "}
+                                                                </b>
+                                                                {handleGetYonalish(
+                                                                    item.yonalish
+                                                                ).length > 30
+                                                                    ? handleGetYonalish(
+                                                                            item.yonalish
+                                                                        ).slice(
+                                                                            0,
+                                                                            30
+                                                                        ) + "..."
+                                                                    : handleGetYonalish(
+                                                                            item.yonalish
+                                                                        )}
+                                                            </div>
+                                                            <div className="whitespace-nowrap">
+                                                                <b>Kursi: </b>
+                                                                {item.kurs}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div className="whitespace-nowrap">
-                                                        <b>Fakulteti: </b>
-                                                        {handleGetFakultet(item.fakultet).length > 30 ? handleGetFakultet(item.fakultet).slice(0, 30)+'...' : handleGetFakultet(item.fakultet)}
-                                                    </div>
-                                                    <div className="whitespace-nowrap">
-                                                        <b>Yo'nalishi: </b>
-                                                        {handleGetYonalish(item.yonalish).length > 30 ? handleGetYonalish(item.yonalish).slice(0, 30)+'...' : handleGetYonalish(item.yonalish)}
-                                                        
-                                                    </div>
-                                                    <div className="whitespace-nowrap">
-                                                        <b>Kursi: </b>
-                                                        {item.kurs}
+                                                    <div className="flex justify-end items-center gap-x-3 pe-2">
+                                                        <span className="cursor-pointer">
+                                                            <MdEdit
+                                                                title="Tahrirlash"
+                                                                onClick={() =>
+                                                                    handleEdit(
+                                                                        item.id
+                                                                    )
+                                                                }
+                                                                className="text-green-700"
+                                                            />
+                                                        </span>
+                                                        <span className="cursor-pointer">
+                                                            <MdDelete
+                                                                title="O'chirish"
+                                                                onClick={() =>
+                                                                    handleDelete(
+                                                                        item.id
+                                                                    )
+                                                                }
+                                                                className="text-red-600"
+                                                            />
+                                                        </span>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="flex justify-end items-center gap-x-3 pe-2">
-                                                <span className="cursor-pointer">
-                                                    <MdEdit
-                                                        title="Tahrirlash"
-                                                        onClick={() => handleEdit(item.id)}
-                                                        className="text-green-700"
-                                                    />
-                                                </span>
-                                                <span className="cursor-pointer">
-                                                    <MdDelete
-                                                        title="O'chirish"
-                                                        onClick={() =>
-                                                            handleDelete(item.id)
-                                                        }
-                                                        className="text-red-600"
-                                                    />
-                                                </span>
-                                            </div>
-                                        </div>
-                                    ))}
+                                            ))}
                                 </div>
                             )}
                         </div>
@@ -364,14 +383,11 @@ const DarsJadvalRasm = () => {
                                         formik_kurs.errors.turi &&
                                         "border-red-600"
                                     } border`}
-                                    onChange={(e) =>{ 
+                                    onChange={(e) => {
                                         formik_kurs.handleChange(e);
                                         handleChangeSelect("a");
                                     }}
-                                    value={
-                                        formik_kurs.values.turi ||
-                                        ""
-                                    }
+                                    value={formik_kurs.values.turi || ""}
                                     name="turi"
                                     id="turi"
                                 >
@@ -398,10 +414,7 @@ const DarsJadvalRasm = () => {
                                         formik_kurs.handleChange(e);
                                         handleChangeSelect("b");
                                     }}
-                                    value={
-                                        formik_kurs.values.fakultet ||
-                                        ""
-                                    }
+                                    value={formik_kurs.values.fakultet || ""}
                                     name="fakultet"
                                     id="fakultet"
                                 >
@@ -428,10 +441,7 @@ const DarsJadvalRasm = () => {
                                         formik_kurs.handleChange(e);
                                         handleChangeSelect("c");
                                     }}
-                                    value={
-                                        formik_kurs.values.yonalish ||
-                                        ""
-                                    }
+                                    value={formik_kurs.values.yonalish || ""}
                                     name="yonalish"
                                     id="yonalish"
                                 >
@@ -463,7 +473,6 @@ const DarsJadvalRasm = () => {
                                     <option value="4">4 - kurs</option>
                                     <option value="5">5 - kurs</option>
                                 </select>
-
                                 <div className="flex flex-col items-start">
                                     <div className="flex items-center">
                                         {isImg}:{" "}
@@ -513,7 +522,8 @@ const DarsJadvalRasm = () => {
                                         onChange={(e) => handleChange(e)}
                                         id="rasim"
                                         type="file"
-                                        hidden="hidden"/>
+                                        hidden="hidden"
+                                    />
                                 </div>
                                 <button
                                     className="w-[100px] float-right border-blue-500 bg-blue-500 text-white py-1 px-2 mt-5"
