@@ -21,11 +21,9 @@ const Yangiliklar = () => {
                     setLoading(false);
                 }).catch(err => {
                     console.log(err);
-                    setLoading(false);
                 });
             } catch (error) {
                 console.log(error);
-                setLoading(false);
             }
         }
         loadPost();

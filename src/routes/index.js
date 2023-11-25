@@ -28,7 +28,6 @@ import AdminYonalish from '../pages/AdminYonalish';
 import AdminKurs from '../pages/AdminKurs';
 import AdminDJRasm from '../pages/AdminDJRasm';
 import AdminRaxbaryat from '../pages/AdminRaxbaryat';
-import ErrorPage from '../pages/ErrorPage';
 
 
 export const routes = [
@@ -144,10 +143,6 @@ export const routes = [
                 element: <AdminRaxbaryat />,
                 path: '/panel-admins-login/managment-raxbaryat'
             },
-            {
-                element: <ErrorPage />,
-                path: '/info-kios-error'
-            }
         ]
     }
 

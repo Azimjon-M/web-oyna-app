@@ -6,7 +6,7 @@ import logo from "../../assets/icons/logo.png";
 
 import qish from '../../assets/images/winterNav.png';
 import bahor from '../../assets/images/springNav.png';
-import yoz from '../../assets/images/header.png';
+import yoz from '../../assets/images/winterNav.png';
 import kuz from '../../assets/images/autumnNav.png';
 import { useSelector } from 'react-redux';
 

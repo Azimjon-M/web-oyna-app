@@ -141,7 +141,6 @@ const Fizmat = () => {
             setIsDataDJRasm(res.data);
             setIsLoader(false);
         }).catch(err => console.log(err))
-        setIsLoader(false)
     };
     //GetYonalish
     const handleGetYonalish = (id) => {
@@ -174,9 +173,6 @@ const Fizmat = () => {
             setIsDataDJRasmFilter(isDataDJRasm && isDataDJRasm.filter(item => (Number(item.turi) === Number(isDataTalim[0].id)) && (Number(item.fakultet) === Number(isDataFakultetFilter[0].id))))
         }
     }, [isDataTalim, isDataDJRasm, isDataFakultetFilter])
-    console.log(isDataDJRasm);
-
-    console.log(isDataFakultetFilter);
 
     const handleClick = () => {
         document.getElementById("rasim").click();
