@@ -17,7 +17,7 @@ const Home = () => {
                 <Navbar />
             </div>
             <div className="w-full h-[calc(80vh-220px)]">
-                <Carousel data={newsData} tdelay="30000" />
+                <Carousel data={newsData} tdelay="26000" />
             </div>
             <div className="w-full h-[20vh] relative overflow-hidden">
                 <CarouselReklama data={newsDataR} tdelay="10000" />
