@@ -205,7 +205,7 @@ export const DarsJadvallari = () => {
                             onChange={handleChange}
                             defaultValue={isDataTalim && isDataTalim[0].id}
                             name="talim_tur"
-                            className="select select-primary w-full max-w-xs"
+                            className="select select-secondary w-full max-w-xs font-bold"
                         >
                             {isDataTalim &&
                                 isDataTalim.map((item) => (
@@ -220,7 +220,7 @@ export const DarsJadvallari = () => {
                             {isDataFakultetFilter &&
                                 isDataFakultetFilter.map((item) => (
                                     <button
-                                        className="m-3 bg-yellow-400 py-3 px-8 text-[20px] font-bold text-white rounded-md"
+                                        className="btn btn-info m-4 px-10"
                                         key={item.id}
                                         onClick={() =>
                                             handleFakultetClick(item.id)
@@ -234,7 +234,7 @@ export const DarsJadvallari = () => {
                             {isDataYonalishFilter &&
                                 isDataYonalishFilter.map((item) => (
                                     <button
-                                        className="m-3 bg-blue-500 py-3 px-8 text-[20px] font-bold text-white rounded-md"
+                                        className="btn btn-warning m-4 px-10"
                                         key={item.id}
                                         onClick={() =>
                                             handleYonalishClick(item.id)
@@ -248,7 +248,7 @@ export const DarsJadvallari = () => {
                             {isDataKursFilter &&
                                 isDataKursFilter.map((item) => (
                                     <button
-                                        className="m-3 bg-green-500 py-3 px-8 text-[20px] font-bold text-white rounded-md"
+                                        className="btn btn-active btn-accent m-4 px-10"
                                         key={item.id}
                                         onClick={() => handleKursClick(item.kurs)}
                                     >
