@@ -189,11 +189,11 @@ export const DarsJadvallari = () => {
                 </div>
             ) : (
                 <div className="w-full h-full flex flex-col gap-y-20 py-20">
-                    <div className={`${isModal ? "w-full h-full absolute top-0 left-0 bg-[#000000a6] flex flex-col justify-center items-center gap-y-10" : "hidden"} `}>
-                        <div className="w-[800px] text-end h-auto">
-                            <button className="btn btn-error rounded-full text-[40px] text-white" onClick={() => handleModalClose()}>X</button>
+                    <div className={`${isModal ? "w-full h-[calc(100%-200px)] absolute top-[200px] left-0 bg-[#000000a6] flex flex-col justify-center items-center gap-y-10" : "hidden"} `}>
+                        <div className="w-[800px] text-end h-auto z-50">
+                            <button onClick={() => handleModalClose()} className="btn btn-error rounded-full text-[40px] text-white">X</button>
                         </div>
-                        <div className="w-[800px] h-[800px] flex justify-center items-center">
+                        <div className="w-[1000px] h-[1200px] flex justify-center items-center ">
                             <img id="imgDJR" className="max-w-full max-h-full" src={isDataDJRasmFilter.length > 0 ? isDataDJRasmFilter[0].rasm : ""} alt="Dars jadval rasmi joylashtirilmagan!" />
                         </div>
                         <div className="w-[800px] h-auto flex justify-end">
