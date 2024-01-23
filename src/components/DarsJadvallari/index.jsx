@@ -181,6 +181,7 @@ export const DarsJadvallari = () => {
     }
     return (
         <div className="flex flex-col items-center w-full h-[calc(100%-320px)]">
+            <h2 className="text-4xl font-bold mt-5">Yakuniy nazoratlar jadvali</h2>
             {isLoader ? (
                 <div className="w-full h-full flex justify-center items-center">
                     <div className="spinner">
