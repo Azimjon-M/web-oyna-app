@@ -6,6 +6,7 @@ import interaktivImg from '../../assets/images/interaktiv.png'
 const InterActiveHiz = () => {
 
     const urlMyGov = "https://my.gov.uz/oz/all-services/";
+    const urlSorov = "https://survey.hemis.uz/"
     const urlSharnomaAmal = "https://shartnoma.kspi.uz/";
     const urlSharnomaKant = "https://kontrakt.edu.uz/";
     const urlTurarjoy = "ttj.kspi.uz";
@@ -60,6 +61,19 @@ const InterActiveHiz = () => {
             </div>)
     }
 
+    const sorovnoma = () => {
+        setInfoContent(
+            <div className='w-[80%] h-[850px] mx-auto'>
+                <h2 className='text-5xl mb-[80px] text-center font-medium'>So'rovnoma</h2>
+                <div>
+                    <h3 className='text-3xl text-center font-medium mt-5 mb-[60px]'>So'rovnoma</h3>
+                    <div className='mx-auto w-[150px] h-[150px] items-center'>
+                        <QRCode className='bg-white border-4 border-slate-700 p-3' value={urlSorov} />
+                    </div>
+                </div>
+            </div>)
+    };
+
     return (
         <div>
             <Navbar />
@@ -68,7 +82,8 @@ const InterActiveHiz = () => {
             </div>
             <div className='mt-28'>
                 <button className='block bg-fuchsia-700 hover:bg-blue-600 active:bg-blue-700 p-7 mx-auto mb-5 w-[80%] rounded-lg text-5xl text-white' onClick={institutXizmatlari}>Institut interaktiv xizmatlari</button>
-                <button className='block bg-fuchsia-700 hover:bg-blue-600 active:bg-blue-700 p-7 mx-auto w-[80%] rounded-lg text-5xl text-white' onClick={davlatXizmatlari}>Davlat interaktiv xizmatlari</button>
+                <button className='block bg-fuchsia-700 hover:bg-blue-600 active:bg-blue-700 p-7 mx-auto mb-5 w-[80%] rounded-lg text-5xl text-white' onClick={davlatXizmatlari}>Davlat interaktiv xizmatlari</button>
+                <button className='block bg-fuchsia-700 hover:bg-blue-600 active:bg-blue-700 p-7 mx-auto w-[80%] rounded-lg text-5xl text-white' onClick={sorovnoma}>So'rovnoma</button>
             </div>
         </div>
     );
