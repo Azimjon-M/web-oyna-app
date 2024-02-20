@@ -1,63 +1,14 @@
-import React, { useEffect, useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import {
-    Autoplay,
-    Pagination,
-} from "swiper/modules";
+import React from "react";
 
-const VideoCarouselReclama = ({ data, tdelay}) => {
-    const videoEl = useRef(null);
-
-    const attemptPlay = () => {
-        videoEl &&
-            videoEl.current &&
-            videoEl.current.play().catch((error) => {
-                console.error("Error attempting to play", error);
-            });
-    };
-
-    useEffect(() => {
-        attemptPlay();
-    }, []);
+const VideoCarouselReclama = () => {
 
     return (
         <>
-            <Swiper
-                effect={"coverflow"}
-                centeredSlides={true}
-                autoplay={{
-                    delay: tdelay,
-                    disableOnInteraction: false,
-                }}
-                loop={true}
-                slidesPerView={"auto"}
-                navigation={true}
-                pagination={{
-                    clickable: true
-                }}
-                modules={[Autoplay, Pagination]}
-                className="mySwiper object-cover"
-            >
-                {data &&
-                    data.map((videoObj, idx) => (
-                        <SwiperSlide
-                            className='h-full w-full'
-                            key={idx}
-                        >
-                            <video
-                                playsInline
-                                loop
-                                muted
-                                autoPlay
-                                alt="All the devices"
-                                src={videoObj.src}
-                                ref={videoEl}
-                            />
-                        </SwiperSlide>
-                    ))}
-            </Swiper>
+            <div className="bg-[#222] h-full text-white flex items-center text-center py-5 text-2xl">
+                <p className="bg-[#444] px-20 py-3">Har qanday millatni halokatga olib borish uchun atom bombalari va uzoq masofaga mo'ljallangan raketalar kerak emas. <br />
+                Ta'limning sifatining zaifligi va o'quvchilarni imtihonlardagi aldovlariga yo'l qo'yishigina kifoyadir.
+                Bemorlar shunday shifokorlar qo'lida halok bo'ladi. Binolar shunday muhandislar va arxitektorlar tufayli qulab tushadi. Pul va mablag'lar shunday iqtisodchilar va hisobchilar qo'lida yo'q bo'ladi. Adolat shunday huquqshunoslar va sudyalar tomonidan barham topadi. <br /> Ta'limning halokati - millatning halokatidir.</p>
+            </div>
         </>
     );
 };
