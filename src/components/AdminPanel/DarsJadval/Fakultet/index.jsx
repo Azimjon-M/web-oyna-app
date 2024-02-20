@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
+import APIFakultet from "../../../../services/Fakultet";
 
 const Fakultet = () => {
-    const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
-    const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
 
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);
@@ -28,7 +26,7 @@ const Fakultet = () => {
             try {
                 //Edit
                 if (isEdit) {
-                    await axios.put(UrlFakultet + isEdit + "/", values);
+                    await APIFakultet.put(isEdit, values);
                     formik_fakultet.resetForm();
                     setIsEdit(false);
                 }
@@ -38,7 +36,7 @@ const Fakultet = () => {
                         formik_fakultet.values.fakultet_talim_turi_id =
                             isDataTalim && `${isDataTalim[0].id}`;
                     }
-                    await axios.post(UrlFakultet, values);
+                    await APIFakultet.post(values);
                     formik_fakultet.resetForm();
                 }
                 handleRefresh();
@@ -50,12 +48,14 @@ const Fakultet = () => {
     //Edit
     const handleEdit = async (id) => {
         try {
-            const response = await axios.get(UrlFakultet + id + "/");
-            const data = response.data;
-            formik_fakultet.setValues({
-                fakultet_talim_turi_id: data.fakultet_talim_turi_id,
-                fakultet: data.fakultet,
-            });
+            await APIFakultet.getbyId(id)
+                .then((res) => {
+                    formik_fakultet.setValues({
+                        fakultet_talim_turi_id: res.data.fakultet_talim_turi_id,
+                        fakultet: res.data.fakultet,
+                    });
+                })
+                .catch((err) => console.log(err));
             setIsEdit(id);
         } catch (error) {
             console.error("Error:", error);
@@ -65,7 +65,7 @@ const Fakultet = () => {
     //Delet Fakultet
     const handleDeletFakultet = async (id) => {
         try {
-            await axios.delete(UrlFakultet + id + "/");
+            await APIFakultet.del(id);
             handleRefresh();
         } catch (error) {
             console.error(error);
@@ -73,16 +73,14 @@ const Fakultet = () => {
     };
     //Refresh
     const handleRefresh = async () => {
-        await axios
-            .get(UrlFakultet)
+        await APIFakultet.getF()
             .then((res) => {
                 setIsDataFakultet(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-        await axios
-            .get(UrlTalim)
+        await APIFakultet.getT()
             .then((res) => {
                 setIsDataTalim(res.data);
                 setIsLoader(false);

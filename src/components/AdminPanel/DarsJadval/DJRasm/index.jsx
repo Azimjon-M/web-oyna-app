@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
 import { BsImage } from "react-icons/bs";
+import APIRasm from "../../../../services/DJRasm";
 
 const DarsJadvalRasm = () => {
-    const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
-    const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
-    const UrlYonalish = "https://api.kspi.uz/v1/jadval/yonalish/";
-    const UrlDJRasm = "https://api.kspi.uz/v1/jadval/jadval/";
-
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);
     const [isDataFakultetFilter, setIsDataFakultetFilter] = useState(null);
@@ -78,32 +73,39 @@ const DarsJadvalRasm = () => {
     };
     //Refresh length
     const handleRefresh = async () => {
-        await axios
-            .get(UrlTalim)
+        await APIRasm
+            .getT()
             .then((res) => {
                 setIsDataTalim(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-        await axios
-            .get(UrlFakultet)
+        await APIRasm
+            .getF()
             .then((res) => {
                 setIsDataFakultet(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-        await axios
-            .get(UrlYonalish)
+        await APIRasm
+            .getY()
             .then((res) => {
                 setIsDataYonalish(res.data);
             })
-            .catch((err) => {});
-        await axios.get(UrlDJRasm).then((res) => {
-            setIsDataDJRasm(res.data);
-            setIsLoader(false);
-        });
+            .catch((err) => {
+                console.log(err);
+            });
+        await APIRasm
+            .getR()
+            .then((res) => {
+                setIsDataDJRasm(res.data);
+                setIsLoader(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
     //Kurs POST Edit
     const formik_kurs = useFormik({
@@ -121,7 +123,7 @@ const DarsJadvalRasm = () => {
                     formik_kurs.resetForm();
                     setIsImg("Rasm");
                     setIsEdit(false);
-                    await axios.put(UrlDJRasm + isEdit + "/", values);
+                    APIRasm.put(isEdit, values);
                     handleRefresh();
                 }
                 //Post
@@ -135,7 +137,7 @@ const DarsJadvalRasm = () => {
                         formData.append("yonalish", values.yonalish);
                         formData.append("kurs", values.kurs);
                         formData.append("rasm", isFile);
-                        await axios.post(UrlDJRasm, formData);
+                        APIRasm.post(formData);
                         handleChangeSelect("p");
                         formik_kurs.resetForm();
                         setIsFile("");
@@ -151,26 +153,22 @@ const DarsJadvalRasm = () => {
 
     //Edit
     const handleEdit = async (id) => {
-        try {
-            const response = await axios.get(UrlDJRasm + id + "/");
+        await APIRasm.getbyId(id).then((res) => {
             handleChangeSelect("d");
             setIsImg("Rasmni tahrirlash");
-            const data = response.data;
             formik_kurs.setValues({
-                turi: data.turi,
-                fakultet: data.fakultet,
-                yonalish: data.yonalish,
-                kurs: data.kurs,
+                turi: res.data.turi,
+                fakultet: res.data.fakultet,
+                yonalish: res.data.yonalish,
+                kurs: res.data.kurs,
             });
             setIsEdit(id);
-        } catch (error) {
-            console.log(error);
-        }
+        });
     };
     //Delet Dars Jadval Rasmi
     const handleDelete = async (id) => {
         try {
-            await axios.delete(UrlDJRasm + id + "/");
+            APIRasm.del(id);
             handleRefresh();
         } catch (error) {
             console.log(error);
@@ -212,7 +210,6 @@ const DarsJadvalRasm = () => {
                     Number(formik_kurs.values.turi)
             );
         setIsDataFakultetFilter(filterF);
-
         //Yonalishni filterlash
         let filterY =
             isDataYonalish &&
@@ -307,14 +304,14 @@ const DarsJadvalRasm = () => {
                                                                     item.fakultet
                                                                 ).length > 30
                                                                     ? handleGetFakultet(
-                                                                            item.fakultet
-                                                                        ).slice(
-                                                                            0,
-                                                                            30
-                                                                        ) + "..."
+                                                                          item.fakultet
+                                                                      ).slice(
+                                                                          0,
+                                                                          30
+                                                                      ) + "..."
                                                                     : handleGetFakultet(
-                                                                            item.fakultet
-                                                                        )}
+                                                                          item.fakultet
+                                                                      )}
                                                             </div>
                                                             <div className="whitespace-nowrap">
                                                                 <b>
@@ -324,14 +321,14 @@ const DarsJadvalRasm = () => {
                                                                     item.yonalish
                                                                 ).length > 30
                                                                     ? handleGetYonalish(
-                                                                            item.yonalish
-                                                                        ).slice(
-                                                                            0,
-                                                                            30
-                                                                        ) + "..."
+                                                                          item.yonalish
+                                                                      ).slice(
+                                                                          0,
+                                                                          30
+                                                                      ) + "..."
                                                                     : handleGetYonalish(
-                                                                            item.yonalish
-                                                                        )}
+                                                                          item.yonalish
+                                                                      )}
                                                             </div>
                                                             <div className="whitespace-nowrap">
                                                                 <b>Kursi: </b>

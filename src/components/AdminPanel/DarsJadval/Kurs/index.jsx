@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
+import APIKurs from "../../../../services/Kurs";
 
 const Kurs = () => {
-    const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
-    const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
-    const UrlYonalish = "https://api.kspi.uz/v1/jadval/yonalish/";
-    const UrlKurs = "https://api.kspi.uz/v1/jadval/kurs/";
-
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);
     const [isDataFakultetFilter, setIsDataFakultetFilter] = useState(null);
@@ -77,14 +72,14 @@ const Kurs = () => {
             try {
                 //Edit
                 if (isEdit) {
-                    await axios.put(UrlKurs + isEdit + "/", values);
+                    await APIKurs.put(isEdit, values);
                     formik_kurs.resetForm();
                     setIsEdit(false);
                     handleRefresh();
                 }
                 //Post
                 else {
-                    await axios.post(UrlKurs, values);
+                    await APIKurs.post(values);
                     formik_kurs.resetForm();
                     handleRefresh();
                     handleChangeSelect("p");
@@ -98,11 +93,13 @@ const Kurs = () => {
     const handleEdit = async (id) => {
         try {
             handleChangeSelect("p");
-            const response = await axios.get(UrlKurs + id + "/");
-            const data = response.data;
-            formik_kurs.setValues({
-                kurs: data.kurs,
-            });
+            await APIKurs.getbyId(id)
+                .then((res) => {
+                    formik_kurs.setValues({
+                        kurs: res.data.kurs,
+                    });
+                })
+                .catch((err) => console.log(err));
             setIsEdit(id);
         } catch (error) {
             console.error("Error:", error);
@@ -111,7 +108,7 @@ const Kurs = () => {
     //Delet Kurs
     const handleDeletKurs = async (id) => {
         try {
-            await axios.delete(UrlKurs + id + "/");
+            await APIKurs.del(id);
             handleRefresh();
         } catch (error) {
             console.error(error);
@@ -120,32 +117,28 @@ const Kurs = () => {
     //Refresh
     const handleRefresh = async () => {
         try {
-            await axios
-                .get(UrlTalim)
+            await APIKurs.getT()
                 .then((res) => {
                     setIsDataTalim(res.data);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-            await axios
-                .get(UrlFakultet)
+            await APIKurs.getF()
                 .then((res) => {
                     setIsDataFakultet(res.data);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-            await axios
-                .get(UrlYonalish)
+            await APIKurs.getY()
                 .then((res) => {
                     setIsDataYonalish(res.data);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-            await axios
-                .get(UrlKurs)
+            await APIKurs.getK()
                 .then((res) => {
                     setIsDataKurs(res.data);
                     setIsLoader(false);

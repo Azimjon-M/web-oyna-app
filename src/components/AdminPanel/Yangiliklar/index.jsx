@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { MetroSpinner } from "react-spinners-kit";
-
 import { MdEdit, MdDelete } from "react-icons/md";
 import { BsImage } from "react-icons/bs";
+import APIYangilik from "../../../services/Yangilik";
 
 const Yangilik = () => {
-    const Url = "https://api.kspi.uz/v1/yangilik/yangilik/";
-
-    const [isData, setIsData] = useState(null);
+    const [isData, setIsData] = useState([]);
     const [isFile, setIsFile] = useState("");
     const [imgErr, setImgErr] = useState(null);
     const [isEdit, setIsEdit] = useState(null);
@@ -42,7 +39,7 @@ const Yangilik = () => {
                     formData.append("body", values.body);
                     formData.append("rasm", isFile);
 
-                    await axios.put(Url + isEdit + "/", formData);
+                    await APIYangilik.put(isEdit, formData);
                     formik.setValues({ title: "", body: "" });
                     setIsFile("");
                     setImgInpText("Rasm tanlanmagan !");
@@ -60,7 +57,7 @@ const Yangilik = () => {
                         formData.append("title", values.title);
                         formData.append("body", values.body);
                         formData.append("rasm", isFile);
-                        await axios.post(Url, formData);
+                        await APIYangilik.post(formData);
                         formik.resetForm();
                         setIsFile("");
                         setImgInpText("Rasm tanlanmagan !");
@@ -82,7 +79,7 @@ const Yangilik = () => {
                     setEditDel(false);
                 }, 3000);
             } else {
-                await axios.delete(Url + id + "/");
+                await APIYangilik.del(id);
                 handleRefresh();
             }
         } catch (error) {
@@ -92,8 +89,7 @@ const Yangilik = () => {
 
     const handleRefresh = async () => {
         try {
-            await axios
-                .get(Url)
+            await APIYangilik.get()
                 .then((res) => {
                     setIsData(res.data);
                     setIsLoading(false);
@@ -108,14 +104,14 @@ const Yangilik = () => {
 
     const handleEdit = async (id) => {
         try {
-            const response = await axios.get(Url + id + "/");
-            const idData = response.data;
-
-            formik.setValues({
-                title: idData.title,
-                body: idData.body,
-            });
-
+            await APIYangilik.getbyId(id)
+                .then((res) => {
+                    formik.setValues({
+                        title: res.data.title,
+                        body: res.data.body,
+                    });
+                })
+                .catch((err) => console.log(err));
             setIsEdit(id);
             setImgInpText("Rasm tahrirlanmagan");
             setIsTitle("Sarlavhani tahrirlash");
@@ -166,7 +162,6 @@ const Yangilik = () => {
     useEffect(() => {
         handleRefresh();
     }, []);
-
     return (
         <>
             {isLoading ? (
@@ -205,24 +200,14 @@ const Yangilik = () => {
                                                         alt="img"
                                                     />
                                                 </span>
-                                                <div className="flex flex-col relative">
-                                                    <div className="whitespace-nowrap">
+                                                <div className="flex flex-col relative w-[calc(100%-40px)]">
+                                                    <div className="flex">
                                                         <b>Sarlavha: </b>
-                                                        {item.title.length > 30
-                                                            ? item.title.slice(
-                                                                    0,
-                                                                    30
-                                                                ) + "..."
-                                                            : item.title}
+                                                        <p className="line-clamp-1">{item.title}</p>
                                                     </div>
-                                                    <div className="whitespace-nowrap">
+                                                    <div className="flex">
                                                         <b>Tafsilot: </b>
-                                                        {item.body.length > 23
-                                                            ? item.body.slice(
-                                                                    0,
-                                                                    23
-                                                                ) + "..."
-                                                            : item.body}
+                                                        <p className="line-clamp-1">{item.body}</p>
                                                     </div>
                                                 </div>
                                             </div>

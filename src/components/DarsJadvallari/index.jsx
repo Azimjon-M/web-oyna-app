@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import QRCode from "qrcode.react";
 import { MetroSpinner } from "react-spinners-kit";
+import APIAllFAkultet from "../../services/AllFakultet";
 
 export const DarsJadvallari = () => {
-    const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
-    const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
-    const UrlYonalish = "https://api.kspi.uz/v1/jadval/yonalish/";
-    const UrlKurs = "https://api.kspi.uz/v1/jadval/kurs/";
-    const UrlDJRasm = "https://api.kspi.uz/v1/jadval/jadval/";
     // Full Dataes
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);
@@ -32,40 +27,36 @@ export const DarsJadvallari = () => {
 
     //Refresh
     const handleRefresh = async () => {
-        await axios
-            .get(UrlTalim)
+        await APIAllFAkultet.getT()
             .then((res) => {
                 setIsDataTalim(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-        await axios
-            .get(UrlFakultet)
+        await APIAllFAkultet.getF()
             .then((res) => {
                 setIsDataFakultet(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-        await axios
-            .get(UrlYonalish)
+
+        await APIAllFAkultet.getY()
             .then((res) => {
                 setIsDataYonalish(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-        await axios
-            .get(UrlKurs)
+        await APIAllFAkultet.getK()
             .then((res) => {
                 setIsDataKurs(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-        await axios
-            .get(UrlDJRasm)
+        await APIAllFAkultet.get()
             .then((res) => {
                 setIsDataDJRasm(res.data);
                 setIsLoader(false);
@@ -142,14 +133,12 @@ export const DarsJadvallari = () => {
                 isDataDJRasm &&
                     isDataDJRasm.filter(
                         (item) =>
-                            Number(item.turi) ===
-                                Number(isDataTalimSelected) &&
+                            Number(item.turi) === Number(isDataTalimSelected) &&
                             Number(item.fakultet) ===
                                 Number(isDataFakultetSelected) &&
                             Number(item.yonalish) ===
                                 Number(isDataYonalishSelected) &&
-                            Number(item.kurs) ===
-                                Number(isDataKursSelected)
+                            Number(item.kurs) === Number(isDataKursSelected)
                     )
             );
         }
@@ -160,7 +149,7 @@ export const DarsJadvallari = () => {
         isDataKurs,
         isDataYonalishSelected,
         isDataDJRasm,
-        isDataKursSelected
+        isDataKursSelected,
     ]);
 
     const handleChange = (e) => {
@@ -177,8 +166,8 @@ export const DarsJadvallari = () => {
         setIsModal(true);
     };
     const handleModalClose = () => {
-        setIsModal(false)
-    }
+        setIsModal(false);
+    };
     return (
         <div className="flex flex-col items-center w-full h-[calc(100%-320px)]">
             {isLoader ? (
@@ -189,15 +178,46 @@ export const DarsJadvallari = () => {
                 </div>
             ) : (
                 <div className="w-full h-full flex flex-col gap-y-20 py-20">
-                    <div className={`${isModal ? "w-full h-[calc(100%-200px)] absolute top-[200px] left-0 bg-[#000000a6] flex flex-col justify-center items-center gap-y-10" : "hidden"} `}>
+                    <div
+                        className={`${
+                            isModal
+                                ? "w-full h-[calc(100%-200px)] absolute top-[200px] left-0 bg-[#000000a6] flex flex-col justify-center items-center gap-y-10"
+                                : "hidden"
+                        } `}
+                    >
                         <div className="w-[800px] text-end h-auto z-50">
-                            <button onClick={() => handleModalClose()} className="btn btn-error rounded-full text-[40px] text-white">X</button>
+                            <button
+                                onClick={() => handleModalClose()}
+                                className="btn btn-error rounded-full text-[40px] text-white"
+                            >
+                                X
+                            </button>
                         </div>
                         <div className="w-[1000px] h-[1200px] flex justify-center items-center ">
-                            <img id="imgDJR" className="max-w-full max-h-full" src={isDataDJRasmFilter.length > 0 ? isDataDJRasmFilter[0].rasm : ""} alt="Dars jadval rasmi joylashtirilmagan!" />
+                            <img
+                                id="imgDJR"
+                                className="max-w-full max-h-full"
+                                src={
+                                    isDataDJRasmFilter.length > 0
+                                        ? isDataDJRasmFilter[0].rasm
+                                        : ""
+                                }
+                                alt="Dars jadval rasmi joylashtirilmagan!"
+                            />
                         </div>
                         <div className="w-[800px] h-auto flex justify-end">
-                            <QRCode className={`${isDataDJRasmFilter.length > 0 ? '' : "hidden"} bg-white border-4 border-slate-700 p-3`} value={isDataDJRasmFilter.length > 0 ? isDataDJRasmFilter[0].rasm : ""} />
+                            <QRCode
+                                className={`${
+                                    isDataDJRasmFilter.length > 0
+                                        ? ""
+                                        : "hidden"
+                                } bg-white border-4 border-slate-700 p-3`}
+                                value={
+                                    isDataDJRasmFilter.length > 0
+                                        ? isDataDJRasmFilter[0].rasm
+                                        : ""
+                                }
+                            />
                         </div>
                     </div>
                     <div className="w-full flex justify-end px-10">
@@ -250,7 +270,9 @@ export const DarsJadvallari = () => {
                                     <button
                                         className="btn btn-active btn-accent m-4 px-10"
                                         key={item.id}
-                                        onClick={() => handleKursClick(item.kurs)}
+                                        onClick={() =>
+                                            handleKursClick(item.kurs)
+                                        }
                                     >
                                         {item.kurs}
                                     </button>

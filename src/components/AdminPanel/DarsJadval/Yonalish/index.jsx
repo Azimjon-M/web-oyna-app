@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { MetroSpinner } from "react-spinners-kit";
+import APIYonalish from "../../../../services/Yonalish";
 
 const Yonalish = () => {
-    const UrlTalim = "https://api.kspi.uz/v1/jadval/talim_turi/";
-    const UrlFakultet = "https://api.kspi.uz/v1/jadval/fakultet/";
-    const UrlYonalish = "https://api.kspi.uz/v1/jadval/yonalish/";
-
     const [isDataTalim, setIsDataTalim] = useState(null);
     const [isDataFakultet, setIsDataFakultet] = useState(null);
     const [isDataFakultetFilter, setIsDataFakultetFilter] = useState(null);
@@ -34,7 +30,7 @@ const Yonalish = () => {
             try {
                 //Edit
                 if (isEdit) {
-                    await axios.put(UrlYonalish + isEdit + "/", values);
+                    await APIYonalish.put(isEdit, values);
                     formik_yonalish.resetForm();
                     setIsEdit(false);
                     handleRefresh();
@@ -47,9 +43,10 @@ const Yonalish = () => {
                     }
                     if (!values.yonalish_fakultet_id) {
                         formik_yonalish.values.yonalish_fakultet_id =
-                            isDataFakultetFilter && `${isDataFakultetFilter[0].id}`;
+                            isDataFakultetFilter &&
+                            `${isDataFakultetFilter[0].id}`;
                     }
-                    await axios.post(UrlYonalish, values);
+                    await APIYonalish.post(values);
                     formik_yonalish.resetForm();
                     handleRefresh();
                 }
@@ -61,13 +58,15 @@ const Yonalish = () => {
     //Edit
     const handleEdit = async (id) => {
         try {
-            const response = await axios.get(UrlYonalish + id + "/");
-            const data = response.data;
-            formik_yonalish.setValues({
-                yonalish_talim_turi_id: data.yonalish_talim_turi_id,
-                yonalish_fakultet_id: data.yonalish_fakultet_id,
-                yonalish: data.yonalish,
-            });
+            await APIYonalish.getbyId(id)
+                .then((res) => {
+                    formik_yonalish.setValues({
+                        yonalish_talim_turi_id: res.data.yonalish_talim_turi_id,
+                        yonalish_fakultet_id: res.data.yonalish_fakultet_id,
+                        yonalish: res.data.yonalish,
+                    });
+                })
+                .catch((err) => console.log(err));
             setIsEdit(id);
         } catch (error) {
             console.error(error);
@@ -76,7 +75,7 @@ const Yonalish = () => {
     //Delet Yonalish
     const handleDeletYonalish = async (id) => {
         try {
-            await axios.delete(UrlYonalish + id + "/");
+            await APIYonalish.del(id);
             handleRefresh();
         } catch (error) {
             console.error(error);
@@ -85,24 +84,21 @@ const Yonalish = () => {
     //Refresh
     const handleRefresh = async () => {
         try {
-            await axios
-                .get(UrlFakultet)
+            await APIYonalish.getF()
                 .then((res) => {
                     setIsDataFakultet(res.data);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-            await axios
-                .get(UrlTalim)
+            await APIYonalish.getT()
                 .then((res) => {
                     setIsDataTalim(res.data);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-            await axios
-                .get(UrlYonalish)
+            await APIYonalish.getY()
                 .then((res) => {
                     setIsDataYonalish(res.data);
                     setIsLoader(false);
@@ -136,7 +132,8 @@ const Yonalish = () => {
     //Logic Selects
     useEffect(() => {
         if (!formik_yonalish.values.yonalish_talim_turi_id) {
-            formik_yonalish.values.yonalish_talim_turi_id = isDataTalim && `${isDataTalim[0].id}`;
+            formik_yonalish.values.yonalish_talim_turi_id =
+                isDataTalim && `${isDataTalim[0].id}`;
         }
 
         if (formik_yonalish.values.yonalish_talim_turi_id) {
@@ -183,43 +180,47 @@ const Yonalish = () => {
                             ) : (
                                 <div className="h-full flex flex-col gap-y-2 overflow-auto style-owerflow-001 p-1">
                                     {isDataYonalish &&
-                                        isDataYonalish.sort((a, b) => a.id - b.id).map((item) => (
-                                            <div
-                                                key={item.id}
-                                                className="flex justify-between items-center border border-gray-400 bg-white px-2"
-                                            >
-                                                <div>
-                                                    <b>Talim tur:</b>{" "}
-                                                    {handleGetTalimTur(
-                                                        item.yonalish_talim_turi_id
-                                                    )}
-                                                    <br />
-                                                    <b>Fakultet:</b>{" "}
-                                                    {handleGetFakultet(
-                                                        item.yonalish_fakultet_id
-                                                    )}
-                                                    <br />
-                                                    <b>Yo'nalish:</b>{" "}
-                                                    {item.yonalish}
+                                        isDataYonalish
+                                            .sort((a, b) => a.id - b.id)
+                                            .map((item) => (
+                                                <div
+                                                    key={item.id}
+                                                    className="flex justify-between items-center border border-gray-400 bg-white px-2"
+                                                >
+                                                    <div>
+                                                        <b>Talim tur:</b>{" "}
+                                                        {handleGetTalimTur(
+                                                            item.yonalish_talim_turi_id
+                                                        )}
+                                                        <br />
+                                                        <b>Fakultet:</b>{" "}
+                                                        {handleGetFakultet(
+                                                            item.yonalish_fakultet_id
+                                                        )}
+                                                        <br />
+                                                        <b>Yo'nalish:</b>{" "}
+                                                        {item.yonalish}
+                                                    </div>
+                                                    <div className="flex gap-x-2">
+                                                        <MdEdit
+                                                            className="text-green-700 cursor-pointer"
+                                                            onClick={() =>
+                                                                handleEdit(
+                                                                    item.id
+                                                                )
+                                                            }
+                                                        />
+                                                        <MdDelete
+                                                            className="text-red-600 cursor-pointer"
+                                                            onClick={() =>
+                                                                handleDeletYonalish(
+                                                                    item.id
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
-                                                <div className="flex gap-x-2">
-                                                    <MdEdit
-                                                        className="text-green-700 cursor-pointer"
-                                                        onClick={() =>
-                                                            handleEdit(item.id)
-                                                        }
-                                                    />
-                                                    <MdDelete
-                                                        className="text-red-600 cursor-pointer"
-                                                        onClick={() =>
-                                                            handleDeletYonalish(
-                                                                item.id
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                        ))}
+                                            ))}
                                 </div>
                             )}
                         </div>
