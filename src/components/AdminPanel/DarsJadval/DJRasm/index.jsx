@@ -24,7 +24,7 @@ const DarsJadvalRasm = () => {
     const [isImg, setIsImg] = useState("Rasm");
     const [isFile, setIsFile] = useState("");
 
-    const imgTypes = ["jpg", "jpeg", "png", "tiff"];
+    const imgTypes = ["jpg", "JPG", "JPEG", "jpeg", "png", "tiff"];
 
     const SignupSchemaKurs = Yup.object().shape({
         turi: Yup.string().max(5, "Ko'p").required("Required"),

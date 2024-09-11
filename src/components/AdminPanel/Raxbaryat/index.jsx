@@ -18,7 +18,7 @@ const Raxbaryat = () => {
     const [isImg, setIsImg] = useState("Rasm");
     const [isLoading, setIsLoading] = useState(true);
 
-    const imgTypes = ["jpg", "jpeg", "png", "tiff"];
+    const imgTypes = ["jpg", "JPG", "JPEG", "jpeg", "png", "tiff"];
 
     const SignupSchema = Yup.object().shape({
         fish: Yup.string().min(2, "Judaham kam!").required("Required"),

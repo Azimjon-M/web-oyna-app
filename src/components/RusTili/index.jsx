@@ -23,7 +23,7 @@ const RusTili = () => {
     const [isImg, setIsImg] = useState("Rasm");
     const [isFile, setIsFile] = useState("");
 
-    const imgTypes = ["jpg", "jpeg", "png", "tiff"];
+    const imgTypes = ["jpg", "JPG", "JPEG", "jpeg", "png", "tiff"];
 
     const SignupSchemaYonalish = Yup.object().shape({
         yonalish: Yup.string().min(1, "Judaham kam!").required("Required"),
