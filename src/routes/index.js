@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Root from '../root/index';
+// public
 import Home from '../pages/Home';
 import Admin from '../pages/LoginToAdmins';
 import Yangiliklar from '../pages/Yangiliklar';
@@ -8,19 +9,7 @@ import DarsJadvali from '../pages/DarsJadvali';
 import AdminPanel from '../pages/AdminsPanel';
 import Raxbaryat from '../pages/Raxbaryat';
 import InterActiveHiz from '../pages/InterActiveHiz';
-import Fizmat from '../pages/Fizmat';
-import Boshlangich from '../pages/Boshlangich';
-import OztilAdabiyot from '../pages/OztilAdabiyot';
-import PedPsx from '../pages/PedPsx';
-import JisMad from '../pages/JisMad';
-import MilliyHunar from '../pages/MilliyHunar';
-import XorijTil from '../pages/XorijTill';
-import TabiyFan from '../pages/TabiyFan';
-import RusTili from '../pages/RusTili';
-import Tarix from '../pages/Tarix';
-import MakTal from '../pages/MakTal';
-import Kechki from '../pages/Kechki';
-import Sirtqi from '../pages/Sirtqi';
+// private super admin
 import AdminYangilik from '../pages/AdminYangilik';
 import AdminTalimTur from '../pages/AdminTalimTuri';
 import AdminFakultet from '../pages/AdminFakultet';
@@ -28,6 +17,16 @@ import AdminYonalish from '../pages/AdminYonalish';
 import AdminKurs from '../pages/AdminKurs';
 import AdminDJRasm from '../pages/AdminDJRasm';
 import AdminRaxbaryat from '../pages/AdminRaxbaryat';
+// private admin
+import AniqTabiyFan from '../pages/AniqTabiyFan';
+import UzRuFil from '../pages/UzRuFil';
+import XorijiyFilologiya from '../pages/XorijiyFilologiya';
+import PedIjtFan from '../pages/PedIjtFan';
+import AmaliyFanlar from '../pages/AmaliyFanlar';
+import MakBoshTal from '../pages/MakBoshTal';
+import Kechki from '../pages/Kechki';
+import Sirtqi from '../pages/Sirtqi';
+
 
 
 export const routes = [
@@ -64,56 +63,36 @@ export const routes = [
                 path: '/panel-admins-login/admin-panel-all'
             },
             {
-                element: <Fizmat />,
-                path: '/panel-admins-login/fizmat'
+                element: <AniqTabiyFan />,
+                path: '/panel-admins-login/aniq-tabiy-fan'
             },
             {
-                element: <Boshlangich />,
-                path: '/panel-admins-login/boshlangich'
+                element: <UzRuFil />,
+                path: '/panel-admins-login/uzbek-rus-filologiyasi'
             },
             {
-                element: <OztilAdabiyot />,
-                path: '/panel-admins-login/oz-til-adabiyot'
+                element: <XorijiyFilologiya />,
+                path: '/panel-admins-login/xorijiy-filologiya'
             },
             {
-                element: <PedPsx />,
-                path: '/panel-admins-login/ped-psx'
+                element: <PedIjtFan />,
+                path: '/panel-admins-login/ped-ijt-fan'
             },
             {
-                element: <JisMad />,
-                path: '/panel-admins-login/jis-mad'
+                element: <AmaliyFanlar />,
+                path: 'panel-admins-login/amaliy-fanlar'
             },
             {
-                element: <MilliyHunar />,
-                path: '/panel-admins-login/milliy-hunar'
-            },
-            {
-                element: <XorijTil />,
-                path: '/panel-admins-login/xorij-til'
-            },
-            {
-                element: <TabiyFan />,
-                path: '/panel-admins-login/tabiy-fan'
-            },
-            {
-                element: <RusTili />,
-                path: '/panel-admins-login/rus-tili'
-            },
-            {
-                element: <Tarix />,
-                path: '/panel-admins-login/tarix'
-            },
-            {
-                element: <MakTal />,
-                path: '/panel-admins-login/mak-tal'
-            },
-            {
-                element: <Kechki />,
-                path: '/panel-admins-login/kechki'
+                element: <MakBoshTal />,
+                path: '/panel-admins-login/mak-bosh-talim'
             },
             {
                 element: <Sirtqi />,
                 path: '/panel-admins-login/sirtqi'
+            },
+            {
+                element: <Kechki />,
+                path: '/panel-admins-login/kechki'
             },
             {
                 element: <AdminYangilik />,

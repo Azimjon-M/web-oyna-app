@@ -1,17 +1,21 @@
 const Passwords = [
+    // Super admin
     {id: "admin123", password: "admin321", name: "alladmin"},
-    {id: "101101931", password: "fizmat#y1931", name: "fizmat"},
-    {id: "102101931", password: "boshlan#y1931", name: "boshlan"},
-    {id: "103101931", password: "uzlet#y1931", name: "uzlet"},
-    {id: "104101931", password: "pedpsx#y1931", name: "pedpsx"},
-    {id: "105101931", password: "jismad#y1931", name: "jismad"},
-    {id: "106101931", password: "milhun#y1931", name: "milhun"},
-    {id: "107101931", password: "xorij#y1931", name: "xorij"},
-    {id: "108101931", password: "tabiy#y1931", name: "tabiy"},
-    {id: "109101931", password: "ruslet#y1931", name: "ruslet"},
-    {id: "110101931", password: "tarix#y1931", name: "tarix"},
-    {id: "111101931", password: "maktal#y1931", name: "maktal"},
+    // Aniq va tabiiy fanlar admin
+    {id: "101101931", password: "aniqtabiyfan#y1931", name: "AniqTabiyFan"},
+    // O'zbek va rus filologiyasi admin
+    {id: "102101931", password: "uzrufil#y1931", name: "uzrufil"},
+    // Xorijiy filologiya admin
+    {id: "103101931", password: "xorijfilolog#y1931", name: "xorijfilolog"},
+    // Pedagogika va ijtimoiy fanlar admin
+    {id: "104101931", password: "pedijtfan#y1931", name: "pedijtfan"},
+    // Amaliy fanlar admin
+    {id: "105101931", password: "amaliyfan#y1931", name: "amaliyfan"},
+    // Maktabgacha va boshlang'ich ta'lim admin
+    {id: "106101931", password: "makboshtal#y1931", name: "makboshtal"},
+    // Kechki ta'lim admin
     {id: "202201931", password: "kechki#y1931", name: "kechki"},
+    // Sirtqi ta'lim admin
     {id: "203301931", password: "sirtqi#y1931", name: "sirtqi"},
 ]
 export default Passwords;
