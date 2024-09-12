@@ -18,7 +18,12 @@ const Yangiliklar = () => {
             try {
                 await APIYangilik.get()
                     .then((res) => {
-                        setNews(res.data);
+                        if (res.data && res.data.length > 0) {
+                            const latestNews = res.data.slice(-10);
+                            setNews(latestNews);
+                        } else {
+                            setNews([]);
+                        }
                         setLoading(false);
                     })
                     .catch((err) => {
@@ -70,24 +75,24 @@ const Yangiliklar = () => {
                                     <div>
                                         <img
                                             className="block w-[800px] h-[1000px] rounded-3xl object-cover"
-                                            src={item.rasm}
+                                            src={item.rasm_1}
                                             alt="yangilik img"
                                         />
                                     </div>
                                     <div>
                                         <h1 className="text-3xl text-center px-5 py-5">
-                                            {item.title.length > cutTitle
-                                                ? item.title.slice(
+                                            {item.title_uz.length > cutTitle
+                                                ? item.title_uz.slice(
                                                       0,
                                                       cutTitle
                                                   ) + "..."
-                                                : item.title}
+                                                : item.title_uz}
                                         </h1>
                                         <p className="text-2xl text-center px-5 pb-5">
-                                            {item.body.length > cutBody
-                                                ? item.body.slice(0, cutBody) +
+                                            {item.body_uz.length > cutBody
+                                                ? item.body_uz.slice(0, cutBody) +
                                                   "..."
-                                                : item.body}
+                                                : item.body_uz}
                                         </p>
                                     </div>
                                 </SwiperSlide>

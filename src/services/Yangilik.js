@@ -1,6 +1,19 @@
-import axiosInstance from "./index";
+import axios from 'axios';
 
-const ep = "yangilik/yangilik/";
+const axiosInstance = axios.create({
+    baseURL: 'https://kspiapi.kspi.uz/',
+    headers: {
+        "Content-Type": "multipart/form-data"
+    }
+});
+axiosInstance.interceptors.request.use((request) => {
+    return request;
+});
+axiosInstance.interceptors.response.use((response) => {
+    return response;
+});
+
+const ep = "home/yangilik/";
 
 const get = () => axiosInstance.get(ep);
 
