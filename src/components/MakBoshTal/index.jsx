@@ -282,7 +282,7 @@ const MakBoshTalcom = () => {
                                                             </span>{" "}
                                                         </h2>
                                                         <h2 className="text-xl font-bold text-slate-600">
-                                                            Yo'nalish:{" "}
+                                                            Kurs:{" "}
                                                             <span className="text-ms font-medium text-slate-500">
                                                                 {item.kurs}
                                                             </span>{" "}
